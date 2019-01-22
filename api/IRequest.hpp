@@ -21,10 +21,16 @@ class IRequest {
 
   public:
     virtual EHttpMethod getMethod() const = 0;
+
     virtual const std::string &getUri() const = 0;
+
     virtual const std::unordered_map<std::string, std::string> &getParams() const = 0;
+
     virtual const std::pair<unsigned int, unsigned int> &getVersion() const = 0;
-    // TODO rajouter getter pour header et body
+
+    virtual const std::string &getRaw();
+
+    // TODO rajouter getter et setter pour header et body
 };
 
 }
