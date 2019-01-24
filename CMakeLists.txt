@@ -1,34 +1,28 @@
 cmake_minimum_required(VERSION 3.9)
-project(httpd)
-set(VERSION "1.0.0")
+project(zia)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_BINARY_DIR build)
-set(PROJECT_SOURCE_DIR sources)
-
-if (UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pthread -std=c++17 -fPIC")
-endif (UNIX)
-
-include_directories("${PROJECT_SOURCE_DIR}/")
-
-if (WIN32)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif (WIN32)
+# Compile needed libraries
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-set(SOURCES_DIR "./sources/")
+# Add all needed sources files
+add_executable(${PROJECT_NAME}
+  src/main.cpp)
 
-add_executable(
-  httpd
-  ${PROJECT_SOURCE_DIR}/main.cpp
-)
+# Compiler flags
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+  # G++
+  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+  # MSVC
+  target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /MTd /W2 /c)
+endif()
 
-target_link_libraries (httpd ${CMAKE_THREAD_LIBS_INIT} ${CONAN_LIBS})
+# Include file directories
+include_directories(sources)
 
-add_custom_command(TARGET httpd
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:httpd> ${CMAKE_HOME_DIRECTORY}/.
-)
+# Find and link the project with needed libraries
+find_package(Boost 1.67 COMPONENTS system REQUIRED)
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
