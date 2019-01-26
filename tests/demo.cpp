@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "src/test.cpp"
+#include "../src/test.cpp"
 
 TEST(add, addFunction)
 {
