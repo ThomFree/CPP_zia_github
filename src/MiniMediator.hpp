@@ -10,6 +10,8 @@
 
 #pragma once
 
+namespace Pizzia {
+
 class MiniMediator {
 	public:
 		MiniMediator();
@@ -19,5 +21,8 @@ class MiniMediator {
         void runModules();
 
     private:
-        //std::vector<IModule> _modules;
+        void readData();
+        std::vector<IModule> _modules;
 };
+
+}

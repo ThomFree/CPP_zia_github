@@ -8,18 +8,19 @@
 #include <iostream>
 #include "MiniWebsite.hpp"
 
-MiniWebsite::MiniWebsite()
+Pizzia::MiniWebsite::MiniWebsite()
 {
 }
 
-MiniWebsite::~MiniWebsite()
+Pizzia::MiniWebsite::~MiniWebsite()
 {
 }
 
-void MiniWebsite::acceptClient()
+void Pizzia::MiniWebsite::acceptClient()
 {
     std::cout << "[Website] A new client has just joined the server" << std::endl;
     // Launch a new socket
-    // Set the read callback to readContent function
+    // Set the read callback to readData function
     // Start the listenning of the callback
+    // Regoing into listen to accept mode
 }
