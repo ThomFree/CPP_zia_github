@@ -1,8 +1,8 @@
 /*
-** EPITECH PROJECT, 2018
-** TCPSocket
+** EPITECH PROJECT, 2019
+** Zia
 ** File description:
-* Hung Dao Nguyen
+** TCPSocket
 */
 
 #include <iostream>
@@ -52,7 +52,7 @@ namespace net {
 
 	bool TCPSocket::accept(ConnectCallbackFn onNewConnectionCallback, void *data)
 	{
-		auto clientSocket = new net::TCPSocket(_netservice);
+		auto clientSocket = std::make_shared<net::TCPSocket>(_netservice);
 		_acceptor.async_accept(clientSocket->getRawSocket(),
 			[this, clientSocket, onNewConnectionCallback, data](const boost::system::error_code& error) {
 				if (error) {
@@ -67,22 +67,24 @@ namespace net {
 
 	void TCPSocket::disconnect()
 	{
+		std::cout << "Disconnect!" << std::endl;
 		if (_onDisconnectionCallback)
 			_onDisconnectionCallback(this, _disconnectionCallbackData);
 	}
 
-	void TCPSocket::onDisconnect(ConnectCallbackFn onDisconnectCallback, void *data)
+	void TCPSocket::onDisconnect(DisconnectCallbackFn onDisconnectCallback, void *data)
 	{
+		std::cout << "On disconnect" << std::endl;
 		_onDisconnectionCallback = onDisconnectCallback;
 		_disconnectionCallbackData = data;
 	}
 
-	net::RawSocket &TCPSocket::getRawSocket()
+	TCPSocket::RawSocket &TCPSocket::getRawSocket()
 	{
 		return _socket;
 	}
 
-	bool TCPSocket::receive(net::ReceiveCallbackFn onReceiveCallback, void *data)
+	bool TCPSocket::receive(TCPSocket::ReceiveCallbackFn onReceiveCallback, void *data)
 	{
 		_onReceiveCallback = onReceiveCallback;
 		_receiveCallbackData = data;

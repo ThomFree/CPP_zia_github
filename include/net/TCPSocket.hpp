@@ -9,11 +9,21 @@
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <memory>
 #include "NetworkService.hpp"
-#include "ISocket.hpp"
 
 namespace net {
-	class TCPSocket : public ISocket {
+	static constexpr char google_dns_server[] = "8.8.8.8";
+	static constexpr char localhost[] = "127.0.0.1";
+	static constexpr size_t read_size = 1024;
+
+	class TCPSocket {
+	public:
+		using ReceiveCallbackFn = std::function<void(const char *, int, void *)>;
+		using ConnectCallbackFn = std::function<void(std::shared_ptr<TCPSocket>, void *)>;
+		using DisconnectCallbackFn = std::function<void(TCPSocket*, void *)>;
+		using RawSocket = boost::asio::ip::tcp::socket;
+
 	public:
 		explicit TCPSocket(net::NetworkService &netservice);
 		TCPSocket(const TCPSocket &) = default;
@@ -21,15 +31,15 @@ namespace net {
 		TCPSocket &operator=(const TCPSocket &) = default;
 
 	public:
-		bool connect(const std::string &ip, int port) final;
-		bool bind(int port = 0) final;
+		bool connect(const std::string &ip, int port);
+		bool bind(int port = 0);
 		bool accept(ConnectCallbackFn onNewConnectionCallback, void *data = nullptr);
-		bool receive(net::ReceiveCallbackFn onReceiveCallback, void *data = nullptr) final;
-		int send(const std::string &data) final;
-		int send(const char *data, size_t len) final;
+		bool receive(ReceiveCallbackFn onReceiveCallback, void *data = nullptr);
+		int send(const std::string &data);
+		int send(const char *data, size_t len);
 		void disconnect();
-		void onDisconnect(ConnectCallbackFn onDisconnectCallback, void *data = nullptr);
-		net::RawSocket &getRawSocket();
+		void onDisconnect(DisconnectCallbackFn onDisconnectCallback, void *data = nullptr);
+		RawSocket &getRawSocket();
 
 	private:
 		void handleReceive(const boost::system::error_code& error, size_t bytes_transferred);
@@ -43,9 +53,9 @@ namespace net {
 		std::string _connectIP;
 		int _connectPort;
 		char _receiveBuffer[net::read_size + 1];
-		net::ReceiveCallbackFn _onReceiveCallback;
+		ReceiveCallbackFn _onReceiveCallback;
 		void *_receiveCallbackData;
-		net::ConnectCallbackFn _onDisconnectionCallback;
+		DisconnectCallbackFn _onDisconnectionCallback;
 		void *_disconnectionCallbackData;
 	};
 }
