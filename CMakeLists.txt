@@ -3,26 +3,24 @@ project(zia)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Compile needed libraries
+set(CMAKE_BINARY_DIR build)
+
+if (UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pthread")
+endif (UNIX)
+
+include_directories("${PROJECT_SOURCE_DIR}/include/")
+
+if (WIN32)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif (WIN32)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-# Add all needed sources files
 add_executable(${PROJECT_NAME}
-  src/main.cpp)
+  sources/main.cpp
+  sources/net/Net.cpp
+  sources/net/TCPSocket.cpp
+)
 
-# Compiler flags
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-  # G++
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-  # MSVC
-  target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /MTd /W2 /c)
-endif()
-
-# Include file directories
-include_directories(sources)
-
-# Find and link the project with needed libraries
-find_package(Boost 1.67 COMPONENTS system REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
+target_link_libraries (${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} ${CONAN_LIBS})
