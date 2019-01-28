@@ -8,11 +8,9 @@
 #pragma once
 
 namespace Pizzia {
-
-enum MODULE_STATUS {
-    SUCCESS,
-    ERROR,
-    FATAL_ERROR,
-};
-
+	enum EModuleStatus {
+		SUCCESS,
+		ERROR,
+		FATAL_ERROR,
+	};
 }

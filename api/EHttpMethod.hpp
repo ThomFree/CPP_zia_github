@@ -8,17 +8,15 @@
 #pragma once
 
 namespace Pizzia {
-
-enum EHttpMethod {
-    OPTIONS,
-    GET,
-    HEAD,
-    POST,
-    PUT,
-    DELETE,
-    TRACE,
-    CONNECT,
-    UNDEFINED
-};
-
+	enum EHttpMethod {
+		OPTIONS,
+		GET,
+		HEAD,
+		POST,
+		PUT,
+		DELETE,
+		TRACE,
+		CONNECT,
+		UNDEFINED
+	};
 }
