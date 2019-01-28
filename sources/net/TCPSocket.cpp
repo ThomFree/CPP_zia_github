@@ -9,6 +9,7 @@
 #include "net/TCPSocket.hpp"
 
 namespace net {
+
 	TCPSocket::TCPSocket(net::NetworkService &netservice) :
 	_socket(netservice), _netservice(netservice), _resolver(netservice),
 	_acceptor(netservice), _connectPort(-1),

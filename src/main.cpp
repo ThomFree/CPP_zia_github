@@ -6,11 +6,13 @@
 */
 
 #include <iostream>
+#include "MiniWebsite.hpp"
 
 int main()
 {
 	std::cout << "Hello world" << std::endl;
-	// Faire un mini website qui va s'occuper des accept
-	// launch un accept asynchrone
+	Pizzia::MiniWebsite web;
+
+	web.run();
 	return (0);
 }
