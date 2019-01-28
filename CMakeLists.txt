@@ -9,7 +9,8 @@ conan_basic_setup()
 
 # Add all needed sources files
 add_executable(${PROJECT_NAME}
-  src/main.cpp)
+  src/main.cpp
+  src/MapContainer.cpp)
 
 # Compiler flags
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
