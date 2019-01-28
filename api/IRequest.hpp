@@ -9,6 +9,7 @@
 #include <unordered_map>
 
 #include "EHttpMethod.hpp"
+#include "IMapContainer.hpp"
 
 #pragma once
 
@@ -19,12 +20,23 @@ namespace Pizzia {
 		IRequest() {}
 		virtual ~IRequest();
 	public:
-		virtual EHttpMethod getMethod() const = 0;
-		virtual const std::string &getUri() const = 0;
-		virtual const std::unordered_map <std::string, std::string> &getParams() const = 0;
-		virtual const std::pair<unsigned int, unsigned int> &getVersion() const = 0;
-		virtual const std::string &getRaw();
+		virtual const std::string &getRaw() = 0;
+		virtual setRaw(const std::string &raw) = 0;
 
-		// TODO rajouter getter et setter pour header et body
+		virtual EHttpMethod getMethod() const = 0;
+		virtual setMethod(EHttpMethod method) = 0;
+
+		virtual const std::string &getUri() const = 0;
+		virtual setUri(const std::string &uri) = 0;
+
+		virtual const IMapContainer &getParameters() const = 0;
+		virtual setParameters(const IMapContainer &parameters) = 0;
+
+		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
+
+		virtual const IMapContainer &getHeaders() const = 0;
+		virtual setHeaders(const IMapContainer &headers) = 0;
+
+		virtual setBody(const std::string &body) = 0;
 	};
 }

@@ -6,18 +6,26 @@
 */
 
 #include "EModuleStatus.hpp"
+#include "IRequest.hpp"
+#include "IResponse.hpp.hpp"
+#include "IKeyValueContainer.hpp"
 
 #pragma once
 
 namespace Pizzia {
-
-class IModule {
+	class IModule {
 	public:
 		IModule() {}
 		virtual ~IModule();
 
 	public:
-        virtual MODULE_STATUS execute() = 0;
-};
+		virtual static EModuleStatus run(
+			IRequest &request,
+			IResponse &response,
+			IKeyValueContainer &configuration,
+			IKeyValueContainer &session
+		) = 0;
 
+		virtual static const std::string &getName() const;
+	};
 }

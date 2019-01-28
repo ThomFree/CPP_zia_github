@@ -18,15 +18,21 @@ namespace Pizzia {
 		IRequest() {}
 		virtual ~IRequest();
 	public:
+		virtual const std::string &getRaw() = 0;
+		virtual setRaw(const std::string &raw) = 0;
+
 		virtual unsigned int getStatusCode() const = 0;
 		virtual void setStatusCode(unsigned int statusCode) = 0;
 
 		virtual const std::string &getStatusReasonPhrase() const = 0;
 		virtual void setStatusReasonPhrase(const std::string &reasonPhrase) = 0;
 
-		virtual const std::pair<unsigned int, unsigned int> &getVersion() const = 0;
-		virtual const std::pair<unsigned int, unsigned int> &setVersion() const = 0;
+		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
+		virtual const std::pair<unsigned int, unsigned int> &setHttpVersion() = 0;
 
-		// TODO rajouter getter pour header et body
+		virtual const IMapContainer &getHeaders() const = 0;
+		virtual setHeaders(const IMapContainer &headers) = 0;
+
+		virtual setBody(const std::string &body) = 0;
 	};
 }
