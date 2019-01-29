@@ -8,7 +8,6 @@
 #include <vector>
 #include <boost/asio/signal_set.hpp>
 #include "net/TCPSocket.hpp"
-#include "net/ISocket.hpp"
 #include "net/NetworkService.hpp"
 #include "MiniMediator.hpp"
 
