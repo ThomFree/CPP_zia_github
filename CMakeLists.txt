@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BINARY_DIR build)
 
 if (UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pthread")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pthread -std=c++17")
 endif (UNIX)
 
 include_directories("${PROJECT_SOURCE_DIR}/include/" "${PROJECT_SOURCE_DIR}/src/" "${PROJECT_SOURCE_DIR}")
