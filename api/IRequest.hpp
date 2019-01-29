@@ -21,22 +21,22 @@ namespace Pizzia {
 		virtual ~IRequest();
 	public:
 		virtual const std::string &getRaw() = 0;
-		virtual setRaw(const std::string &raw) = 0;
+		virtual void setRaw(const std::string &raw) = 0;
 
 		virtual EHttpMethod getMethod() const = 0;
-		virtual setMethod(EHttpMethod method) = 0;
+		virtual void setMethod(EHttpMethod method) = 0;
 
 		virtual const std::string &getUri() const = 0;
-		virtual setUri(const std::string &uri) = 0;
+		virtual void setUri(const std::string &uri) = 0;
 
 		virtual const IMapContainer &getParameters() const = 0;
-		virtual setParameters(const IMapContainer &parameters) = 0;
+		virtual void setParameters(const IMapContainer &parameters) = 0;
 
 		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
 
 		virtual const IMapContainer &getHeaders() const = 0;
-		virtual setHeaders(const IMapContainer &headers) = 0;
+		virtual void setHeaders(const IMapContainer &headers) = 0;
 
-		virtual setBody(const std::string &body) = 0;
+		virtual void setBody(const std::string &body) = 0;
 	};
 }
