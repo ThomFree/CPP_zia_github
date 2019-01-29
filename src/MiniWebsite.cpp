@@ -8,7 +8,7 @@
 #include <iostream>
 #include "MiniWebsite.hpp"
 
-Pizzia::MiniWebsite::MiniWebsite() : _netService(), _servSocket(_netService), _signals(_netService, SIGINT)
+Zia::MiniWebsite::MiniWebsite() : _netService(), _servSocket(_netService), _signals(_netService, SIGINT)
 {
     if (_servSocket.bind(8080) && _servSocket.accept(
         [&](net::ISocket *socket, void *data) {
@@ -23,13 +23,13 @@ Pizzia::MiniWebsite::MiniWebsite() : _netService(), _servSocket(_netService), _s
         });
 }
 
-Pizzia::MiniWebsite::~MiniWebsite()
+Zia::MiniWebsite::~MiniWebsite()
 {
     _clients.clear();
     std::cout << "[Website] Stopped." << std::endl;
 }
 
-void Pizzia::MiniWebsite::stop()
+void Zia::MiniWebsite::stop()
 {
     for (MiniMediator *mediator : _clients) {
         mediator->stop();      
@@ -38,23 +38,20 @@ void Pizzia::MiniWebsite::stop()
     _netService.stop();
 }
 
-void Pizzia::MiniWebsite::run()
+void Zia::MiniWebsite::run()
 {
     _netService.run();
 }
 
-void Pizzia::MiniWebsite::acceptClient(net::ISocket *socket, void *)
+void Zia::MiniWebsite::acceptClient(net::ISocket *socket, void *)
 {
     std::cout << "[Website] A new client has just joined the server" << std::endl;
     addClient(socket);
-    // Set the read callback to readData function
-    // Start the listenning of the callback
-    // Regoing into listen to accept mode
 }
 
-// TODO Transmettre ici la configuration du site au MiniMediator
+// TODO Transmettre ici la configuration du site au MiniMediator (qui comprend les modules)
 // Dans la version future il faut proteger contre le multi thread exriture
-void Pizzia::MiniWebsite::addClient(net::ISocket *sock)
+void Zia::MiniWebsite::addClient(net::ISocket *sock)
 {
     MiniMediator *mediator = new MiniMediator(sock);
     _clients.push_back(mediator);

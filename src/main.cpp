@@ -11,7 +11,7 @@
 int main()
 {
 	std::cout << "Hello world" << std::endl;
-	Pizzia::MiniWebsite web;
+	Zia::MiniWebsite web;
 
 	web.run();
 	return (0);

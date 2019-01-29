@@ -14,7 +14,7 @@
 
 #pragma once
 
-namespace Pizzia {
+namespace Zia {
 
 class MiniWebsite {
 	public:

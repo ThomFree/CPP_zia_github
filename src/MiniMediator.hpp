@@ -11,7 +11,7 @@
 
 #pragma once
 
-namespace Pizzia {
+namespace Zia {
 
 class MiniMediator {
 	public:
