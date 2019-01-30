@@ -13,10 +13,11 @@
 #pragma once
 
 namespace Pizzia {
-	class IRequest {
+
+	class IResponse {
 	public:
-		IRequest() {}
-		virtual ~IRequest();
+		IResponse() = default;
+		virtual ~IResponse();
 	public:
 		virtual const std::string &getRaw() = 0;
 		virtual setRaw(const std::string &raw) = 0;

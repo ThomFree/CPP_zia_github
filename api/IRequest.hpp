@@ -17,7 +17,7 @@ namespace Pizzia {
 
 	class IRequest {
 	public:
-		IRequest() {}
+		IRequest() = default;
 		virtual ~IRequest();
 	public:
 		virtual const std::string &getRaw() = 0;
