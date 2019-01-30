@@ -2,24 +2,47 @@
 ** EPITECH PROJECT, 2019
 ** CPP_zia_github
 ** File description:
-** IRequest
+** IMapContainer
 */
 
 #include <string>
-#include <unordered_map>
 
 #pragma once
 
 namespace Pizzia {
 
-	class IMapContainer {
+class IMapContainer {
 	public:
-		IMapContainer() {}
-		virtual ~IMapContainer();
-	public:
-		virtual const std::string &getField(const std::string &key) const = 0;
-		virtual setField(const std::string &key, const std::string &value) = 0;
-		virtual bool hasField(const std::string &key) const = 0;
-		virtual deleteField(const std::string &key) = 0;
-	};
+		IMapContainer() = default;
+		virtual ~IMapContainer() = default;
+
+    public:
+        virtual bool add(const std::string &key, const std::string &value) = 0;
+        virtual bool add(const std::string &key, int value) = 0;
+        virtual bool add(const std::string &key, bool value) = 0;
+        virtual bool add(const std::string &key, float value) = 0;
+
+        virtual bool edit(const std::string &key, const std::string &value) = 0;
+        virtual bool edit(const std::string &key, int value) = 0;
+        virtual bool edit(const std::string &key, bool value) = 0;
+        virtual bool edit(const std::string &key, float value) = 0;
+
+        virtual void forceAdd(const std::string &key, const std::string &value) = 0;
+        virtual void forceAdd(const std::string &key, int value) = 0;
+        virtual void forceAdd(const std::string &key, bool value) = 0;
+        virtual void forceAdd(const std::string &key, float value) = 0;
+
+        virtual std::string getString(const std::string &key) const = 0;
+        virtual int getInt(const std::string &key) const = 0;
+        virtual bool getBool(const std::string &key) const = 0;
+        virtual float getFloat(const std::string &key) const = 0;
+
+        virtual void del(const std::string &key) = 0;
+
+    public:
+        // TODO
+        // Est-ce qu'on mettrait pas les iterateurs begine et end pour par exemple 
+        // pouvoir faire un logger de la map en iterant avec le begin et le end
+};
+
 }
