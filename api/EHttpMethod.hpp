@@ -12,8 +12,7 @@
  * Namespace used for the Pizzia API
  */
 namespace Pizzia {
-	/*!
-	 * \enum EHttpMethod
+	/*! \enum EHttpMethod
 	 * \brief Constants used for HTTP Methods
 	 */
 	enum EHttpMethod {

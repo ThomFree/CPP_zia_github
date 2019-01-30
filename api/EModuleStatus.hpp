@@ -12,8 +12,7 @@
  * Namespace used for the Pizzia API
  */
 namespace Pizzia {
-	/*!
-	 * \enum EModuleStatus
+	/*! \enum EModuleStatus
 	 * \brief Constants used for getting/setting the status of a module.
 	 */
 	enum EModuleStatus {
