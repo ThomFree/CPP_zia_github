@@ -42,7 +42,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::string &getRaw()
 		 * \brief Get the raw data of the request.
-		 * \details This function, which need to be overwritten, will return a string containing the raw data of the request.
+		 * \details This function, which need to be overwritten, will return an std::string corresponding to the raw data of the request.
 		 *
 		 * \return The raw data, which is of type std::string.
 		 */
@@ -76,7 +76,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::string &getUri() const
 		 * \brief Get the URI of the request.
-		 * \details This function, which need to be overwritten, will return a string corresponding to the URI of the request.
+		 * \details This function, which need to be overwritten, will return an std::string corresponding to the URI of the request.
 		 * 
 		 * \return The URI, which is of type std::string.
 		 */
@@ -110,9 +110,9 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const
 		 * \brief Get the HTTP version of the request.
-		 * \details This function, which need to be overwritten, will return a pair of unsigned int corresponding to the HTTP version of the request.
+		 * \details This function, which need to be overwritten, will return an std::pair of unsigned int corresponding to the HTTP version of the request.
 		 *
-		 * \return The HTTP Version, which is of type std::pair<unsigned int, unsigned int>.
+		 * \return The HTTP version, which is of type std::pair<unsigned int, unsigned int>.
 		 */
 		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
 
