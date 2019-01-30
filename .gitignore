@@ -1,6 +1,6 @@
 # Prerequisites
 *.d
-
+11;rgb:2727/2828/2222
 # Compiled Object files
 *.slo
 *.lo
@@ -41,3 +41,6 @@ build/
 cmake-build-debug/
 *.idea
 *.sav
+
+# Virtual env
+*.venv
