@@ -15,6 +15,7 @@ class IMapContainer {
 	public:
 		IMapContainer() = default;
 		virtual ~IMapContainer() = default;
+        IMapContainer &operator=(const IMapContainer &);
 
     public:
         virtual bool create(const std::string &key, const std::string &value) = 0;

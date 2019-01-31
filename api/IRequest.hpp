@@ -20,7 +20,7 @@ namespace Pizzia {
 		IRequest() {}
 		virtual ~IRequest();
 	public:
-		virtual const std::string &getRaw() = 0;
+		virtual const std::string &getRaw() const = 0;
 		virtual void setRaw(const std::string &raw) = 0;
 
 		virtual EHttpMethod getMethod() const = 0;
@@ -33,6 +33,7 @@ namespace Pizzia {
 		virtual void setParameters(const IMapContainer &parameters) = 0;
 
 		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
+		virtual void setHttpVersion(unsigned int major, unsigned int minor) = 0;
 
 		virtual const IMapContainer &getHeaders() const = 0;
 		virtual void setHeaders(const IMapContainer &headers) = 0;

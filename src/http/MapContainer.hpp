@@ -17,7 +17,7 @@ class MapContainer : public IMapContainer {
 		MapContainer() = default;
 		~MapContainer() = default;
         MapContainer(const MapContainer &) = delete;
-        MapContainer &operator=(const MapContainer &) = delete;
+        MapContainer &operator=(const MapContainer &) = default;
 
     public:
         bool create(const std::string &key, const std::string &value) final;

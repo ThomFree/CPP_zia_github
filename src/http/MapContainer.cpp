@@ -5,8 +5,6 @@
 ** MapContainer
 */
 
-// TODO remove this include
-#include <iostream>
 #include "MapContainer.hpp"
 
 bool Pizzia::MapContainer::create(const std::string &key, const std::string &value)

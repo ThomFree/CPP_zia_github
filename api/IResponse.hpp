@@ -19,7 +19,7 @@ namespace Pizzia {
 		IResponse() {}
 		virtual ~IResponse();
 	public:
-		virtual const std::string &getRaw() = 0;
+		virtual const std::string &getRaw() const = 0;
 		virtual void setRaw(const std::string &raw) = 0;
 
 		virtual unsigned int getStatusCode() const = 0;
@@ -34,7 +34,7 @@ namespace Pizzia {
 		virtual const IMapContainer &getHeaders() const = 0;
 		virtual void setHeaders(const IMapContainer &headers) = 0;
 
-		virtual void setBody(const std::string &body) = 0;
 		virtual const std::string &getBody() const = 0;
+		virtual void setBody(const std::string &body) = 0;
 	};
 }
