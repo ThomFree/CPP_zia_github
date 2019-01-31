@@ -6,8 +6,8 @@ In order to ease the navigation between several sites, we decided to create a CL
 ## Commands
 The console is displayed with a `>` Here's an exhaustive list of what you can do on the CLI :
 
-- `create_website <website_name> <ip> <port>` : create a new website with the name you give in paramater. The prompt will be modified with the name of the website, example : `website_name >` 
-- `enter <website_name>` : entering in configuration mode for the website you give in parameter. Prompt modified with the `website_name`.
+- `create  <website_name> <ip> <port>` : create a new website with the name you give in paramater. The `enter` command is executed afterwards.
+- `enter <website_name>` : entering in configuration mode for the website you give in parameter. Prompt modified with the `website_name`. For example : `website_name >` 
 - `back` : come back to the main menu and display `>` .
 - `list` : list status of all websites created.
 - `stop` : quit the server.
@@ -18,7 +18,7 @@ The following commands must be used within the website. It means that you can't 
 
 #### Website commands
 
-- `delete_website` : delete website already created. The `back` command is executed afterwards.
+- `delete` : delete website already created. The `back` command is executed afterwards.
 - `start` : start the website.
 - `pause` : stop the website.
 - `status` : display the actual status of the website.
