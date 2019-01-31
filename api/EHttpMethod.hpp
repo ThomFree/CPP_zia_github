@@ -10,7 +10,7 @@
 namespace Pizzia {
 
 	enum EHttpMethod {
-		OPTIONS,
+		OPTIONS = 0,
 		GET,
 		HEAD,
 		POST,
