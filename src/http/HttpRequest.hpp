@@ -31,7 +31,7 @@ class HttpRequest : public IRequest {
 		const std::string &getUri() const final { return _uri; }
 		void setUri(const std::string &uri) final { _uri = uri; }
 
-		const IMapContainer &getParameters() const final { return _params; }
+		IMapContainer &getParameters() final { return _params; }
 		void setParameters(const IMapContainer &parameters) final {
 			for (auto it = parameters.begin(); it != parameters.end(); it++)
 				_params.put(it->first, it->second);
@@ -40,7 +40,7 @@ class HttpRequest : public IRequest {
 		const std::pair<unsigned int, unsigned int> &getHttpVersion() const final { return _version; }
         void setHttpVersion(unsigned int major, unsigned int minor) final { _version = std::make_pair(major, minor);}
 
-		const IMapContainer &getHeaders() const final { return _headers; }
+		IMapContainer &getHeaders() final { return _headers; }
 		void setHeaders(const IMapContainer &headers) final {
 			for (auto it = headers.begin(); it != _headers.end(); it++)
 				_headers.put(it->first, it->second);

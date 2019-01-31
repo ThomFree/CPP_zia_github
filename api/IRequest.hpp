@@ -29,13 +29,13 @@ namespace Pizzia {
 		virtual const std::string &getUri() const = 0;
 		virtual void setUri(const std::string &uri) = 0;
 
-		virtual const IMapContainer &getParameters() const = 0;
+		virtual IMapContainer &getParameters() = 0;
 		virtual void setParameters(const IMapContainer &parameters) = 0;
 
 		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
 		virtual void setHttpVersion(unsigned int major, unsigned int minor) = 0;
 
-		virtual const IMapContainer &getHeaders() const = 0;
+		virtual IMapContainer &getHeaders() = 0;
 		virtual void setHeaders(const IMapContainer &headers) = 0;
 
 		virtual void setBody(const std::string &body) = 0;

@@ -28,10 +28,7 @@ void RequestParser::_addInHeader(IRequest &request, std::string line)
 
 	_removeWhitespace(key);
 	_removeWhitespace(value);
-
-	//TODO
-	// Ajouter dans la map de header
-	//request.getHeaders().create(key, value);
+	request.getHeaders().create(key, value);
 }
 
 bool RequestParser::_setHttpVersion(IRequest &request, std::string version)
@@ -41,7 +38,6 @@ bool RequestParser::_setHttpVersion(IRequest &request, std::string version)
 	std::vector<unsigned int> versions;
 
 	while (std::regex_search(version, smatch, r)) {
-		std::cout << smatch.str() << std::endl;
 		versions.push_back(std::stoi(smatch.str()));
 		version = smatch.suffix();
 	}
