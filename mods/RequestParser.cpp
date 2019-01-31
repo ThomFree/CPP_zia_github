@@ -8,6 +8,7 @@
 #include <sstream>
 #include <regex>
 #include "RequestParser.hpp"
+#include "api/EHttpMethod.hpp"
 
 //DEBUG
 #include <iostream>
@@ -64,12 +65,12 @@ EModuleStatus RequestParser::run(IRequest &request, IResponse &response, IMapCon
 	stream >> uri;
 	stream >> version;
 
-	//DEBUG
-	std::cout << "Method : " << method << std::endl;
-	std::cout << "URI : " << uri << std::endl;
-	std::cout << "Version : " << version << std::endl;
-	//END DEBUG
-
+	request.setUri(uri);
+	if (methodMap.find(method) != methodMap.end()) {
+		request.setMethod(methodMap.at(method));
+	} else {
+		return EModuleStatus::ERROR;
+	}
 	if (_setHttpVersion(request, version) == false) {
 		return EModuleStatus::ERROR;
 	}
