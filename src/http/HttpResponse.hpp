@@ -27,11 +27,7 @@ class HttpResponse : public IResponse {
 		const std::pair<unsigned int, unsigned int> &getHttpVersion() const final { return _version; }
         void setHttpVersion(unsigned int major, unsigned int minor) final { _version = std::make_pair(major, minor);}
 
-		const IMapContainer &getHeaders() const final { return _headers; }
-		void setHeaders(const IMapContainer &headers) final {
-			for (auto it = headers.begin(); it != _headers.end(); it++)
-				_headers.put(it->first, it->second);
-		}
+		IMapContainer &getHeaders() final { return _headers; }
 
 		unsigned int getStatusCode() const { return _statusCode; }
 		void setStatusCode(unsigned int statusCode) { _statusCode = statusCode; }

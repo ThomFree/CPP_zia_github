@@ -9,7 +9,7 @@
 #include "HelloModule.hpp"
 
 Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IResponse &res, 
-    Pizzia::IMapContainer &websiteConf, Pizzia::IMapContainer &session)
+    Pizzia::IMapContainer &/*websiteConf*/, Pizzia::IMapContainer &/*session*/)
 {
     std::string tmp;
 
@@ -38,10 +38,9 @@ Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IR
 
     // Ici on fabrique la reponse
     res.setBody(tmp);
-    MapContainer hd;
-    hd.put("Content-type", "text/html");
-    res.setHeaders(hd);
+    res.getHeaders().put("Content-type", "text/html");
     res.setHttpVersion(1, 1);
     res.setStatusCode(200);
     res.setStatusReasonPhrase("OK");
+    return EModuleStatus::SUCCESS;
 }

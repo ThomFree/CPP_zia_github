@@ -31,8 +31,7 @@ namespace Pizzia {
 		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
 		virtual void setHttpVersion(unsigned int major, unsigned int minor) = 0;
 
-		virtual const IMapContainer &getHeaders() const = 0;
-		virtual void setHeaders(const IMapContainer &headers) = 0;
+		virtual IMapContainer &getHeaders() = 0;
 
 		virtual const std::string &getBody() const = 0;
 		virtual void setBody(const std::string &body) = 0;
