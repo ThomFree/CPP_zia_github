@@ -38,5 +38,6 @@ namespace Pizzia {
 		virtual void setHeaders(const IMapContainer &headers) = 0;
 
 		virtual void setBody(const std::string &body) = 0;
+		virtual const std::string &getBody() const = 0;
 	};
 }

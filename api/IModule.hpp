@@ -7,8 +7,7 @@
 
 #include "EModuleStatus.hpp"
 #include "IRequest.hpp"
-#include "IResponse.hpp.hpp"
-#include "IKeyValueContainer.hpp"
+#include "IResponse.hpp"
 
 #pragma once
 
@@ -19,13 +18,13 @@ namespace Pizzia {
 		virtual ~IModule();
 
 	public:
-		virtual static EModuleStatus run(
+		virtual EModuleStatus run(
 			IRequest &request,
 			IResponse &response,
-			IKeyValueContainer &configuration,
-			IKeyValueContainer &session
+			IMapContainer &configuration,
+			IMapContainer &session
 		) = 0;
 
-		virtual static const std::string &getName() const;
+		virtual const std::string getName() const = 0;
 	};
 }
