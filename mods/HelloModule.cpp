@@ -20,7 +20,7 @@ Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IR
     std::string headers;
     for (auto it = req.getHeaders().begin(); it != req.getHeaders().end(); it++)
         params += it->first + "=" + it->second + " ";
-
+    // TODO ameliorer
     tmp = "<html> \
             <h1>This is a Basic HTTP Page<h1> \
             <p>The request you sent was in HTTP" + std::to_string(req.getHttpVersion().first) + "." + std::to_string(req.getHttpVersion().second) + " \

@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <unordered_map>
+
 namespace Pizzia {
 
 	enum EHttpMethod {
@@ -19,6 +21,17 @@ namespace Pizzia {
 		TRACE,
 		CONNECT,
 		UNDEFINED
+	};
+
+	const std::unordered_map<std::string, EHttpMethod> methodMap = {
+		{ "GET", GET },
+		{ "OPTIONS", OPTIONS },
+		{ "HEAD", HEAD },
+		{ "POST", POST },
+		{ "PUT", PUT },
+		{ "DELETE", DELETE },
+		{ "TRACE", TRACE },
+		{ "CONNECT", CONNECT },
 	};
 
 }
