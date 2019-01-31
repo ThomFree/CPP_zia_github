@@ -16,14 +16,22 @@ The console is displayed with a `>` Here's an exhaustive list of what you can do
 ### Config commands
 The following commands must be used within the website. It means that you can't use these  without entering beforehand a website with the `enter` command.
 
+#### Website commands
+
 - `delete_website` : delete website already created. The `back` command is executed afterwards.
 - `start` : start the website.
 - `pause` : stop the website.
 - `status` : display the actual status of the website.
-- `enable <module_name>` : enable the module specified in parameter. Not limited to one parameter.
-- `disable <module_name>` : disable the module specified in parameter. Not limited to one parameter.
+
+#### Module commands
+
+All of the following commands are not limited to one parameter.
+
+- `enable <module_name>` : enable the module specified in parameter.
+- `disable <module_name>` : disable the module specified in parameter.
 - `reload <module_name>` : reload the module specified in parameter.
 
 The next command must not be used within a website. You can execute this command when your prompt is only displaying `>` .
-- `reload_all <module_name>` :  reload the given module for every site where the module is. Not limited to one parameter.
+
+- `reload_all <module_name>` :  reload the given module for every site where the module is. 
 
