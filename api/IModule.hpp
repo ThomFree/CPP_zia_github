@@ -47,11 +47,11 @@ namespace Pizzia {
 		 * \param session The session of the server.
 		 * \return The module status, which is a value from the EModuleStatus enum.
 		 */
-		virtual static EModuleStatus run(
+		virtual EModuleStatus run(
 			IRequest &request,
 			IResponse &response,
-			IKeyValueContainer &configuration,
-			IKeyValueContainer &session
+			IMapContainer &configuration,
+			IMapContainer &session
 		) = 0;
 
 		/*!
@@ -60,6 +60,6 @@ namespace Pizzia {
 		 * \details This virtual function, which need to be overwritten, will simply return a string corresponding to the module name.
 		 * \return The module name, which is of type std::string.
 		 */
-		virtual static const std::string &getName() const;
+		virtual const std::string getName() const = 0;
 	};
 }

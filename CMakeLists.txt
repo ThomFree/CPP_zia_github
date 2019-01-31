@@ -23,7 +23,7 @@ add_executable(${PROJECT_NAME}
   src/MiniMediator.cpp
   src/MiniWebsite.cpp
 
-  src/MapContainer.cpp
+  src/http/MapContainer.cpp
 
   src/net/TCPSocket.cpp
 )

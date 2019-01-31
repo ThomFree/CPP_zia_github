@@ -39,13 +39,13 @@ namespace Pizzia {
 
 	public:
 		/*!
-		 * \fn virtual const std::string &getRaw()
+		 * \fn virtual const std::string &getRaw() const
 		 * \brief Get the raw data of the response.
 		 * \details This function, which need to be overwritten, will return an std::string corresponding to the raw data of the response.
 		 *
 		 * \return The raw data, which is of type std::string.
 		 */
-		virtual const std::string &getRaw() = 0;
+		virtual const std::string &getRaw() const = 0;
 		/*!
 		 * \fn virtual void setRaw(const std::string &raw)
 		 * \brief Set the raw data of the response.
@@ -98,13 +98,13 @@ namespace Pizzia {
 		 */
 		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
 		/*!
-		 * \fn virtual const std::pair<unsigned int, unsigned int> &setHttpVersion()
+		 * \fn virtual void setHttpVersion(unsigned int major, unsigned int minor)
 		 * \brief Set the HTTP version of the response.
 		 * \details This function, which need to be overwritten, will allow to set the HTTP version of the response from an std::pair (of unsigned int and unsigned int).
 		 *
 		 * \return The HTTP version to be set, which is of type std::pair<unsigned int, unsigned int>.
 		 */
-		virtual const std::pair<unsigned int, unsigned int> &setHttpVersion() = 0;
+		virtual void setHttpVersion(unsigned int major, unsigned int minor) = 0;
 
 		/*!
 		 * \fn virtual const IMapContainer &getHeaders() const
@@ -118,16 +118,24 @@ namespace Pizzia {
 		 * \fn virtual void setHeaders(const IMapContainer &headers)
 		 * \brief Set the headers of the response.
 		 * \details This function, which need to be overwritten, will allow to set the headers of the response from an IMapContainer object.
-		 * 
+		 *
 		 * \param headers The headers to be set, which are of type IMapContainer.
 		 */
 		virtual void setHeaders(const IMapContainer &headers) = 0;
 
 		/*!
+		 * \fn virtual const std::string &getBody() const
+		 * \brief Get the body of the response.
+		 * \details This function, which need to be overwritten, will return an std::string corresponding to the body of the response.
+		 *
+		 * \return The body, which is of type std::string
+		 */
+		virtual const std::string &getBody() const = 0;
+		/*!
 		 * \fn virtual void setBody(const std::string &body)
 		 * \brief Set the body of the response.
 		 * \details This function, which need to be overwritten, will allow to set the body of the response from an std::string.
-		 * 
+		 *
 		 * \param body The body to set, which is of type std::string.
 		 */
 		virtual void setBody(const std::string &body) = 0;

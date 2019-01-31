@@ -15,22 +15,18 @@ class IMapContainer {
 	public:
 		IMapContainer() = default;
 		virtual ~IMapContainer() = default;
+        IMapContainer &operator=(const IMapContainer &);
 
     public:
-        virtual bool add(const std::string &key, const std::string &value) = 0;
-        virtual bool add(const std::string &key, int value) = 0;
-        virtual bool add(const std::string &key, bool value) = 0;
-        virtual bool add(const std::string &key, float value) = 0;
+        virtual bool create(const std::string &key, const std::string &value) = 0;
+        virtual bool create(const std::string &key, int value) = 0;
+        virtual bool create(const std::string &key, bool value) = 0;
+        virtual bool create(const std::string &key, float value) = 0;
 
-        virtual bool edit(const std::string &key, const std::string &value) = 0;
-        virtual bool edit(const std::string &key, int value) = 0;
-        virtual bool edit(const std::string &key, bool value) = 0;
-        virtual bool edit(const std::string &key, float value) = 0;
-
-        virtual void forceAdd(const std::string &key, const std::string &value) = 0;
-        virtual void forceAdd(const std::string &key, int value) = 0;
-        virtual void forceAdd(const std::string &key, bool value) = 0;
-        virtual void forceAdd(const std::string &key, float value) = 0;
+        virtual void put(const std::string &key, const std::string &value) = 0;
+        virtual void put(const std::string &key, int value) = 0;
+        virtual void put(const std::string &key, bool value) = 0;
+        virtual void put(const std::string &key, float value) = 0;
 
         virtual std::string getString(const std::string &key) const = 0;
         virtual int getInt(const std::string &key) const = 0;
@@ -38,6 +34,7 @@ class IMapContainer {
         virtual float getFloat(const std::string &key) const = 0;
 
         virtual void del(const std::string &key) = 0;
+        virtual bool has(const std::string &key) const = 0;
 
     public:
         // TODO

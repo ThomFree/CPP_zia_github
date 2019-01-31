@@ -7,8 +7,10 @@
 
 #include <vector>
 #include <boost/asio/signal_set.hpp>
+#include <memory>
 #include "net/TCPSocket.hpp"
 #include "net/NetworkService.hpp"
+#include "http/MapContainer.hpp"
 #include "MiniMediator.hpp"
 
 #pragma once
@@ -26,16 +28,15 @@ class MiniWebsite {
         void run();
 
 	private:
-        void acceptClient(net::ISocket *socket, void *data);
-        void addClient(net::ISocket *socket);
+        void acceptClient(std::shared_ptr<Zia::net::TCPSocket> socket, void *data);
+        void addClient(std::shared_ptr<Zia::net::TCPSocket> socket);
         void stop();
     
     private:
         std::vector<MiniMediator *> _clients;
         net::NetworkService _netService;
         net::TCPSocket _servSocket;
-        boost::asio::signal_set _signals;
-        // Ajouter la configuration du site ici sous la forme d'une key value
+        Pizzia::MapContainer _config;
 };
 
 }

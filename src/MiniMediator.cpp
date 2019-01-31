@@ -10,40 +10,41 @@
 #include "MiniMediator.hpp"
 #include "net/TCPSocket.hpp"
 
-// TODO recevoir la conf du website en plus du socket
-Zia::MiniMediator::MiniMediator(net::ISocket *sock) : _sock((net::TCPSocket *)sock)
+// Modules
+#include "mods/BasicModule.hpp"
+
+Zia::MiniMediator::MiniMediator(std::shared_ptr<Zia::net::TCPSocket> socket, Pizzia::IMapContainer *config) : _sock(socket), _config(config)
 {
     std::cout << "[MEDIATOR] A new client has joined the server" << std::endl;
-    // Set le callback du read et le start
-    // Set le disconnect
+    _sock->receive([&](const char *data, size_t size, void *){
+        this->readData(data, size);
+    });
 }
 
 Zia::MiniMediator::~MiniMediator()
 {
     std::cout << "[MEDIATOR] End of the client, destroying Mediator" << std::endl;
-    _sock->disconnect();
-    delete _sock;
 }
 
-void Zia::MiniMediator::readData()
+void Zia::MiniMediator::readData(const char *data, size_t size)
 {
     std::cout << "[MEDIATOR] A new request has been received, starting modules..." << std::endl;
-    // Ici on read les data du socket
-    // On envoie les datas a run module
+    std::string tmp(data, size);
+    std::cout << "received : /" << tmp << "/" << std::endl;
     runModules();
-    // On se remet en read waiting
 }
 
 void Zia::MiniMediator::runModules()
 {
+    std::cout << "[MEDIATOR] Starting modules..." << std::endl;
+    // TODO
     // Ici on construit une request
     // Ici on construit une reponse
+    // (IMapContainer *)&_session, *_config
     // On set le rawData au contenu du msg recu
 
-    // For loop pour iterer sur tous les modules
-}
-
-void Zia::MiniMediator::stop()
-{
-    _sock->disconnect();
+    // BIEN SUR CE TRUC EST TEMPORAIRE ;)
+    // Pizzia::BasicModule test;
+    // test.run(/* */);
+    // std::cout << "[MEDIATOR]  End of the modules" << std::endl;
 }

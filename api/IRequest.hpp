@@ -30,7 +30,7 @@ namespace Pizzia {
 		 * \details Constructor of the IRequest interface class.
 		 */
 		IRequest() = default;
-		
+
 		/*!
 		 * \fn virtual ~IRequest()
 		 * \brief Destructor
@@ -40,13 +40,13 @@ namespace Pizzia {
 
 	public:
 		/*!
-		 * \fn virtual const std::string &getRaw()
+		 * \fn virtual const std::string &getRaw() const
 		 * \brief Get the raw data of the request.
 		 * \details This function, which need to be overwritten, will return an std::string corresponding to the raw data of the request.
 		 *
 		 * \return The raw data, which is of type std::string.
 		 */
-		virtual const std::string &getRaw() = 0;
+		virtual const std::string &getRaw() const = 0;
 		/*!
 		 * \fn virtual void setRaw(const std::string &raw)
 		 * \brief Set the raw data of the request.
@@ -77,7 +77,7 @@ namespace Pizzia {
 		 * \fn virtual const std::string &getUri() const
 		 * \brief Get the URI of the request.
 		 * \details This function, which need to be overwritten, will return an std::string corresponding to the URI of the request.
-		 * 
+		 *
 		 * \return The URI, which is of type std::string.
 		 */
 		virtual const std::string &getUri() const = 0;
@@ -110,11 +110,19 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const
 		 * \brief Get the HTTP version of the request.
-		 * \details This function, which need to be overwritten, will return an std::pair of unsigned int corresponding to the HTTP version of the request.
+		 * \details This function, which need to be overwritten, will return an std::pair (of unsigned int and unsigned int) corresponding to the HTTP version of the request.
 		 *
 		 * \return The HTTP version, which is of type std::pair<unsigned int, unsigned int>.
 		 */
 		virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const = 0;
+		/*!
+		 * \fn virtual void setHttpVersion(unsigned int major, unsigned int minor)
+		 * \brief Set the HTTP version of the request.
+		 * \details This function, which need to be overwritten, will allow to set the HTTP version of the request from an std::pair (of unsigned int and unsigned int).
+		 *
+		 * \return The HTTP version to be set, which is of type std::pair<unsigned int, unsigned int>.
+		 */
+		virtual void setHttpVersion(unsigned int major, unsigned int minor) = 0;
 
 		/*!
 		 * \fn virtual const IMapContainer &getHeaders() const
@@ -128,7 +136,7 @@ namespace Pizzia {
 		 * \fn virtual void setHeaders(const IMapContainer &headers)
 		 * \brief Set the headers of the request.
 		 * \details This function, which need to be overwritten, will allow to set the headers of the request from an IMapContainer object.
-		 * 
+		 *
 		 * \param headers The headers to be set, which are of type IMapContainer.
 		 */
 		virtual void setHeaders(const IMapContainer &headers) = 0;
@@ -137,9 +145,10 @@ namespace Pizzia {
 		 * \fn virtual void setBody(const std::string &body)
 		 * \brief Set the body of the request.
 		 * \details This function, which need to be overwritten, will allow to set the body of the request from an std::string.
-		 * 
+		 *
 		 * \param body The body to set, which is of type std::string.
 		 */
 		virtual void setBody(const std::string &body) = 0;
+		virtual const std::string &getBody() const = 0;
 	};
 }
