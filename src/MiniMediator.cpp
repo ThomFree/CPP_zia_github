@@ -16,6 +16,7 @@
 #include "mods/BasicModule.hpp"
 #include "mods/HelloModule.hpp"
 #include "mods/RequestParser.hpp"
+#include "mods/ResponseMakerModule.hpp"
 
 Zia::MiniMediator::MiniMediator(std::shared_ptr<Zia::net::TCPSocket> socket, Pizzia::IMapContainer *config) : _sock(socket), _config(config)
 {
@@ -68,7 +69,8 @@ void Zia::MiniMediator::runModules(std::string msg)
     ////
     // Module 4 : ResponseMakerModule, creer la reponse a partir du contenu des variables membres de la classe IResponse
     ////
-    // TODO THOMAS
+    Pizzia::ResponseMakerModule test4;
+    test4.run(req, res, _session, *_config);
     
     // Fin des modules
     std::cout << "[MEDIATOR]  End of the modules" << std::endl;
