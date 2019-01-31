@@ -1,15 +1,12 @@
 //
 // EPITECH PROJECT, 2018
-// ReadConsole
+// ZIA
 // File description:
 // sources
 //
 
 #include "ReadConsole.hpp"
 #include <iostream>
-#include <mutex>
-
-std::mutex G_CONSOLE_MUTEX;
 
 ReadConsole::ReadConsole() : _state(console::ConsoleState::WAITING), _quitConsole(false)
 {}
@@ -23,15 +20,15 @@ void ReadConsole::readLoop()
   
   std::cout << "--- CONSOLE ---" << std::endl;
   while (!_quitConsole) {
-    G_CONSOLE_MUTEX.lock();
+    _mut.lock();
     std::cout << "> ";
     _state = console::ConsoleState::WAITING;
-    G_CONSOLE_MUTEX.unlock();
+    _mut.unlock();
     std::getline(std::cin, cmdTemp);
     if (std::cin.eof()) {
-      G_CONSOLE_MUTEX.lock();
+      _mut.lock();
       _quitConsole = true;
-      G_CONSOLE_MUTEX.unlock();
+      _mut.unlock();
       continue;
     } else
       addToQueue(cmdTemp);
@@ -50,10 +47,10 @@ const std::queue<std::string> &ReadConsole::copyQueueCmd() const
 
 void ReadConsole::addToQueue(const std::string &cmd)
 {
-  G_CONSOLE_MUTEX.lock();
+  _mut.lock();
   _state = console::ConsoleState::READING;
   _cmdQueue.push(cmd);
-  G_CONSOLE_MUTEX.unlock();
+  _mut.unlock();
 }
 
 void ReadConsole::displayQueue()

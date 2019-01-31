@@ -1,6 +1,6 @@
 //
 // EPITECH PROJECT, 2018
-// READCONSOLE_HPP_
+// ZIA
 // File description:
 // header
 //
@@ -8,6 +8,7 @@
 #pragma once
 # include <iostream>
 # include <queue>
+# include <mutex>
 // # include "Parser.hpp"
 
 namespace console {
@@ -34,4 +35,5 @@ private:
 	std::string _cmd;
 	// Parser _parser;
 	std::queue<std::string> _cmdQueue;
+	std::mutex _mut;
 };
