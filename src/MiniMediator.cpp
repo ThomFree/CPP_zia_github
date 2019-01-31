@@ -14,6 +14,7 @@
 
 // Modules
 #include "mods/BasicModule.hpp"
+#include "mods/RequestParser.hpp"
 
 Zia::MiniMediator::MiniMediator(std::shared_ptr<Zia::net::TCPSocket> socket, Pizzia::IMapContainer *config) : _sock(socket), _config(config)
 {
@@ -50,6 +51,12 @@ void Zia::MiniMediator::runModules(std::string msg)
     ////
     Pizzia::BasicModule test;
     test.run(req, res, _session, *_config);
+
+    ////
+    // MODULE 2 : Request Parser
+    ////
+    Pizzia::RequestParser requestParser;
+    requestParser.run(req, res, _session, *_config);
 
     // Fin des modules
     std::cout << "[MEDIATOR]  End of the modules" << std::endl;
