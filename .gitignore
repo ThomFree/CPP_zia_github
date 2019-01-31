@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# Build directory
+build/
+
+# Mac
+.DS_Store
+
+# CLion
+cmake-build-debug/
+*.idea
+*.sav
