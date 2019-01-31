@@ -16,7 +16,7 @@ class BasicModule : public IModule {
 		~BasicModule() {}
 
 	public:
-        EModuleStatus run(IRequest &request, IResponse &response, IMapContainer &configuration, IMapContainer &session) { return EModuleStatus::SUCCESS; }
+        EModuleStatus run(IRequest &, IResponse &, IMapContainer &, IMapContainer &) { return EModuleStatus::SUCCESS; }
 		inline const std::string getName() const { return "BasicModule"; }
 };
 

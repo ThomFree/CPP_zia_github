@@ -24,7 +24,7 @@ class MiniMediator {
         MiniMediator &operator=(const MiniMediator &) = delete;
 
 	public:
-        void runModules();
+        void runModules(std::string msg);
 
     private:
         void readData(const char *data, size_t size);

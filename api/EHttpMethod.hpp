@@ -8,6 +8,7 @@
 #pragma once
 
 namespace Pizzia {
+
 	enum EHttpMethod {
 		OPTIONS,
 		GET,
@@ -19,4 +20,5 @@ namespace Pizzia {
 		CONNECT,
 		UNDEFINED
 	};
+
 }

@@ -17,7 +17,7 @@ namespace Pizzia {
 	class IResponse {
 	public:
 		IResponse() {}
-		virtual ~IResponse();
+		virtual ~IResponse() {}
 	public:
 		virtual const std::string &getRaw() const = 0;
 		virtual void setRaw(const std::string &raw) = 0;

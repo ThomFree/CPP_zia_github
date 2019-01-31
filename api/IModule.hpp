@@ -15,7 +15,7 @@ namespace Pizzia {
 	class IModule {
 	public:
 		IModule() {}
-		virtual ~IModule();
+		virtual ~IModule() {}
 
 	public:
 		virtual EModuleStatus run(
