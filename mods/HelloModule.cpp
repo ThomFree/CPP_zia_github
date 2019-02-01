@@ -19,10 +19,10 @@ Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IR
 
     std::string headers;
     for (auto it = req.getHeaders().begin(); it != req.getHeaders().end(); it++)
-        params += it->first + "=" + it->second + " ";
+        headers += it->first + "=" + it->second + " ";
     // TODO ameliorer le getMethod
     tmp = "<html> \
-            <h1>This is a Basic HTTP Page<h1> \
+            <h1>This is a Basic HTTP Page</h1> \
             <p>The request you sent was in HTTP" + std::to_string(req.getHttpVersion().first) + "." + std::to_string(req.getHttpVersion().second) + " \
             </br>You asked for " + req.getUri() + " with a " + std::to_string(req.getMethod()) + " method \
             </p> \
@@ -38,7 +38,7 @@ Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IR
 
     // Ici on fabrique la reponse
     res.setBody(tmp);
-    res.getHeaders().put("Content-type", "text/html");
+    res.getHeaders().put("Content-Type", std::string("text/html"));
     res.setHttpVersion(1, 1);
     res.setStatusCode(200);
     res.setStatusReasonPhrase("OK");
