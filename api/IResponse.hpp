@@ -29,13 +29,13 @@ namespace Pizzia {
 		 * \brief Constructor
 		 * \details Constructor of the IResponse interface class.
 		 */
-		IResponse() = default;
+		IResponse() {}
 		/*!
 		 * \fn virtual ~IResponse()
 		 * \brief Destructor
 		 * \details Destructor of the IResponse interface class.
 		 */
-		virtual ~IResponse();
+		virtual ~IResponse() {}
 
 	public:
 		/*!
@@ -107,21 +107,13 @@ namespace Pizzia {
 		virtual void setHttpVersion(unsigned int major, unsigned int minor) = 0;
 
 		/*!
-		 * \fn virtual const IMapContainer &getHeaders() const
+		 * \fn virtual IMapContainer &getHeaders()
 		 * \brief Get the headers of the response.
 		 * \details This function, which need to be overwritten, will return an IMapContainer object corresponding to the headers of the response.
 		 *
 		 * \return The headers, which are of type IMapContainer.
 		 */
-		virtual const IMapContainer &getHeaders() const = 0;
-		/*!
-		 * \fn virtual void setHeaders(const IMapContainer &headers)
-		 * \brief Set the headers of the response.
-		 * \details This function, which need to be overwritten, will allow to set the headers of the response from an IMapContainer object.
-		 *
-		 * \param headers The headers to be set, which are of type IMapContainer.
-		 */
-		virtual void setHeaders(const IMapContainer &headers) = 0;
+		virtual IMapContainer &getHeaders() = 0;
 
 		/*!
 		 * \fn virtual const std::string &getBody() const

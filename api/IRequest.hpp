@@ -29,14 +29,14 @@ namespace Pizzia {
 		 * \brief Constructor
 		 * \details Constructor of the IRequest interface class.
 		 */
-		IRequest() = default;
+		IRequest() {}
 
 		/*!
 		 * \fn virtual ~IRequest()
 		 * \brief Destructor
 		 * \details Destructor of the IRequest interface class.
 		 */
-		virtual ~IRequest();
+		virtual ~IRequest() {}
 
 	public:
 		/*!
@@ -91,21 +91,13 @@ namespace Pizzia {
 		virtual void setUri(const std::string &uri) = 0;
 
 		/*!
-		 * \fn virtual const IMapContainer &getParameters() const
+		 * \fn virtual IMapContainer &getParameters()
 		 * \brief Get the parameters of the request.
 		 * \details This function, which need to be overwritten, will return an IMapContainer object corresponding to the parameters of the request.
 		 *
 		 * \return The parameters, which are of type IMapContainer.
 		 */
-		virtual const IMapContainer &getParameters() const = 0;
-		/*!
-		 * \fn virtual void setParameters(const IMapContainer &parameters)
-		 * \brief Set the parameters of the request.
-		 * \details This function, which need to be overwritten, will allow to set the parameters of the request from an IMapContainer object.
-		 *
-		 * \param parameters The parameters to be set, which are of type IMapContainer.
-		 */
-		virtual void setParameters(const IMapContainer &parameters) = 0;
+		virtual IMapContainer &getParameters() = 0;
 
 		/*!
 		 * \fn virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const
@@ -125,22 +117,22 @@ namespace Pizzia {
 		virtual void setHttpVersion(unsigned int major, unsigned int minor) = 0;
 
 		/*!
-		 * \fn virtual const IMapContainer &getHeaders() const
+		 * \fn virtual IMapContainer &getHeaders()
 		 * \brief Get the headers of the request.
 		 * \details This function, which need to be overwritten, will return an IMapContainer object corresponding to the headers of the request.
 		 *
 		 * \return The headers, which are of type IMapContainer.
 		 */
-		virtual const IMapContainer &getHeaders() const = 0;
-		/*!
-		 * \fn virtual void setHeaders(const IMapContainer &headers)
-		 * \brief Set the headers of the request.
-		 * \details This function, which need to be overwritten, will allow to set the headers of the request from an IMapContainer object.
-		 *
-		 * \param headers The headers to be set, which are of type IMapContainer.
-		 */
-		virtual void setHeaders(const IMapContainer &headers) = 0;
+		virtual IMapContainer &getHeaders() = 0;
 
+		/*!
+		 * \fn virtual const std::string &getBody() const
+		 * \brief Get the body of the request.
+		 * \details This function, which need to be overwritten, will return an std::string corresponding to the body of the request.
+		 *
+		 * \return body The body, which is of type std::string.
+		 */
+		virtual const std::string &getBody() const = 0;
 		/*!
 		 * \fn virtual void setBody(const std::string &body)
 		 * \brief Set the body of the request.
@@ -149,6 +141,5 @@ namespace Pizzia {
 		 * \param body The body to set, which is of type std::string.
 		 */
 		virtual void setBody(const std::string &body) = 0;
-		virtual const std::string &getBody() const = 0;
 	};
 }

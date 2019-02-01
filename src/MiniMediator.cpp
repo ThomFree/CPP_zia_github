@@ -9,9 +9,13 @@
 #include <string>
 #include "MiniMediator.hpp"
 #include "net/TCPSocket.hpp"
+#include "http/HttpRequest.hpp"
+#include "http/HttpResponse.hpp"
 
 // Modules
 #include "mods/BasicModule.hpp"
+#include "mods/HelloModule.hpp"
+#include "mods/RequestParser.hpp"
 
 Zia::MiniMediator::MiniMediator(std::shared_ptr<Zia::net::TCPSocket> socket, Pizzia::IMapContainer *config) : _sock(socket), _config(config)
 {
@@ -31,20 +35,42 @@ void Zia::MiniMediator::readData(const char *data, size_t size)
     std::cout << "[MEDIATOR] A new request has been received, starting modules..." << std::endl;
     std::string tmp(data, size);
     std::cout << "received : /" << tmp << "/" << std::endl;
-    runModules();
+    runModules(tmp);
 }
 
-void Zia::MiniMediator::runModules()
+void Zia::MiniMediator::runModules(std::string msg)
 {
     std::cout << "[MEDIATOR] Starting modules..." << std::endl;
-    // TODO
-    // Ici on construit une request
-    // Ici on construit une reponse
-    // (IMapContainer *)&_session, *_config
-    // On set le rawData au contenu du msg recu
+    Pizzia::HttpRequest req(msg);
+    Pizzia::HttpResponse res;
 
     // BIEN SUR CE TRUC EST TEMPORAIRE ;)
-    // Pizzia::BasicModule test;
-    // test.run(/* */);
-    // std::cout << "[MEDIATOR]  End of the modules" << std::endl;
+    // Il faut ici mettre les modules a la suite
+
+    ////
+    // Module 1 : BasicModule, return success
+    ////
+    Pizzia::BasicModule test;
+    test.run(req, res, _session, *_config);
+
+    ////
+    // Module 2 : RequestParser, Parse la request a partir du getRaw et mets dans les variables de la request
+    ////
+    Pizzia::RequestParser requestParser;
+    requestParser.run(req, res, _session, *_config);
+
+    ////
+    // Module 3 : HelloModule, creer une page HTTP qui contient le debug de la requete
+    ////
+    Pizzia::HelloModule test3;
+    test3.run(req, res, _session, *_config);
+
+    ////
+    // Module 4 : ResponseMakerModule, creer la reponse a partir du contenu des variables membres de la classe IResponse
+    ////
+    // TODO THOMAS
+    
+    // Fin des modules
+    std::cout << "[MEDIATOR]  End of the modules" << std::endl;
+    _sock->send(res.getRaw());
 }

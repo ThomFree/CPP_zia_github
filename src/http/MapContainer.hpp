@@ -38,6 +38,9 @@ class MapContainer : public IMapContainer {
         void del(const std::string &key) final;
         bool has(const std::string &key) const final;
 
+        std::unordered_map<std::string, std::string>::const_iterator begin() const final { return _data.begin(); }
+        std::unordered_map<std::string, std::string>::const_iterator end() const final { return _data.end(); }
+
         private:
             std::unordered_map<std::string, std::string> _data;
 };

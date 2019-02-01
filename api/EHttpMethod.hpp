@@ -7,16 +7,19 @@
 
 #pragma once
 
+#include <unordered_map>
+
 /*! \namespace Pizzia
  *
  * Namespace used for the Pizzia API
  */
 namespace Pizzia {
+
 	/*! \enum EHttpMethod
 	 * \brief Constants used for HTTP Methods
 	 */
 	enum EHttpMethod {
-		OPTIONS, /*!< Request for information about the communication options available on the request/response chain identified by the Request-URI. */
+		OPTIONS = 0, /*!< Request for information about the communication options available on the request/response chain identified by the Request-URI. */
 		GET, /*!< Retrieve whatever information (in the form of an entity) is identified by the Request-URI. */
 		HEAD, /*!< Identical to GET except that the server MUST NOT return a message-body in the response. */
 		POST, /*!< Used to request that the origin server accept the entity enclosed in the request as a new subordinate of the resource identified by the Request-URI in the Request-Line. */
@@ -26,4 +29,16 @@ namespace Pizzia {
 		CONNECT, /*!< For use with a proxy that can dynamically switch to being a tunnel (e.g. SSL tunneling). */
 		UNDEFINED /*!< Undefined method. */
 	};
+
+	const std::unordered_map<std::string, EHttpMethod> methodMap = {
+		{ "GET", GET },
+		{ "OPTIONS", OPTIONS },
+		{ "HEAD", HEAD },
+		{ "POST", POST },
+		{ "PUT", PUT },
+		{ "DELETE", DELETE },
+		{ "TRACE", TRACE },
+		{ "CONNECT", CONNECT },
+	}; /*!< Map used to get the corresponding value from the EHttpMethod enum by an std::string */
+
 }

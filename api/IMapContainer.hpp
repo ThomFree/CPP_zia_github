@@ -15,7 +15,7 @@ class IMapContainer {
 	public:
 		IMapContainer() = default;
 		virtual ~IMapContainer() = default;
-        IMapContainer &operator=(const IMapContainer &);
+        IMapContainer &operator=(const IMapContainer &) = delete;
 
     public:
         virtual bool create(const std::string &key, const std::string &value) = 0;
@@ -36,10 +36,8 @@ class IMapContainer {
         virtual void del(const std::string &key) = 0;
         virtual bool has(const std::string &key) const = 0;
 
-    public:
-        // TODO
-        // Est-ce qu'on mettrait pas les iterateurs begine et end pour par exemple 
-        // pouvoir faire un logger de la map en iterant avec le begin et le end
+        virtual std::unordered_map<std::string, std::string>::const_iterator begin() const = 0;
+        virtual std::unordered_map<std::string, std::string>::const_iterator end() const = 0;
 };
 
 }

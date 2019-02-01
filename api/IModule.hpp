@@ -26,14 +26,14 @@ namespace Pizzia {
 		 * \brief Constructor
 		 * \details Constructor of the IModule interface class.
 		 */
-		IModule() = default;
+		IModule() {}
 
 		/*!
 		 * \fn virtual ~IModule()
 		 * \brief Destructor
 		 * \details Destructor of the IModule interface class.
 		 */
-		virtual ~IModule();
+		virtual ~IModule() {}
 
 	public:
 		/*!

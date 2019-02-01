@@ -12,6 +12,7 @@
  * Namespace used for the Pizzia API
  */
 namespace Pizzia {
+
 	/*! \enum EModuleStatus
 	 * \brief Constants used for getting/setting the status of a module.
 	 */
@@ -20,4 +21,5 @@ namespace Pizzia {
 		ERROR, /*!< Module has encountered an error. */
 		FATAL_ERROR, /*!< Module has encountered a critical error. */
 	};
+
 }

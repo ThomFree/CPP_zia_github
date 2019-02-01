@@ -26,6 +26,9 @@ add_executable(${PROJECT_NAME}
   src/http/MapContainer.cpp
 
   src/net/TCPSocket.cpp
+
+  mods/HelloModule.cpp
+  mods/RequestParser.cpp
 )
 
 target_link_libraries (${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} ${CONAN_LIBS})
