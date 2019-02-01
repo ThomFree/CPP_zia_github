@@ -7,6 +7,7 @@
 
 #include "http/MapContainer.hpp"
 #include "HelloModule.hpp"
+#include "api/EHttpMethod.hpp"
 
 Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IResponse &res, 
     Pizzia::IMapContainer &/*websiteConf*/, Pizzia::IMapContainer &/*session*/)
@@ -20,11 +21,15 @@ Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IR
     std::string headers;
     for (auto it = req.getHeaders().begin(); it != req.getHeaders().end(); it++)
         headers += it->first + "=" + it->second + " ";
-    // TODO ameliorer le getMethod
+
+    std::string method;
+    for (auto it = methodMap.begin(); it != methodMap.end(); ++it )
+        if (it->second == req.getMethod())
+            method = it->first;
     tmp = "<html> \
             <h1>This is a Basic HTTP Page</h1> \
             <p>The request you sent was in HTTP" + std::to_string(req.getHttpVersion().first) + "." + std::to_string(req.getHttpVersion().second) + " \
-            </br>You asked for " + req.getUri() + " with a " + std::to_string(req.getMethod()) + " method \
+            </br>You asked for " + req.getUri() + " with a " + method + " method \
             </p> \
             <p>You have sent a request that contains : \
                 <ul> \
