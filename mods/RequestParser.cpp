@@ -48,7 +48,7 @@ bool RequestParser::_setHttpVersion(IRequest &request, std::string version)
 		std::cout << "Bad header" << std::endl;
 		return false;
 	} else {
-		request.setHttpVersion(version[0], version[1]);
+		request.setHttpVersion(versions[0], versions[1]);
 		return true;
 	}
 }

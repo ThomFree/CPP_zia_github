@@ -18,11 +18,11 @@ class ResponseMakerModule : public IModule {
 
     public:
         EModuleStatus run(IRequest &, IResponse &res, IMapContainer &, IMapContainer &) {
-            std::string raw;
-            raw = "HTTP/" + std::to_string(res.getHttpVersion().first) + "." + std::to_string(res.getHttpVersion().second) + " " + std::to_string(res.getStatusCode()) + " " + res.getStatusReasonPhrase() + "\r\n";
-            for (auto it = res.getHeaders().begin(); it != res.getHeaders().end(); it++)
-                raw += it->first + ": " + it->second + "\r\n";
-            raw += res.getBody() + "\r\n\r\n";
+            std::string raw("HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!");
+            // raw = "HTTP/" + std::to_string(res.getHttpVersion().first) + "." + std::to_string(res.getHttpVersion().second) + " " + std::to_string(res.getStatusCode()) + " " + res.getStatusReasonPhrase() + "\r\n";
+            // for (auto it = res.getHeaders().begin(); it != res.getHeaders().end(); it++)
+            //     raw += it->first + ": " + it->second + "\r\n";
+            // raw += res.getBody() + "\r\n\r\n";
             res.setRaw(raw);
             return EModuleStatus::SUCCESS;
         }
