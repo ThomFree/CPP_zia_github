@@ -5,6 +5,13 @@
 ** IResponse
 */
 
+/*!
+ * \file IResponse.hpp
+ * \brief Server responses.
+ *
+ * This file contains an IResponse interface used for the server responses.
+ */
+
 #include <string>
 #include <unordered_map>
 
@@ -20,20 +27,20 @@
 namespace Pizzia {
 
 	/*! \class IResponse
-	 * \brief The interface class used for the responses.
+	 * \brief The interface used for the server responses.
 	 */
 	class IResponse {
 	public:
 		/*!
 		 * \fn IResponse()
 		 * \brief Constructor.
-		 * \details Constructor of the IResponse interface class.
+		 * \details Constructor of the IResponse interface.
 		 */
 		IResponse() {}
 		/*!
 		 * \fn virtual ~IResponse()
 		 * \brief Destructor.
-		 * \details Destructor of the IResponse interface class.
+		 * \details Destructor of the IResponse interface.
 		 */
 		virtual ~IResponse() {}
 

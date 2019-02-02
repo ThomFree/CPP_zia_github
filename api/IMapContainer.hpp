@@ -5,6 +5,14 @@
 ** IMapContainer
 */
 
+/*!
+ * \file IMapContainer.hpp
+ * \brief Encapsulation of an std::unordered_map.
+ *
+ * This file contains an IMapContainer interface which is an encapsulation of an std::unordered_map.
+ * It can be useful to store and manipulate configurations.
+ */
+
 #include <string>
 
 #pragma once
@@ -16,20 +24,20 @@
 namespace Pizzia {
 
 	/*! \class IMapContainer
-	 * \brief This interface class is an encapsulation of an std::unordered_map, and can be useful to store configurations.
+	 * \brief Encapsulation of an std::unordered_map.
 	 */
 	class IMapContainer {
 	public:
 		/*!
 		 * \fn IMapContainer()
 		 * \brief Constructor
-		 * \details Constructor of the IMapContainer interface class.
+		 * \details Constructor of the IMapContainer interface.
 		 */
 		IMapContainer() = default;
 		/*!
 		 * \fn virtual ~IMapContainer()
 		 * \brief Destructor
-		 * \details Destructor of the IMapContainer interface class.
+		 * \details Destructor of the IMapContainer interface.
 		 */
 		virtual ~IMapContainer() = default;
 		/*!

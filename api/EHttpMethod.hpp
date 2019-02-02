@@ -5,6 +5,13 @@
 ** EHttpMethod
 */
 
+/*!
+ * \file EHttpMethod.hpp
+ * \brief HTTP Methods.
+ *
+ * This file contains an enum and an associative array for all the HTTP methods.
+ */
+
 #pragma once
 
 #include <unordered_map>
@@ -40,6 +47,6 @@ namespace Pizzia {
 		{ "TRACE", TRACE },
 		{ "CONNECT", CONNECT },
 		{ "UNDEFINED", UNDEFINED }
-	}; /*!< Map used to get the corresponding value from the EHttpMethod enum by an std::string */
+	}; /*!< Map used to get the corresponding value from the EHttpMethod enum by an std::string. */
 
 }

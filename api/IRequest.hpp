@@ -5,6 +5,13 @@
 ** IRequest
 */
 
+/*!
+ * \file IRequest.hpp
+ * \brief Server requests.
+ *
+ * This file contains an IRequest interface used for the requests to the server.
+ */
+
 #include <string>
 #include <unordered_map>
 
@@ -20,21 +27,21 @@
 namespace Pizzia {
 
 	/*! \class IRequest
-	 * \brief The interface class used for the requests.
+	 * \brief The interface used for the requests to the server.
 	 */
 	class IRequest {
 	public:
 		/*!
 		 * \fn IRequest()
 		 * \brief Constructor.
-		 * \details Constructor of the IRequest interface class.
+		 * \details Constructor of the IRequest interface.
 		 */
 		IRequest() {}
 
 		/*!
 		 * \fn virtual ~IRequest()
 		 * \brief Destructor.
-		 * \details Destructor of the IRequest interface class.
+		 * \details Destructor of the IRequest interface.
 		 */
 		virtual ~IRequest() {}
 

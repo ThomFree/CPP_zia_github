@@ -5,6 +5,13 @@
 ** IModule
 */
 
+/*!
+ * \file IModule.hpp
+ * \brief Websites modules.
+ *
+ * This file contains an IModule interface used for the instantiation of the websites modules.
+ */
+
 #include "EModuleStatus.hpp"
 #include "IRequest.hpp"
 #include "IResponse.hpp"
@@ -17,21 +24,21 @@
  */
 namespace Pizzia {
 	/*! \class IModule
-	 * \brief The interface class used for the creation of the different modules.
+	 * \brief The interface used for the instantiation of the different modules of a website.
 	 */
 	class IModule {
 	public:
 		/*!
 		 * \fn IModule()
 		 * \brief Constructor.
-		 * \details Constructor of the IModule interface class.
+		 * \details Constructor of the IModule interface.
 		 */
 		IModule() {}
 
 		/*!
 		 * \fn virtual ~IModule()
 		 * \brief Destructor.
-		 * \details Destructor of the IModule interface class.
+		 * \details Destructor of the IModule interface.
 		 */
 		virtual ~IModule() {}
 

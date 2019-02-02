@@ -5,6 +5,13 @@
 ** EModuleStatus
 */
 
+/*!
+ * \file EModuleStatus.hpp
+ * \brief Status of a module.
+ *
+ * This file contains a simple enum for the status of a module.
+ */
+
 #pragma once
 
 /*! \namespace Pizzia
