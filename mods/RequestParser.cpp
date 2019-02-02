@@ -53,6 +53,27 @@ bool RequestParser::_setHttpVersion(IRequest &request, std::string version)
 	}
 }
 
+/**
+ * This is experimental request URI parser, it don't work in 100% of cases for the real Zia we need to make-it in more robust way
+ *
+ * @param request
+ */
+void RequestParser::_parseUriParams(IRequest &request)
+{
+	std::string url = std::string(request.getUri());
+	std::regex regex("[^&?]*?=[^&?]*");
+	std::smatch smatch;
+
+	while (std::regex_search(url, smatch, regex)) {
+		std::string item = smatch.str();
+		std::string key = item.substr(0, item.find("="));
+		std::string value = item.substr(item.find("=") + 1);
+
+		request.getParameters().create(key, value);
+		url = smatch.suffix();
+	}
+}
+
 EModuleStatus RequestParser::run(IRequest &request, IResponse &/*response*/, IMapContainer &/*configuration*/, IMapContainer &/*session*/)
 {
 	std::stringstream stream(request.getRaw());
@@ -79,7 +100,8 @@ EModuleStatus RequestParser::run(IRequest &request, IResponse &/*response*/, IMa
 			_addInHeader(request, line);
 		}
 	}
+
+	_parseUriParams(request);
 	return EModuleStatus::SUCCESS;
 }
-
 }

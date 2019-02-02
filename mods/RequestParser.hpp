@@ -23,6 +23,7 @@ class RequestParser : public IModule {
 		bool _setHttpVersion(IRequest &request, std::string version);
 		void _addInHeader(IRequest &request, std::string line);
 		void _removeWhitespace(std::string &line);
+		void _parseUriParams(IRequest &request);
 };
 
 }
