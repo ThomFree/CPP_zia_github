@@ -28,7 +28,7 @@ namespace async {
 			void stop() override;
 			void post(const std::function<void()> &task, bool noWaiting = true) override;
 			void makeService() override;
-			inline size_t getNbServ() { return _queue.size(); };
+			inline uint32_t getNbServ() override { return _queue.size(); };
 
 		private:
 			void _join() override;
