@@ -39,6 +39,7 @@ namespace Pizzia {
 		{ "DELETE", DELETE },
 		{ "TRACE", TRACE },
 		{ "CONNECT", CONNECT },
+		{ "UNDEFINED", UNDEFINED }
 	}; /*!< Map used to get the corresponding value from the EHttpMethod enum by an std::string */
 
 }

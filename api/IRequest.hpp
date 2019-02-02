@@ -26,14 +26,14 @@ namespace Pizzia {
 	public:
 		/*!
 		 * \fn IRequest()
-		 * \brief Constructor
+		 * \brief Constructor.
 		 * \details Constructor of the IRequest interface class.
 		 */
 		IRequest() {}
 
 		/*!
 		 * \fn virtual ~IRequest()
-		 * \brief Destructor
+		 * \brief Destructor.
 		 * \details Destructor of the IRequest interface class.
 		 */
 		virtual ~IRequest() {}
@@ -42,7 +42,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::string &getRaw() const
 		 * \brief Get the raw data of the request.
-		 * \details This function, which need to be overwritten, will return an std::string corresponding to the raw data of the request.
+		 * \details Return an std::string corresponding to the raw data of the request.
 		 *
 		 * \return The raw data, which is of type std::string.
 		 */
@@ -50,7 +50,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual void setRaw(const std::string &raw)
 		 * \brief Set the raw data of the request.
-		 * \details This function, which need to be overwritten, will allow to set the raw data of the request from an std::string.
+		 * \details Allow to set the raw data of the request from an std::string.
 		 *
 		 * \param raw The raw data to be set, which is of type std::string.
 		 */
@@ -59,7 +59,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual EHttpMethod getMethod() const
 		 * \brief Get the method of the request.
-		 * \details This function, which need to be overwritten, will return a value from the EHttpMethod enum corresponding to the method of the request.
+		 * \details Return a value from the EHttpMethod enum corresponding to the method of the request.
 		 *
 		 * \return The method, which is a value from the EHttpMethod enum.
 		 */
@@ -67,7 +67,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual void setMethod(EHttpMethod method)
 		 * \brief Set the method of the request.
-		 * \details This function, which need to be overwritten, will allow to set the method of the request from a value of the EHttpMethod enum.
+		 * \details Allow to set the method of the request from a value of the EHttpMethod enum.
 		 *
 		 * \param method The method to be set, which is a value of the EHttpMethod enum.
 		 */
@@ -76,7 +76,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::string &getUri() const
 		 * \brief Get the URI of the request.
-		 * \details This function, which need to be overwritten, will return an std::string corresponding to the URI of the request.
+		 * \details Return an std::string corresponding to the URI of the request.
 		 *
 		 * \return The URI, which is of type std::string.
 		 */
@@ -84,7 +84,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual void setUri(const std::string &uri)
 		 * \brief Set the URI of the request.
-		 * \details This function, which need to be overwritten, will allow to set the URI of the request from an std::string.
+		 * \details Allow to set the URI of the request from an std::string.
 		 *
 		 * \param uri The URI to be set, which is of type std::string.
 		 */
@@ -93,7 +93,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual IMapContainer &getParameters()
 		 * \brief Get the parameters of the request.
-		 * \details This function, which need to be overwritten, will return an IMapContainer object corresponding to the parameters of the request.
+		 * \details Return an IMapContainer object corresponding to the parameters of the request.
 		 *
 		 * \return The parameters, which are of type IMapContainer.
 		 */
@@ -102,7 +102,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::pair<unsigned int, unsigned int> &getHttpVersion() const
 		 * \brief Get the HTTP version of the request.
-		 * \details This function, which need to be overwritten, will return an std::pair (of unsigned int and unsigned int) corresponding to the HTTP version of the request.
+		 * \details Return an std::pair (of unsigned int and unsigned int) corresponding to the HTTP version of the request.
 		 *
 		 * \return The HTTP version, which is of type std::pair<unsigned int, unsigned int>.
 		 */
@@ -110,7 +110,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual void setHttpVersion(unsigned int major, unsigned int minor)
 		 * \brief Set the HTTP version of the request.
-		 * \details This function, which need to be overwritten, will allow to set the HTTP version of the request from an std::pair (of unsigned int and unsigned int).
+		 * \details Allow to set the HTTP version of the request from an std::pair (of unsigned int and unsigned int).
 		 *
 		 * \return The HTTP version to be set, which is of type std::pair<unsigned int, unsigned int>.
 		 */
@@ -119,7 +119,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual IMapContainer &getHeaders()
 		 * \brief Get the headers of the request.
-		 * \details This function, which need to be overwritten, will return an IMapContainer object corresponding to the headers of the request.
+		 * \details Return an IMapContainer object corresponding to the headers of the request.
 		 *
 		 * \return The headers, which are of type IMapContainer.
 		 */
@@ -128,7 +128,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual const std::string &getBody() const
 		 * \brief Get the body of the request.
-		 * \details This function, which need to be overwritten, will return an std::string corresponding to the body of the request.
+		 * \details Return an std::string corresponding to the body of the request.
 		 *
 		 * \return body The body, which is of type std::string.
 		 */
@@ -136,7 +136,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual void setBody(const std::string &body)
 		 * \brief Set the body of the request.
-		 * \details This function, which need to be overwritten, will allow to set the body of the request from an std::string.
+		 * \details Allow to set the body of the request from an std::string.
 		 *
 		 * \param body The body to set, which is of type std::string.
 		 */

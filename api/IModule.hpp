@@ -23,14 +23,14 @@ namespace Pizzia {
 	public:
 		/*!
 		 * \fn IModule()
-		 * \brief Constructor
+		 * \brief Constructor.
 		 * \details Constructor of the IModule interface class.
 		 */
 		IModule() {}
 
 		/*!
 		 * \fn virtual ~IModule()
-		 * \brief Destructor
+		 * \brief Destructor.
 		 * \details Destructor of the IModule interface class.
 		 */
 		virtual ~IModule() {}
@@ -39,7 +39,7 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual static EModuleStatus run(IRequest &request, IResponse &response, IKeyValueContainer &configuration, IKeyValueContainer &session)
 		 * \brief Run the module and return its status.
-		 * \details This virtual function, which need to be overwritten, will run the module and return the status of it.
+		 * \details Run the module and return its status.
 		 *
 		 * \param request A class derived from IRequest.
 		 * \param response A class derived from IResponse.
@@ -57,7 +57,8 @@ namespace Pizzia {
 		/*!
 		 * \fn virtual static const std::string &getName() const
 		 * \brief Get the module name.
-		 * \details This virtual function, which need to be overwritten, will simply return a string corresponding to the module name.
+		 * \details Simply return an std::string corresponding to the module name.
+		 *
 		 * \return The module name, which is of type std::string.
 		 */
 		virtual const std::string getName() const = 0;
