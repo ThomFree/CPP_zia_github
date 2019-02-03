@@ -14,8 +14,9 @@
 
 // Modules
 #include "mods/BasicModule.hpp"
-#include "mods/HelloModule.hpp"
-#include "mods/RequestParser.hpp"
+#include "mods/RequestDebuggerModule.hpp"
+#include "mods/HelloWorldModule.hpp"
+#include "mods/RequestParserModule.hpp"
 #include "mods/ResponseMakerModule.hpp"
 
 Zia::MiniMediator::MiniMediator(std::shared_ptr<Zia::net::TCPSocket> socket, Pizzia::IMapContainer *config) : _sock(socket), _config(config)
@@ -47,23 +48,24 @@ void Zia::MiniMediator::runModules(std::string msg)
 
     // BIEN SUR CE TRUC EST TEMPORAIRE ;)
     // Il faut ici mettre les modules a la suite
-
+    //Pizzia::HelloWorldModule test;
+    //test.run(req, res, _session, *_config);
     ////
     // Module 1 : BasicModule, return success
     ////
-    Pizzia::BasicModule test;
-    test.run(req, res, _session, *_config);
+    //Pizzia::BasicModule test;
+    //test.run(req, res, _session, *_config);
 
     ////
     // Module 2 : RequestParser, Parse la request a partir du getRaw et mets dans les variables de la request
     ////
-    Pizzia::RequestParser requestParser;
+    Pizzia::RequestParserModule requestParser;
     requestParser.run(req, res, _session, *_config);
 
     ////
     // Module 3 : HelloModule, creer une page HTTP qui contient le debug de la requete
     ////
-    Pizzia::HelloModule test3;
+    Pizzia::RequestDebuggerModule test3;
     test3.run(req, res, _session, *_config);
 
     ////

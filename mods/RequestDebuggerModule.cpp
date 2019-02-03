@@ -6,10 +6,10 @@
 */
 
 #include "http/MapContainer.hpp"
-#include "HelloModule.hpp"
+#include "RequestDebuggerModule.hpp"
 #include "api/EHttpMethod.hpp"
 
-Pizzia::EModuleStatus Pizzia::HelloModule::run(Pizzia::IRequest &req, Pizzia::IResponse &res, 
+Pizzia::EModuleStatus Pizzia::RequestDebuggerModule::run(Pizzia::IRequest &req, Pizzia::IResponse &res, 
     Pizzia::IMapContainer &/*websiteConf*/, Pizzia::IMapContainer &/*session*/)
 {
     std::string tmp;

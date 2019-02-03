@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** CPP_zia_github
 ** File description:
-** HelloModule
+** RequestDebuggerModule
 */
 
 #include "api/IModule.hpp"
@@ -10,14 +10,14 @@
 #pragma once
 namespace Pizzia {
 
-class HelloModule : public IModule {
+class RequestDebuggerModule : public IModule {
 	public:
-		HelloModule() {}
-		~HelloModule() {}
+		RequestDebuggerModule() {}
+		~RequestDebuggerModule() {}
 
 	public:
         EModuleStatus run(IRequest &, IResponse &, IMapContainer &, IMapContainer &);
-		inline const std::string getName() const { return "HelloModule"; }
+		inline const std::string getName() const { return "RequestDebuggerModule"; }
 };
 
 }

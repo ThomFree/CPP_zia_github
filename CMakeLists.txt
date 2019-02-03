@@ -27,8 +27,8 @@ add_executable(${PROJECT_NAME}
 
   src/net/TCPSocket.cpp
 
-  mods/HelloModule.cpp
-  mods/RequestParser.cpp
+  mods/RequestDebuggerModule.cpp
+  mods/RequestParserModule.cpp
   mods/SimpleAuthModule.cpp
 )
 

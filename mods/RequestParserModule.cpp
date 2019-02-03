@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2019
 ** Untitled (Workspace)
 ** File description:
-** RequestParser
+** RequestParserModule
 */
 
 #include <sstream>
 #include <regex>
-#include "RequestParser.hpp"
+#include "RequestParserModule.hpp"
 #include "api/EHttpMethod.hpp"
 
 //DEBUG
@@ -15,13 +15,13 @@
 
 namespace Pizzia {
 
-void RequestParser::_removeWhitespace(std::string &line)
+void RequestParserModule::_removeWhitespace(std::string &line)
 {
 	line = std::regex_replace(line, std::regex("^ +"), "");
 	line = std::regex_replace(line, std::regex(" +$"), "");
 }
 
-void RequestParser::_addInHeader(IRequest &request, std::string line)
+void RequestParserModule::_addInHeader(IRequest &request, std::string line)
 {	
 	std::size_t i = line.find(":");
 	std::string key = line.substr(0, i);
@@ -32,7 +32,7 @@ void RequestParser::_addInHeader(IRequest &request, std::string line)
 	request.getHeaders().create(key, value);
 }
 
-bool RequestParser::_setHttpVersion(IRequest &request, std::string version)
+bool RequestParserModule::_setHttpVersion(IRequest &request, std::string version)
 {
 	std::regex r("([0-9]+)");
 	std::smatch smatch;
@@ -58,7 +58,7 @@ bool RequestParser::_setHttpVersion(IRequest &request, std::string version)
  *
  * @param request
  */
-void RequestParser::_parseUriParams(IRequest &request)
+void RequestParserModule::_parseUriParams(IRequest &request)
 {
 	std::string url = std::string(request.getUri());
 	std::regex regex("[^&?]*?=[^&?]*");
@@ -74,7 +74,7 @@ void RequestParser::_parseUriParams(IRequest &request)
 	}
 }
 
-EModuleStatus RequestParser::run(IRequest &request, IResponse &/*response*/, IMapContainer &/*configuration*/, IMapContainer &/*session*/)
+EModuleStatus RequestParserModule::run(IRequest &request, IResponse &/*response*/, IMapContainer &/*configuration*/, IMapContainer &/*session*/)
 {
 	std::stringstream stream(request.getRaw());
 	std::string method;

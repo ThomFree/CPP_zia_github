@@ -10,14 +10,14 @@
 #pragma once
 namespace Pizzia {
 
-class RequestParser : public IModule {
+class RequestParserModule : public IModule {
 	public:
-		RequestParser() {}
-		~RequestParser() {}
+		RequestParserModule() {}
+		~RequestParserModule() {}
 
 	public:
 		EModuleStatus run(IRequest &request, IResponse &response, IMapContainer &configuration, IMapContainer &session);
-		inline const std::string getName() const { return "RequestParser"; }
+		inline const std::string getName() const { return "RequestParserModule"; }
 
 	private:
 		bool _setHttpVersion(IRequest &request, std::string version);
