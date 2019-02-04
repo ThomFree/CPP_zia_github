@@ -15,7 +15,9 @@
 #include "MutexQueue.hpp"
 
 namespace async {
+	extern std::atomic<bool> STOP_SERVICE;
 	const size_t SERVICE_LIFE_DURATION = 60;
+
 	class Service : public IService {
 		public:
 			Service(MutexQueue<std::function<void()>> &, std::condition_variable &, std::mutex&);
@@ -30,7 +32,6 @@ namespace async {
 			inline bool joinable() const override { return _thread->joinable(); }
 			inline void join() const override { _thread->join(); }
 			inline const std::thread::id &getId() const noexcept override { return _id; }
-			inline void setStop(bool status) override { *_stop = status; }
 			inline bool isIddle() const noexcept override { return _isIddle; }
 
 		private:
@@ -43,7 +44,6 @@ namespace async {
 			std::mutex &_mutex;
 			std::condition_variable &_condVar;
 			MutexQueue<std::function<void()>> &_queue;
-			std::shared_ptr<std::atomic_bool> _stop;
 			std::thread::id _id;
 			std::shared_ptr<std::thread> _thread;
 			bool _isIddle;

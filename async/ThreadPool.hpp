@@ -8,12 +8,14 @@
 #pragma once
 #include <vector>
 #include <functional>
+#include <atomic>
 
 #include "IThreadPool.hpp"
 #include "Service.hpp"
 
 namespace async {
 	const unsigned int HARDWARE_CONCURRENCY = std::thread::hardware_concurrency();
+
 	class ThreadPool : public IThreadPool {
 		public:
 			explicit ThreadPool(size_t size = HARDWARE_CONCURRENCY);

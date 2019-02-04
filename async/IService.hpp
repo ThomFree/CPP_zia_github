@@ -17,7 +17,6 @@ namespace async {
 			virtual bool joinable() const = 0;
 			virtual void join() const = 0;
 			virtual const std::thread::id &getId() const = 0;
-			virtual void setStop(bool) = 0;
 			virtual bool isIddle() const = 0;
 
 		private:

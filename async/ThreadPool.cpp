@@ -10,6 +10,8 @@
 
 #include "async/ThreadPool.hpp"
 
+std::atomic<bool> async::STOP_SERVICE(false);
+
 async::ThreadPool::ThreadPool(size_t servicesCount)
 	: _nbServices(0)
 {
@@ -55,7 +57,7 @@ uint32_t async::ThreadPool::_nbActiveServices() const
 
 void async::ThreadPool::stop()
 {
-	std::for_each(_servicesVector.begin(), _servicesVector.end(), [](std::unique_ptr<Service> &s) { s->setStop(true); });
+	async::STOP_SERVICE = true;
 	_condVar.notify_all();
 }
 
