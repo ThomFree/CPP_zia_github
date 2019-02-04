@@ -5,6 +5,9 @@
 ** load dynamic lib
 */
 
+#include <dlfcn.h>
+#include <iostream>
+
 #pragma once
 # include "api/IModule.hpp"
 

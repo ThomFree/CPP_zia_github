@@ -11,6 +11,7 @@
 #include "net/TCPSocket.hpp"
 #include "http/HttpRequest.hpp"
 #include "http/HttpResponse.hpp"
+#include "api/IModule.hpp"
 #include "DLLoader.hpp"
 
 // Modules
