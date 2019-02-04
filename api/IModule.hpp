@@ -8,6 +8,7 @@
 #include "EModuleStatus.hpp"
 #include "IRequest.hpp"
 #include "IResponse.hpp"
+#include <memory>
 
 #pragma once
 
@@ -27,4 +28,6 @@ namespace Pizzia {
 
 		virtual const std::string getName() const = 0;
 	};
+
+	using moduleUPtr = std::unique_ptr<IModule>;
 }

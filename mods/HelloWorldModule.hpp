@@ -30,5 +30,8 @@ class HelloWorldModule : public IModule {
 		
 		inline const std::string getName() const { return "HelloWorldModule"; }
 };
+}
 
+extern "C" Pizzia::moduleUPtr createHelloModule() {
+	return std::make_unique<Pizzia::HelloWorldModule>();
 }

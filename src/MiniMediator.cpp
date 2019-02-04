@@ -11,6 +11,7 @@
 #include "net/TCPSocket.hpp"
 #include "http/HttpRequest.hpp"
 #include "http/HttpResponse.hpp"
+#include "DLLoader.hpp"
 
 // Modules
 #include "mods/BasicModule.hpp"
@@ -59,20 +60,24 @@ void Zia::MiniMediator::runModules(std::string msg)
     ////
     // Module 2 : RequestParser, Parse la request a partir du getRaw et mets dans les variables de la request
     ////
-    Pizzia::RequestParserModule requestParser;
-    requestParser.run(req, res, _session, *_config);
+    // Pizzia::RequestParserModule requestParser;
+    // requestParser.run(req, res, _session, *_config);
 
     ////
     // Module 3 : HelloModule, creer une page HTTP qui contient le debug de la requete
     ////
-    Pizzia::RequestDebuggerModule test3;
-    test3.run(req, res, _session, *_config);
+    // Pizzia::RequestDebuggerModule test3;
+    // test3.run(req, res, _session, *_config);
+
+    Pizzia::DLLoader dl("../mods/HelloWorldModule.so");
+    auto module = dl.getEntryPoint<Pizzia::moduleUPtr (*)()>("createHelloModule")();
+    module->run(req, res, _session, *_config);
 
     ////
     // Module 4 : ResponseMakerModule, creer la reponse a partir du contenu des variables membres de la classe IResponse
     ////
-    Pizzia::ResponseMakerModule test4;
-    test4.run(req, res, _session, *_config);
+    // Pizzia::ResponseMakerModule test4;
+    // test4.run(req, res, _session, *_config);
     
     // Fin des modules
     std::cout << "[MEDIATOR]  End of the modules" << std::endl;
