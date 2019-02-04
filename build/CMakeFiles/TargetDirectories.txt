@@ -1,3 +1,0 @@
-/home/jb/Dev/CPP_zia_github/build/CMakeFiles/rebuild_cache.dir
-/home/jb/Dev/CPP_zia_github/build/CMakeFiles/zia_async.dir
-/home/jb/Dev/CPP_zia_github/build/CMakeFiles/edit_cache.dir
