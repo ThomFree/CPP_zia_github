@@ -57,7 +57,6 @@ namespace Zia {
 		bool TCPSocket::accept(ConnectCallbackFn onNewConnectionCallback, void *data)
 		{
 			auto clientSocket = std::make_shared<net::TCPSocket>(_netservice);
-			//auto clientSocket = new net::TCPSocket(_netservice);
 			_acceptor.async_accept(clientSocket->getRawSocket(),
 				[this, clientSocket, onNewConnectionCallback, data](const boost::system::error_code& error) {
 					if (error) {

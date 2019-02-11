@@ -21,7 +21,7 @@ namespace Zia {
 		class TCPSocket {
 		public:
 			using ReceiveCallbackFn = std::function<void(const char *, int, void *)>;
-			using ConnectCallbackFn = std::function<void(/*TCPSocket* */std::shared_ptr<TCPSocket>, void *)>;
+			using ConnectCallbackFn = std::function<void(std::shared_ptr<TCPSocket>, void *)>;
 			using DisconnectCallbackFn = std::function<void(TCPSocket*, void *)>;
 			using RawSocket = boost::asio::ip::tcp::socket;
 
