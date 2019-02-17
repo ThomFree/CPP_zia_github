@@ -23,7 +23,7 @@
 namespace Pizzia {
 
 	/*! \enum EHttpMethod
-	 * \brief Constants used for HTTP Methods
+	 * \brief Constants used to identify the HTTP Methods
 	 */
 	enum EHttpMethod {
 		OPTIONS = 0, /*!< Request for information about the communication options available on the request/response chain identified by the Request-URI. */
@@ -47,6 +47,6 @@ namespace Pizzia {
 		{ "TRACE", TRACE },
 		{ "CONNECT", CONNECT },
 		{ "UNDEFINED", UNDEFINED }
-	}; /*!< Map used to get the corresponding value from the EHttpMethod enum by an std::string. */
+	}; /*!< This map stores the name of the method and their enum equivalent, so you can use it to convert from string to enum and vice versa. */
 
 }
