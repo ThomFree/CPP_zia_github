@@ -1,28 +1,14 @@
 cmake_minimum_required(VERSION 3.9)
-project(zia)
 
 set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
 # Compile needed libraries
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-
-# Add all needed sources files
-add_executable(${PROJECT_NAME}
-  src/main.cpp)
-
-# Compiler flags
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-  # G++
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-  # MSVC
-  target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /MTd /W2 /c)
-endif()
-
-# Include file directories
-include_directories(sources)
-
-# Find and link the project with needed libraries
-find_package(Boost 1.67 COMPONENTS system REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
+add_subdirectory(lib)
+add_subdirectory(src/server)
