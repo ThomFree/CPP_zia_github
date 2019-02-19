@@ -15,7 +15,7 @@ namespace async {
 		public:
 			virtual void stop() = 0;
 			virtual void makeService() = 0;
-			virtual void post(const std::function<void()>&, bool noWaiting = true) = 0;
+			virtual void post(const std::function<int()> &, bool noWaiting = true) = 0;
 			virtual uint32_t getNbServ() = 0;
 
 		private:

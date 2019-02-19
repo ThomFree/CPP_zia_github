@@ -25,13 +25,15 @@ async::ThreadPool::~ThreadPool()
 	_join();
 }
 
-void async::ThreadPool::post(const std::function<void()> &task, bool noWaiting)
+void async::ThreadPool::post(const std::function<int()> &task, bool noWaiting)
 {
 	if (noWaiting && _noServiceAvailable()) {
 		for (uint32_t i = 0; i != HARDWARE_CONCURRENCY; i++)
 			makeService();
 	}
-	_queue.push(task);
+
+//	_queue.safePush(std::move(Task(task)));
+	_queue.safePush(new 	Task(task));
 	_condVar.notify_one();
 };
 
@@ -51,7 +53,6 @@ uint32_t async::ThreadPool::_nbActiveServices() const
 		if (!it->isIddle())
 			nbActive++;
 	}
-	std::cout << nbActive << " " << _nbServices << std::endl;
 	return nbActive;
 }
 

@@ -28,7 +28,7 @@ namespace async {
 		*/
 		public:
 			void stop() override;
-			void post(const std::function<void()> &task, bool noWaiting = true) override;
+			void post(const std::function<int()> &task, bool noWaiting = true) override;
 			void makeService() override;
 			inline uint32_t getNbServ() override { return _queue.size(); };
 
@@ -42,7 +42,8 @@ namespace async {
 		*/
 		private:
 			std::vector<std::unique_ptr<Service>> _servicesVector;
-			MutexQueue<std::function<void()>> _queue;
+			//SafeQueue<Task> _queue;
+			SafeQueue<Task*> _queue;
 			std::condition_variable _condVar;
 			std::mutex _mutex;
 			uint32_t _nbServices;

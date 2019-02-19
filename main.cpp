@@ -9,33 +9,40 @@
 #include <iostream>
 #include "async/ThreadPool.hpp"
 
-const int LIFE_DURATION = 5;
+
+#include <future>
+#include <thread>
+
+const int LIFE_DURATION = 1;
 
 class A {
 	public:
-		static void f() {
+		static int f() {
 			int a = 0;
 			while (a != LIFE_DURATION) {
 				sleep(1);
 			a++;
 		}
-}
-		void a() {
+		return 1;
+	}
+		int a() {
 			int a = 0;
 			while (a != LIFE_DURATION) {
 				sleep(1);
 				a++;
 			}
+			return 2;
 		}
 };
 
-static void f()
+static int f()
 {
 	int a = 0;
 	while (a != LIFE_DURATION) {
 		sleep(1);
 		a++;
 	}
+	return 3;
 }
 
 int main()
@@ -45,40 +52,45 @@ int main()
 	sleep(2);
 
 	// post lambda 1
-	tp.post(std::bind([](){
-	int a = 0;
-	while (a != LIFE_DURATION) {
-		sleep(1);
-		a++;
-	}}));
+	tp.post(std::function<int()>([](){
+		int a = 0;
+		while (a != LIFE_DURATION) {
+			sleep(1);
+			a++;
+		}
+		return 4;
+	}));
 
-	sleep(0.5);
+//	sleep(0.5);
 
 	// post lambda 2
-	tp.post(std::bind([](){
+	tp.post(std::function<int()>([](){
 	int a = 0;
 	while (a != LIFE_DURATION) {
-		sleep(1);
-		a++;
-	}}));
+			sleep(1);
+			a++;
+		}
+		return 5;
+	}));
 
-	sleep(0.5);
+//	sleep(0.5);
 
 	// post simple function
-	tp.post(std::bind(f));
+	tp.post(std::function<int()>(f));
 
-	sleep(0.5);
+//	sleep(0.5);
 
 	// post static method
-	tp.post(std::bind(&A::f));
+	tp.post(std::function<int()>(&A::f));
 
-	sleep(0.5);
+//	sleep(0.5);
 
 	// post method with binded with reference
 	A a;
-	tp.post(std::bind(&A::a, std::ref(a)));
+	std::function<int()> task(std::bind(&A::a, std::ref(a)));
+	tp.post(task);
 
-	sleep(LIFE_DURATION + 2);
+	sleep(10 + 2);
 
 	return 0;
 }

@@ -10,9 +10,13 @@
 #include <condition_variable>
 #include <atomic>
 #include <memory>
+#include <future>
+#include <type_traits>
+#include <utility>
 
 #include "IService.hpp"
-#include "MutexQueue.hpp"
+#include "SafeQueue.hpp"
+#include "Task.hpp"
 
 namespace async {
 	extern std::atomic<bool> STOP_SERVICE;
@@ -20,7 +24,7 @@ namespace async {
 
 	class Service : public IService {
 		public:
-			Service(MutexQueue<std::function<void()>> &, std::condition_variable &, std::mutex&);
+			Service(SafeQueue<Task*> &, std::condition_variable &, std::mutex&);
 			Service(const Service &) noexcept = default;
 			~Service() noexcept = default;
 			Service &operator=(const Service &) noexcept = default;
@@ -43,7 +47,8 @@ namespace async {
 		private:
 			std::mutex &_mutex;
 			std::condition_variable &_condVar;
-			MutexQueue<std::function<void()>> &_queue;
+			//SafeQueue<Task> &_queue;
+			SafeQueue<Task*> &_queue;
 			std::thread::id _id;
 			std::shared_ptr<std::thread> _thread;
 			bool _isIddle;
