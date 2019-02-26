@@ -4,6 +4,7 @@ project(zia)
 # Add all needed sources files
 set(SOURCES
 	main.cpp
+	net/TCPSocket.cpp
 	)
 
 # Add executable
@@ -14,6 +15,7 @@ add_executable(${PROJECT_NAME}
 # Add includes directories
 target_include_directories(${PROJECT_NAME} PUBLIC
 	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_SOURCE_DIR}/src/server
 	${ZIA_EXTERNAL_INCLUDE_DIRS}
 	)
 
