@@ -9,7 +9,6 @@
 #include <memory>
 
 #include "utils/ParseArgs.hpp"
-#include "../../api/Config.hpp"
 #include "Website.hpp"
 
 #pragma once
