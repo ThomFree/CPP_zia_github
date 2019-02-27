@@ -1,0 +1,13 @@
+{
+    "name": "BasicHttpSite",
+    "port": 8080,
+	"modules": {
+		"PHP": {
+            "path": "/etc/zia/modules/mod_php.so", 
+            "timeout": 1000
+        },
+        "SSL": {
+            "path": "/etc/zia/modules/mod_ssl.so"
+        }
+	}
+}

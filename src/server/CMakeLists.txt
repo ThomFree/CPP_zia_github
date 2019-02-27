@@ -4,6 +4,9 @@ project(zia)
 # Add all needed sources files
 set(SOURCES
 	main.cpp
+	WebsiteManager.cpp
+
+	utils/ParseArgs.cpp
 	)
 
 # Add executable
