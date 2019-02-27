@@ -37,6 +37,8 @@ static void connectCallBack(std::shared_ptr<Zia::net::Client> client)
 
     socket->setDisconnect([socket](Zia::net::TCPSocket *socket) { disconnectCallback(socket); });
     socket->setReceive([](const char *data, size_t size) { receiveCallback(data, size); });
+
+    std::cout << "Native handle: " << Zia::net::native_handle(socket->get()) << std::endl; // NATIVE HANDLE SUPPORT (DOES NOT WORK ON WINDOWS)
 }
 
 /*

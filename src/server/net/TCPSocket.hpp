@@ -13,6 +13,11 @@
 
 namespace Zia {
 	namespace net {
+
+		static inline int native_handle(boost::asio::ip::tcp::socket &socket) {
+			return socket.native_handle();
+		}
+
 		constexpr size_t READ_SIZE = 1024;
 
 		class TCPSocket {
@@ -47,7 +52,7 @@ namespace Zia {
 			private:
 				boost::asio::ip::tcp::socket _socket;
 				boost::asio::ip::tcp::resolver _resolver;
-				char _buffer[READ_SIZE +1];
+				char _buffer[READ_SIZE + 1];
 				std::function<void(const char *, size_t)> _recvCallback;
 				std::function<void(TCPSocket*)> _discCallback;
 				std::string _ipAddr;
