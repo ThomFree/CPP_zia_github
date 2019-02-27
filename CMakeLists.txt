@@ -10,7 +10,7 @@ if (UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pthread -std=c++17 -fPIC -g3")
 endif (UNIX)
 
-include_directories("${PROJECT_SOURCE_DIR}/include/")
+include_directories("${PROJECT_SOURCE_DIR}/src/")
 
 if (WIN32)
     include_directories(${Boost_INCLUDE_DIRS})
@@ -18,11 +18,11 @@ endif (WIN32)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-file(GLOB NET_SRC "sources/net/*.cpp")
+file(GLOB NET_SRC "src/*.cpp")
 
 add_executable(
   httpd
-  sources/main.cpp
+  src/main.cpp
   ${NET_SRC}
 )
 

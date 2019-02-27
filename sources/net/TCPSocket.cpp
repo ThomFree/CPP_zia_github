@@ -8,6 +8,8 @@
 #include <iostream>
 #include "net/TCPSocket.hpp"
 
+#include <thread>
+
 namespace Zia {
 	namespace net {
 		TCPSocket::TCPSocket(NetworkService &netservice, bool isDebug) :
@@ -18,9 +20,11 @@ namespace Zia {
 
 		TCPSocket::~TCPSocket()
 		{
-			if (_socket.is_open())
+			if (_socket.is_open()) {
+				std::cout << "DESTRUCTOR SOCKET CLOSE" << std::endl;
 				_socket.close();
-			std::cout << "Socket was closed" << std::endl;
+			}
+			std::cout << "Socket was closed" << std::this_thread::get_id() << std::endl;
 		}
 
 		bool TCPSocket::connect(const std::string &ip, int port)
@@ -71,9 +75,13 @@ namespace Zia {
 
 		void TCPSocket::disconnect()
 		{
-			if (_onDisconnectionCallback)
+/*			if (_onDisconnectionCallback)
 				_onDisconnectionCallback(this, _disconnectionCallbackData);
-		}
+			if (_socket.is_open()) {
+				std::cout << "DISCONNECT CLOSE SOCKET" << std::endl;
+				_socket.close();
+			}
+*/		}
 
 		void TCPSocket::onDisconnect(DisconnectCallbackFn onDisconnectCallback, void *data)
 		{

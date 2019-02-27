@@ -32,32 +32,32 @@ namespace Zia {
 			TCPSocket &operator=(const TCPSocket &) = default;
 
 		public:
-			bool connect(const std::string &ip, int port);
-			bool bind(int port = 0);
-			bool accept(ConnectCallbackFn onNewConnectionCallback, void *data = nullptr);
-			bool receive(ReceiveCallbackFn onReceiveCallback, void *data = nullptr);
-			int send(const std::string &data);
-			int send(const char *data, size_t len);
-			void disconnect();
-			void onDisconnect(DisconnectCallbackFn onDisconnectCallback, void *data = nullptr);
-			RawSocket &getRawSocket();
+			bool connect(const std::string &ip, int port); //
+			bool bind(int port = 0); //
+			bool accept(ConnectCallbackFn onNewConnectionCallback, void *data = nullptr); //
+			bool receive(ReceiveCallbackFn onReceiveCallback, void *data = nullptr); //
+			int send(const std::string &data); //
+			int send(const char *data, size_t len); //
+			void disconnect(); //
+			void onDisconnect(DisconnectCallbackFn onDisconnectCallback, void *data = nullptr); //
+			RawSocket &getRawSocket(); //
 
 		private:
 			void handleReceive(const boost::system::error_code& error, size_t bytes_transferred);
 			void handleSend(const boost::system::error_code& error) const;
 
 		private:
-			boost::asio::ip::tcp::socket _socket;
-			NetworkService &_netservice;
-			boost::asio::ip::tcp::resolver _resolver;
-			boost::asio::ip::tcp::acceptor _acceptor;
-			std::string _connectIP;
-			int _connectPort;
-			char _receiveBuffer[net::read_size + 1];
-			ReceiveCallbackFn _onReceiveCallback;
-			void *_receiveCallbackData;
-			DisconnectCallbackFn _onDisconnectionCallback;
-			void *_disconnectionCallbackData;
+			boost::asio::ip::tcp::socket _socket; //
+			NetworkService &_netservice; //
+			boost::asio::ip::tcp::resolver _resolver; //
+			boost::asio::ip::tcp::acceptor _acceptor; //
+			std::string _connectIP; //
+			int _connectPort; //
+			char _receiveBuffer[net::read_size + 1]; //
+			ReceiveCallbackFn _onReceiveCallback; //
+			void *_receiveCallbackData; //
+			DisconnectCallbackFn _onDisconnectionCallback; //
+			void *_disconnectionCallbackData; //
 
 			bool _isDebug;
 		};

@@ -16,6 +16,7 @@ static void receiveCallback(const char *data, size_t size)
 
 static void disconnectCallback(Zia::net::TCPSocket *socket)
 {
+//    socket->disconnect();
     std::cout << "[ Client disconnected ]" << std::endl;
 }
 
