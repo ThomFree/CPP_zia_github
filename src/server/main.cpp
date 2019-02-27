@@ -6,44 +6,58 @@
 */
 
 #include <iostream>
-#include "net/TCPSocket.hpp"
-#include "net/NetworkService.hpp"
+#include <memory>
+#include <functional>
+#include <utility>
+#include "net/TCPAcceptor.hpp"
 
+/*
+ * When a new payload is recv
+ */
 static void receiveCallback(const char *data, size_t size)
 {
-	std::cout << "[ Data received of size: " << size << " - content: " << data << "]" << std::endl;
+    std::cout << "[ Data received of size: " << size << " - content: " << data << "]" << std::endl;
 }
 
+/*
+ * When a client is disco. Isn't necessary
+ */
 static void disconnectCallback(Zia::net::TCPSocket *socket)
 {
-	std::cout << "[ Client disconnected ]" << std::endl;
+    std::cout << "[ Client disconnected { " << socket << "} ]" << std::endl;
 }
 
-static void connectCallBack(std::shared_ptr<Zia::net::TCPSocket>/*Zia::net::TCPSocket **/socket)
+/*
+ * Connect Callback
+ */
+static void connectCallBack(std::shared_ptr<Zia::net::Client> client)
 {
-	std::cout << "[ Accepted new client ]" << std::endl;
-	socket->onDisconnect([socket](Zia::net::TCPSocket *socket, void*) { disconnectCallback(socket); });
-	socket->receive([&](const char *data, size_t size, void*) {
-								receiveCallback(data, size);});
+    std::cout << "[ Accepted new client ]" << std::endl;
+    Zia::net::TCPSocket *socket = client->socket();
+
+    socket->setDisconnect([socket](Zia::net::TCPSocket *socket) { disconnectCallback(socket); });
+    socket->setReceive([](const char *data, size_t size) { receiveCallback(data, size); });
 }
 
+/*
+ * When SIGINT is catched
+ */
 static void stopCbFn()
 {
-	std::cout << "Network service callback Fn" << std::endl;
+    std::cout << "Network service callback Fn" << std::endl;
 }
 
-int main()
+int main(int, char *[])
 {
-	std::cout << "Hello world!" << std::endl;
+    Zia::net::NetworkService netService(&stopCbFn);
+    Zia::net::TCPAcceptor acceptor(netService); // Acceptor (Website manager)
+    std::vector<std::shared_ptr<Zia::net::Client>> list; // Client List (Website manager)
 
-	Zia::net::NetworkService netService(&stopCbFn);
-	Zia::net::TCPSocket sock(netService, true);
-	if (sock.bind(8080))
-		sock.accept([&sock](std::shared_ptr<Zia::net::TCPSocket> /*net::TCPSocket **/socket, void*)
-		{ connectCallBack(socket); });
-	else
-		std::cerr << "[ Error while binding socket on port. ]" << std::endl;
-	netService.run();
-	sock.disconnect();
-	return 0;
+    if (acceptor.bind(8080))
+        acceptor.accept([&list](std::shared_ptr<Zia::net::Client> client) -> void { list.push_back(client); connectCallBack(client); });
+    else
+        std::cerr << "[ Error while binding socket on port. ]" << std::endl;
+
+    netService.run();
+    return 0;
 }

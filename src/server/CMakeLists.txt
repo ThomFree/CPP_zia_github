@@ -5,6 +5,8 @@ project(zia)
 set(SOURCES
 	main.cpp
 	net/TCPSocket.cpp
+	net/TCPAcceptor.cpp
+	net/Client.cpp
 	)
 
 # Add executable
