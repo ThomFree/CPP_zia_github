@@ -8,6 +8,7 @@
 #include <list>
 
 #include "utils/ParseArgs.hpp"
+#include "api/Config.hpp"
 //#include "Website.hpp"
 
 #pragma once
@@ -19,16 +20,18 @@ class WebsiteManager {
 		WebsiteManager(ParseArgs &parser);
 		~WebsiteManager();
 
-        WebsiteManager() = delete;
-        WebsiteManager &operator=(const WebsiteManager &) = delete;
-        WebsiteManager(const WebsiteManager &) = delete;
+		WebsiteManager() = delete;
+		WebsiteManager &operator=(const WebsiteManager &) = delete;
+		WebsiteManager(const WebsiteManager &) = delete;
 
-    public:
-        void launch();
+	public:
+		void launch();
+		void exploreDirectory();
 
 	private:
-        //std::list<Website> _sites;
-        ParseArgs &_parser;
+		//std::list<Website> _sites;
+		ParseArgs &_parser;
+		std::string _confPath;
 };
 
 }

@@ -10,26 +10,35 @@
 
 namespace Zia {
 
-WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser)
+WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser), _confPath("/etc/zia/sites/")
 {
-    std::cout << "[Zia] Started." << std::endl;
-    // TODO ici set le default path pour les configs des sites si ca n'existe pas
-    // Trouver et charger les configs des sites
-
-    // DEBUG EXEMPLE D'UTILISATION DU PARSER
-    // TODO remove those lines
-    //if (_parser.argExist("-p"))
-    //    std::cout << "PARSER :" << _parser.getArg("-p") << std::endl;
+	std::cout << "[Zia] Started." << std::endl;
+	if (_parser.argExist("-p")) {
+		std::cout << "[Zia] Site configuration path found in arguments: " << _parser.getArg("-p") << std::endl;
+	}
 }
 
 WebsiteManager::~WebsiteManager()
 {
-    std::cout << "[Zia] Stopped." << std::endl;
+	// Ici start le cmdline et le interpretReceivedCmd pour executer les commandes
+	// le file auto updater ?
+	std::cout << "[Zia] Stopped." << std::endl;
+}
+
+void WebsiteManager::exploreDirectory()
+{
+	// explore directory
+		// for each file
+			// try to create a new website if successful, put it in the vector
+			// else log the error
+	// if invalid direcotry, try default one
 }
 
 void WebsiteManager::launch()
 {
-    // TODO Start tous les sites avec leur config
+	exploreDirectory();
+	// TODO Start tous les sites avec leur config
+	std::cout << "[Zia] Stopping..." << std::endl;
 }
 
 }
