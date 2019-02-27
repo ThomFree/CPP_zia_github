@@ -6,10 +6,11 @@
 */
 
 #include <list>
+#include <memory>
 
 #include "utils/ParseArgs.hpp"
-#include "api/Config.hpp"
-//#include "Website.hpp"
+#include "../../api/Config.hpp"
+#include "Website.hpp"
 
 #pragma once
 
@@ -26,12 +27,16 @@ class WebsiteManager {
 
 	public:
 		void launch();
-		void exploreDirectory();
 
 	private:
-		//std::list<Website> _sites;
+		void exploreDirectory();
+		void exploreDefaultDirectory();
+		void createDefaultWebsite();
+
+	private:
 		ParseArgs &_parser;
 		std::string _confPath;
+		std::list<std::shared_ptr<Website>> _sites;
 };
 
 }

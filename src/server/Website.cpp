@@ -15,11 +15,12 @@ Website::Website(const std::string &filename) : _filename(filename), _conf() //,
 	// set default value here or use those in the config file
 	// instantiate all the modules from the file
 	// if everything is good start to accept connection
-	std::cout << "[Website - " + _filename + "] Starting..." << std::endl;
+	//std::cout << "[Website - " + _filename + "] Starting..." << std::endl;
 }
 
 Website::~Website()
 {
+	std::cout << "[Website - " + _filename + "] Stopped." << std::endl;
 }
 
 }
