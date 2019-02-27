@@ -68,7 +68,8 @@ int ParseArgs::findArg(const std::string &toFind)
 void ParseArgs::help()
 {
     _actionDone = true;
-    std::cout << "Usage : ./zia [-p PATH_TO_WEBSITE_CONFIG] [-h]" << std::endl;
+    std::cout << "Usage : ./zia [-p PATH_TO_WEBSITE_CONFIG_FODLER] [-h]\n  \
+    For the -p it is necessary to put a path to a \n\tfolder containing one or more websites" << std::endl;
 }
 
 }
