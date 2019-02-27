@@ -1,0 +1,7 @@
+error_log: ./log/error.log warn
+http:
+  access_log: ./log/access.log
+  keepalive_timeout: 75s
+  include:
+    - ./etc/conf.d/*.yaml
+    - ./etc/sites-enabled/*
