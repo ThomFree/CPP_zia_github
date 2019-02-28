@@ -7,7 +7,7 @@
 
 #include "ModulesManager.hpp"
 
-namespace Zia {
+namespace Zia::api {
 void ModulesManager::loadModules(const std::string &directoryPath)
 {
 
