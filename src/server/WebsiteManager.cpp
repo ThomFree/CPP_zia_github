@@ -13,7 +13,12 @@
 
 namespace Zia {
 
-WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser), _confPath("")
+static void displayStopService()
+{
+	std::cout << "[Zia] Service interrupted by user." << std::endl;
+}
+
+WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser), _confPath(""), _service(&displayStopService)
 {
 	if (_parser.argExist("-p")) {
 		std::cout << "[Zia] Site configuration path found in arguments: " << _parser.getArg("-p") << std::endl;
@@ -39,7 +44,7 @@ void WebsiteManager::launch()
 	// Ici start le cmdline et le interpretReceivedCmd pour executer les commandes
 	// le file auto updater ?
 	std::cout << "[Zia] Started." << std::endl << std::endl;
-	// Launch le io_service du websiteManager
+	_service.run();
 	// Catch du ctrl-c par le io_service ou suite a un "stop()" sur le io_service
 	std::cout << std::endl << "[Zia] Stopping..." << std::endl;
 }
