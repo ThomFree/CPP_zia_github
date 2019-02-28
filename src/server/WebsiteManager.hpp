@@ -27,6 +27,7 @@ class WebsiteManager {
 
 	public:
 		void launch();
+		void stop();
 
 	private:
 		void exploreDirectory();

@@ -40,13 +40,17 @@ void WebsiteManager::launch()
 	exploreDirectory();
 	// TODO Start tous les sites avec leur config
 	// Mettre tous les websites sur le netservice (les accept)
-
 	// Ici start le cmdline et le interpretReceivedCmd pour executer les commandes
 	// le file auto updater ?
+
 	std::cout << "[Zia] Started." << std::endl << std::endl;
 	_service.run();
-	// Catch du ctrl-c par le io_service ou suite a un "stop()" sur le io_service
 	std::cout << std::endl << "[Zia] Stopping..." << std::endl;
+}
+
+void WebsiteManager::stop()
+{
+	_service.stop();
 }
 
 void WebsiteManager::exploreDefaultDirectory()

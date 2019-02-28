@@ -21,6 +21,9 @@ class Website {
 		Website &operator=(const Website&) = delete;
 		Website(const Website&) = delete;
 
+	public:
+		void launch();
+
 	private:
 		std::string _filename;
 		dems::config::Config _conf;
