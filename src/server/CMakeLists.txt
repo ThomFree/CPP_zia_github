@@ -8,6 +8,7 @@ set(SOURCES
 	WebsiteManager.cpp
 
 	utils/ParseArgs.cpp
+	utils/JsonParser.cpp
 	)
 
 # Add executable
@@ -19,6 +20,7 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PUBLIC
 	${CMAKE_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_SOURCE_DIR}/src/server/utils
 	${ZIA_EXTERNAL_INCLUDE_DIRS}
 	)
 
