@@ -8,6 +8,9 @@ set(SOURCES
 	net/TCPSocket.cpp
 	net/TCPAcceptor.cpp
 
+        api/HttpHeader.cpp
+        api/ModulesManager.cpp
+
 	Client.cpp
 	Website.cpp
 	WebsiteManager.cpp

@@ -9,13 +9,15 @@
 
 #include "dems-api/Heading.hpp"
 
-namespace Zia {
+namespace Zia::api {
 class HttpHeader : public dems::header::IHeaders {
 	public:
 		HttpHeader();
 		~HttpHeader();
 
-	protected:
-	private:
+		std::string &operator[](const std::string &headerName) override;
+		std::string &getHeader(const std::string &headerName) const override;
+		std::string getWholeHeaders() const override;
+		void setHeader(const std::string &headerName, const std::string &value) override;
 };
 }
