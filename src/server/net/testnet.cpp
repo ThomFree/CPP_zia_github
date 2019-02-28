@@ -1,10 +1,12 @@
+#include <iostream>
+
 #include "NetworkService.hpp"
 #include "TCPAcceptor.hpp"
 #include "TCPSocket.hpp"
 #include "../Client.hpp"
 
 /*
- * When a client is disco. Isn't necessary 	
+ * When a client is disco. Isn't necessary
  */
 static void disconnectCallback(Zia::net::TCPSocket *socket)
 {

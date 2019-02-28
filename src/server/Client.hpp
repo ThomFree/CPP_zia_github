@@ -5,11 +5,11 @@
 ** Client
 */
 
+#pragma once
+
 #include <memory>
 
 #include "net/TCPSocket.hpp"
-
-#pragma once
 
 namespace Zia {
 
@@ -19,7 +19,7 @@ class Client {
 		~Client() noexcept = default;
 		Client(Client &&) = default;
 		Client &operator=(const Client &) = delete;
-	
+
 		Client() = delete;
 		Client(const Client &) = delete;
 		Client &operator=(Client &&) = default;
