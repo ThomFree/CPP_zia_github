@@ -6,60 +6,28 @@
 */
 
 #include <iostream>
-#include <memory>
-#include <functional>
-#include <utility>
-#include "net/TCPAcceptor.hpp"
 
-/*
- * When a new payload is recv
- */
-static void receiveCallback(const char *data, size_t size)
+#include "utils/ParseArgs.hpp"
+#include "WebsiteManager.hpp"
+
+int main(int ac, const char * const av[])
 {
-    std::cout << "[ Data received of size: " << size << " - content: " << data << "]" << std::endl;
-}
+	try {
+		Zia::ParseArgs parser(ac, av);
+		if (parser.hasError()) {
+			std::cerr << parser.getError() << std::endl;
+			return 84;
+		}
+		if (parser.actionHasBeenDone())
+			return 0;
 
-/*
- * When a client is disco. Isn't necessary
- */
-static void disconnectCallback(Zia::net::TCPSocket *socket)
-{
-    std::cout << "[ Client disconnected { " << socket << "} ]" << std::endl;
-}
+		std::cout << "[Zia] Starting..." << std::endl;
+		Zia::WebsiteManager master(parser);
 
-/*
- * Connect Callback
- */
-static void connectCallBack(std::shared_ptr<Zia::net::Client> client)
-{
-    std::cout << "[ Accepted new client ]" << std::endl;
-    Zia::net::TCPSocket *socket = client->socket();
-
-    socket->setDisconnect([socket](Zia::net::TCPSocket *socket) { disconnectCallback(socket); });
-    socket->setReceive([](const char *data, size_t size) { receiveCallback(data, size); });
-
-    std::cout << "Native handle: " << Zia::net::native_handle(socket->get()) << std::endl; // NATIVE HANDLE SUPPORT (DOES NOT WORK ON WINDOWS)
-}
-
-/*
- * When SIGINT is catched
- */
-static void stopCbFn()
-{
-    std::cout << "Network service callback Fn" << std::endl;
-}
-
-int main(int, char *[])
-{
-    Zia::net::NetworkService netService(&stopCbFn);
-    Zia::net::TCPAcceptor acceptor(netService); // Acceptor (Website manager)
-    std::vector<std::shared_ptr<Zia::net::Client>> list; // Client List (Website manager)
-
-    if (acceptor.bind(8080))
-        acceptor.accept([&list](std::shared_ptr<Zia::net::Client> client) -> void { list.push_back(client); connectCallBack(client); });
-    else
-        std::cerr << "[ Error while binding socket on port. ]" << std::endl;
-
-    netService.run();
-    return 0;
+		master.launch();
+	} catch (const std::exception &err) {
+		std::cerr << err.what() << std::endl;
+		return 84;
+	}
+	return 0;
 }

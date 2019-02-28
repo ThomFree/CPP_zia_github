@@ -4,9 +4,15 @@ project(zia)
 # Add all needed sources files
 set(SOURCES
 	main.cpp
+
 	net/TCPSocket.cpp
 	net/TCPAcceptor.cpp
 	net/Client.cpp
+
+	Website.cpp
+	WebsiteManager.cpp
+
+	utils/ParseArgs.cpp
 	)
 
 # Add executable
@@ -16,6 +22,7 @@ add_executable(${PROJECT_NAME}
 
 # Add includes directories
 target_include_directories(${PROJECT_NAME} PUBLIC
+	${CMAKE_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/src
 	${CMAKE_SOURCE_DIR}/src/server
 	${ZIA_EXTERNAL_INCLUDE_DIRS}
@@ -25,6 +32,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_link_libraries(${PROJECT_NAME}
 	${CONAN_LIBS}
 	${ZIA_EXTERNAL_LIBS}
+	-lstdc++fs
 	)
 
 # Compiler flags
