@@ -7,8 +7,8 @@ set(SOURCES
 
 	net/TCPSocket.cpp
 	net/TCPAcceptor.cpp
-	net/Client.cpp
 
+	Client.cpp
 	Website.cpp
 	WebsiteManager.cpp
 

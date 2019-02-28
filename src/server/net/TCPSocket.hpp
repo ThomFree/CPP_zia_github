@@ -14,10 +14,6 @@
 namespace Zia {
 	namespace net {
 
-		static inline int native_handle(boost::asio::ip::tcp::socket &socket) {
-			return socket.native_handle();
-		}
-
 		constexpr size_t READ_SIZE = 1024;
 
 		class TCPSocket {
