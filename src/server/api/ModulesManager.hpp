@@ -9,7 +9,7 @@
 
 #include "dems-api/AModulesManager.hpp"
 
-namespace Zia {
+namespace Zia::api {
 class ModulesManager : public dems::AModulesManager {
 public:
 	ModulesManager() = default;
