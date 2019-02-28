@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include <filesystem>
+#include <experimental/filesystem>
 #include <fstream>
 
 #include "WebsiteManager.hpp"
@@ -48,8 +48,8 @@ void WebsiteManager::exploreDefaultDirectory()
 {
 	_confPath = "./etc/zia/sites";
 	try {
-		for(auto& file: std::filesystem::directory_iterator(_confPath)) {
-			if (file.is_regular_file())
+		for(auto& file: std::experimental::filesystem::directory_iterator(_confPath)) {
+			if (std::experimental::filesystem::is_regular_file(file))
 				try {
 					auto ptr = std::make_shared<Website> (file.path());
 					_sites.push_back(ptr);
@@ -57,7 +57,7 @@ void WebsiteManager::exploreDefaultDirectory()
 					std::cout << "[Zia] Failed to create " << file.path() << " website: " << err.what() << std::endl;
 				}
 		}
-	} catch (const std::filesystem::filesystem_error &fsErr) {
+	} catch (const std::experimental::filesystem::filesystem_error &fsErr) {
 		std::cout << "[Zia] An error occurred while trying to open " << _confPath << ": " << fsErr.what() << std::endl;
 	}
 	if (_sites.size() == 0)
@@ -71,8 +71,8 @@ void WebsiteManager::exploreDirectory()
 		return;
 	}
 	try {
-		for(auto& file: std::filesystem::directory_iterator(_confPath)) {
-			if (file.is_regular_file())
+		for(auto& file: std::experimental::filesystem::directory_iterator(_confPath)) {
+			if (std::experimental::filesystem::is_regular_file(file))
 				try {
 					auto ptr = std::make_shared<Website> (file.path());
 					_sites.push_back(ptr);
@@ -80,7 +80,7 @@ void WebsiteManager::exploreDirectory()
 					std::cout << "[Zia] Failed to create " << file.path() << " website: " << err.what() << std::endl;
 				}
 		}
-	} catch (const std::filesystem::filesystem_error &fsErr) {
+	} catch (const std::experimental::filesystem::filesystem_error &fsErr) {
 		std::cout << "[Zia] An error occurred while trying to open " << _confPath << ": " << fsErr.what() << std::endl;
 		std::cout << "[Zia] Site configuration path invalid, setting default value : ./etc/zia/sites " << std::endl;
 		exploreDefaultDirectory();
@@ -95,7 +95,7 @@ void WebsiteManager::createDefaultWebsite()
 	std::cout << "[Zia] No websites were found." << std::endl;
 	std::cout << "[Zia] Creating a default website: " << _confPath + "/defaultSite.json" << std::endl;
 	_confPath = "./etc/zia/sites";
-	std::filesystem::create_directories("./etc/zia/sites");
+	std::experimental::filesystem::create_directories("./etc/zia/sites");
 	std::ofstream ofs(_confPath + "/defaultSite.json", std::ofstream::out);
 	ofs << "{\n\t\"name\": \"BasicHttpSite\",\n\t\"port\": 8080,\n\t\"modules\": {}\n}\n";
 	_sites.push_back(std::make_shared<Website> (_confPath + "/defaultSite.json"));
