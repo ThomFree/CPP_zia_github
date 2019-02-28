@@ -17,12 +17,11 @@ namespace Zia {
 		public:
 			NetworkService(signalCallbackFn fnCallback = nullptr) : boost::asio::io_service(), _signals(*this, SIGINT) {
 				_signals.async_wait([&](const boost::system::error_code &, int) {
-					std::cout << "Constructor with CB" << std::endl;
 					if (fnCallback)
 						fnCallback();
 					this->stop(); });
 			}
-			~NetworkService() { std::cout << "[ NS destructor called. ]" << std::endl; };
+			~NetworkService() {};
 
 		/*
 		 * Methods

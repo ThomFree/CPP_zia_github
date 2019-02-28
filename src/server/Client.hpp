@@ -17,10 +17,11 @@ class Client {
 	public:
 		explicit Client(net::TCPSocket &&socket);
 		~Client() noexcept = default;
-		Client() = delete;
-		Client(const Client &) = delete;
 		Client(Client &&) = default;
 		Client &operator=(const Client &) = delete;
+	
+		Client() = delete;
+		Client(const Client &) = delete;
 		Client &operator=(Client &&) = default;
 
 	public:
