@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "api/AModulesManager.hpp"
+#include "dems-api/AModulesManager.hpp"
 
 namespace Zia {
 class ModulesManager : public dems::AModulesManager {
