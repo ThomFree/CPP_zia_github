@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "utils/ParseArgs.hpp"
+#include "utils/JsonParser.hpp"
 #include "WebsiteManager.hpp"
 
 int main(int ac, const char * const av[])
@@ -25,6 +26,12 @@ int main(int ac, const char * const av[])
 		Zia::WebsiteManager master(parser);
 
 		master.launch();
+
+		// std::string temp(av[1]);
+		// std::string path("oui.json");
+		// Zia::JsonParser test(temp);
+
+		// test.makeConfigFromJson();
 	} catch (const std::exception &err) {
 		std::cerr << err.what() << std::endl;
 		return 84;

@@ -42,5 +42,8 @@ cmake-build-debug/
 *.idea
 *.sav
 
+#Vs Code
+.vscode
+
 # Project files
 etc/

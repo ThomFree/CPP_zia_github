@@ -16,6 +16,7 @@ set(SOURCES
 	WebsiteManager.cpp
 
 	utils/ParseArgs.cpp
+	utils/JsonParser.cpp
 	)
 
 # Add executable
