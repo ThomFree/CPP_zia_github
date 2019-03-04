@@ -41,7 +41,8 @@ namespace Zia::net {
 	}
 
 	void TCPSocket::disconnect() {
-		_discCallback(this);
+		if (_discCallback)
+			_discCallback(this);
 	}
 
 	boost::asio::ip::tcp::socket &TCPSocket::get() {
