@@ -30,7 +30,7 @@ class TCPAcceptor {
 		* Methods
 		*/
 	public:
-		bool accept(acceptCallback_t &&callback);
+		bool accept(const acceptCallback_t &callback);
 		bool bind(int port);
 
 	/*

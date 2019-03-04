@@ -18,6 +18,7 @@ bool TCPAcceptor::bind(int port) {
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
 	try {
 		_acceptor.open(endpoint.protocol());
+		//_acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true)); // REUSE // FOR DEBUG ONLY // DON T DELETE PLEASE <3
 		_acceptor.bind(endpoint);
 		_acceptor.listen();
 	} catch (const boost::system::system_error& error) {
@@ -27,16 +28,16 @@ bool TCPAcceptor::bind(int port) {
 	return true;
 }
 
-bool TCPAcceptor::accept(acceptCallback_t &&callback) {
+bool TCPAcceptor::accept(const acceptCallback_t &callback) {
 	auto client = std::make_shared<TCPClient>(TCPSocket(_netService));
 	_acceptor.async_accept(client->socket()->get(),
-		[this, client, &callback](const boost::system::error_code& error) {
+		[this, client, callback](const boost::system::error_code& error) {
 			if (error) {
 				std::cerr << "TCPSocket: " << error.message() << std::endl;
 				return;
 			}
 			callback(client);
-			accept(std::forward<acceptCallback_t>(callback));
+			accept(callback);
 		});
 	return true;
 }
