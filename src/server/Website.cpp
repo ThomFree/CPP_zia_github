@@ -34,15 +34,15 @@ void Website::printMessage(const std::string &str)
 
 void Website::launch()
 {
-	std::cout << "la" << std::endl;
 	if (_acceptor.bind(std::get<long long>(_conf["port"].v))) {
-		std::cout << "lla" << std::endl;
-		_acceptor.accept([this](std::shared_ptr<net::TCPClient> client) -> void { std::cout << "dedans"<< std::endl; });
-		std::cout << "llla" << std::endl;
+		_acceptor.accept([this](std::shared_ptr<net::TCPClient> client) -> void { acceptClient(client); });
 	}
-	else
-		printMessage("Error while binding socket on port");
+	else {
+		printMessage("Error while binding socket on port.");
+		return;
+	}
 	printMessage("Started.");
+	_state = RUNNING;
 }
 
 void Website::checkConfig()
@@ -57,9 +57,10 @@ void Website::checkConfig()
 	throw std::runtime_error("Please verify your configuration, something went wrong.");
 }
 
-void Website::acceptClient(std::shared_ptr<net::TCPClient>)
+void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
 {
-	std::cout << "oui" << std::endl;
+	_clients.push_back(Client(sock));
+	// TODO set read and write callbacks
 }
 
 }

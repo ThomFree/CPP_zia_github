@@ -45,7 +45,17 @@ void WebsiteManager::launch()
 	// le file auto updater (relaod de la config d'un website à partir de la maj de sa config) ?
 
 	std::cout << "[Zia] Started." << std::endl << std::endl;
-	_service.run();
+
+	int nb = 0;
+	for (const auto &site : _sites)
+		if (site->getState() == RUNNING)
+			nb += 1;
+	if (nb == 0) {
+		std::cout << "[Zia] Nothing is listenning." << std::endl;
+		return;
+	} else
+		_service.run();
+
 	std::cout << std::endl << "[Zia] Stopping..." << std::endl;
 }
 

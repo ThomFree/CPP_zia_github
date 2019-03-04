@@ -12,7 +12,7 @@ set(SOURCES
 	api/HttpHeader.cpp
 	api/ModulesManager.cpp
 
-	#Client.cpp
+	Client.cpp
 	Website.cpp
 	WebsiteManager.cpp
 
