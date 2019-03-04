@@ -35,6 +35,7 @@ class Website {
 		void launch();
 		void printMessage(const std::string &str);
 		int getState() const { return _state; }
+		void stop();
 
 	private:
 		void checkConfig();
@@ -47,6 +48,7 @@ class Website {
 		net::TCPAcceptor _acceptor;
 		std::vector<Client> _clients;
 		int _state = STOPPED;
+		unsigned int _id = 0;
 };
 
 }

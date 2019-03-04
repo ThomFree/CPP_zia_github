@@ -6,7 +6,7 @@
 */
 
 #include <memory>
-#include "net/TCPSocket.hpp"
+#include "net/TCPClient.hpp"
 
 #pragma once
 
@@ -14,14 +14,17 @@ namespace Zia {
 
 class Client {
 	public:
-		Client(std::shared_ptr<net::TCPSocket> &sock);
+		Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock);
 		~Client();
 
 	public:
-		std::shared_ptr<net::TCPSocket> getSocket() const { return _tcpSocket; }
+		std::shared_ptr<net::TCPClient> getSocket() const { return _tcpClient; }
+		void readMsg(const char *data, size_t size);
+		void stop();
 
 	private:
-		std::shared_ptr<net::TCPSocket> _tcpSocket;
+		unsigned int _id;
+		std::shared_ptr<net::TCPClient> _tcpClient;
 };
 
 }

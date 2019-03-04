@@ -21,6 +21,8 @@ Website::Website(const std::string &filename, net::NetworkService &net) : _filen
 
 Website::~Website()
 {
+	while (_clients.size() > 0)
+		_clients.pop_back();
 	printMessage("Stopped.");
 }
 
@@ -59,8 +61,13 @@ void Website::checkConfig()
 
 void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
 {
-	_clients.push_back(Client(sock));
-	// TODO set read and write callbacks
+	_clients.push_back(Client(_id++, sock));
+}
+
+void Website::stop()
+{
+	for (auto &client : _clients)
+		client.stop();
 }
 
 }

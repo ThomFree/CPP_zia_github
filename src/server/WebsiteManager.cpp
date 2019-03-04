@@ -62,6 +62,8 @@ void WebsiteManager::launch()
 void WebsiteManager::stop()
 {
 	_service.stop();
+	for (auto &site : _sites)
+		site->stop();
 }
 
 void WebsiteManager::exploreDefaultDirectory()
