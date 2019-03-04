@@ -14,7 +14,7 @@ namespace Zia {
 
 using json = nlohmann::json;
 
-JsonParser::JsonParser(std::string &path) : _path(path)
+JsonParser::JsonParser(const std::string &path) : _path(path)
 {
   _stream.open(_path, std::ifstream::in);
 }

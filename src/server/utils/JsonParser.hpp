@@ -18,7 +18,18 @@ class JsonParser {
 	using json = nlohmann::json;
 
 public:
-	JsonParser(std::string &path);
+	enum TYPE {
+		NOTYPE,
+		OBJECT,
+		ARRAY,
+		STRING,
+		LONG,
+		DOUBLE,
+		BOOL
+	};
+
+public:
+	JsonParser(const std::string &path);
 	~JsonParser();
 	dems::config::Config makeConfigFromJson();
 	dems::config::Config getConfig() const {

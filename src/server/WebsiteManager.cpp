@@ -38,10 +38,11 @@ WebsiteManager::~WebsiteManager()
 void WebsiteManager::launch()
 {
 	exploreDirectory();
-	// TODO Start tous les sites avec leur config
-	// Mettre tous les websites sur le netservice (les accept)
+	for (auto &site : _sites) {
+		site->launch();
+	}
 	// Ici start le cmdline et le interpretReceivedCmd pour executer les commandes
-	// le file auto updater ?
+	// le file auto updater (relaod de la config d'un website à partir de la maj de sa config) ?
 
 	std::cout << "[Zia] Started." << std::endl << std::endl;
 	_service.run();
@@ -60,7 +61,7 @@ void WebsiteManager::exploreDefaultDirectory()
 		for(auto& file: std::experimental::filesystem::directory_iterator(_confPath)) {
 			if (std::experimental::filesystem::is_regular_file(file))
 				try {
-					auto ptr = std::make_shared<Website> (file.path());
+					auto ptr = std::make_shared<Website> (file.path(), _service);
 					_sites.push_back(ptr);
 				} catch (const std::exception &err) {
 					std::cout << "[Zia] Failed to create " << file.path() << " website: " << err.what() << std::endl;
@@ -83,7 +84,7 @@ void WebsiteManager::exploreDirectory()
 		for(auto& file: std::experimental::filesystem::directory_iterator(_confPath)) {
 			if (std::experimental::filesystem::is_regular_file(file))
 				try {
-					auto ptr = std::make_shared<Website> (file.path());
+					auto ptr = std::make_shared<Website> (file.path(), _service);
 					_sites.push_back(ptr);
 				} catch (const std::exception &err) {
 					std::cout << "[Zia] Failed to create " << file.path() << " website: " << err.what() << std::endl;
@@ -107,7 +108,8 @@ void WebsiteManager::createDefaultWebsite()
 	std::experimental::filesystem::create_directories("./etc/zia/sites");
 	std::ofstream ofs(_confPath + "/defaultSite.json", std::ofstream::out);
 	ofs << "{\n\t\"name\": \"BasicHttpSite\",\n\t\"port\": 8080,\n\t\"modules\": {}\n}\n";
-	_sites.push_back(std::make_shared<Website> (_confPath + "/defaultSite.json"));
+	ofs.close();
+	_sites.push_back(std::make_shared<Website> (_confPath + "/defaultSite.json", _service));
 }
 
 }

@@ -7,11 +7,12 @@ set(SOURCES
 
 	net/TCPSocket.cpp
 	net/TCPAcceptor.cpp
+	net/TCPClient.cpp
 
-        api/HttpHeader.cpp
-        api/ModulesManager.cpp
+	api/HttpHeader.cpp
+	api/ModulesManager.cpp
 
-	Client.cpp
+	#Client.cpp
 	Website.cpp
 	WebsiteManager.cpp
 

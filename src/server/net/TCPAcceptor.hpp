@@ -12,11 +12,11 @@
 #include <memory>
 
 #include "NetworkService.hpp"
-#include "Client.hpp"
+#include "TCPClient.hpp"
 
 namespace Zia::net {
 class TCPAcceptor {
-	using acceptCallback_t = std::function<void(std::shared_ptr<Client>)>;
+	using acceptCallback_t = std::function<void(std::shared_ptr<TCPClient>)>;
 	public:
 		explicit TCPAcceptor(NetworkService &netService);
 		~TCPAcceptor() noexcept = default;
