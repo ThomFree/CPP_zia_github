@@ -8,14 +8,14 @@
 #include <memory>
 #include "net/TCPClient.hpp"
 #include "dems-api/Config.hpp"
+#include "ModulesManager.hpp"
 
 #pragma once
 
 namespace Zia {
-
 class Client {
 	public:
-		Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &);
+		Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &, ModulesManager &manager);
 		~Client();
 
 		Client() = delete;
@@ -32,8 +32,6 @@ class Client {
 		unsigned int _id;
 		std::shared_ptr<net::TCPClient> _tcpClient;
 		dems::config::Config &_conf;
-		// TODO add a stageManager by reference
-		// TODO add a context
+		ModulesManager &_manager;
 };
-
 }

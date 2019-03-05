@@ -62,7 +62,7 @@ void Website::checkConfig()
 
 void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
 {
-	_clients.emplace_back(new Client(_id++, sock, _conf)); // TODO envoyer le stageManager
+	_clients.emplace_back(new Client(_id++, sock, _conf, _manager));
 }
 
 void Website::stop()

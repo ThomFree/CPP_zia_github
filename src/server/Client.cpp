@@ -10,7 +10,8 @@
 
 namespace Zia {
 
-Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &conf) : _id(id), _tcpClient(sock), _conf(conf) // TODO recevoir les modules
+Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
+		dems::config::Config &conf, ModulesManager &manager) : _id(id), _tcpClient(sock), _conf(conf), _manager(manager) // TODO recevoir la config, les modules
 {
 	// TODO creer un context vierge ici
 	// TODO start la pipeline des modules de connection
@@ -43,5 +44,4 @@ void Client::printMessage(const std::string &str)
 
 	std::cout << "\t\t[Client " << _id << " (" << name << ")] -> " << str << std::endl;
 }
-
 }
