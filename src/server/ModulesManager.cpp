@@ -22,9 +22,9 @@ void ModulesManager::loadOneModule(const std::string &filePath)
 
 void ModulesManager::unloadModule(const std::string &moduleName)
 {
-	stageManager_.request().unhookAll(moduleName);
-	stageManager_.connection().unhookAll(moduleName);
-	stageManager_.chunks().unhookAll(moduleName);
-	stageManager_.disconnect().unhookAll(moduleName);
+	getStageManager().request().unhookAll(moduleName);
+	getStageManager().connection().unhookAll(moduleName);
+	getStageManager().chunks().unhookAll(moduleName);
+	getStageManager().disconnect().unhookAll(moduleName);
 }
 }
