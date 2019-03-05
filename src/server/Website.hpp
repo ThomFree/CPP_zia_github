@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+
 #include "dems-api/Config.hpp"
 #include "utils/JsonParser.hpp"
 #include "net/NetworkService.hpp"
@@ -49,6 +50,7 @@ class Website {
 		std::vector<std::unique_ptr<Client>> _clients;
 		int _state = STOPPED;
 		unsigned int _id = 0;
+		ModulesManager _manager;
 };
 
 }

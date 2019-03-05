@@ -9,8 +9,8 @@
 #include "Client.hpp"
 
 namespace Zia {
-
-Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &conf) : _id(id), _tcpClient(sock), _conf(conf) // TODO recevoir la config, les modules
+Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
+		dems::config::Config &conf, ModulesManager &manager) : _id(id), _tcpClient(sock), _conf(conf), _manager(manager) // TODO recevoir la config, les modules
 {
 	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
 	_tcpClient->socket()->send("Hello World\n", 12);
@@ -41,5 +41,4 @@ void Client::printMessage(const std::string &str)
 
 	std::cout << "\t\t[Client (" << name << ")] -> " << str << std::endl;
 }
-
 }
