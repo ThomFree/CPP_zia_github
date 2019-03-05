@@ -22,7 +22,6 @@ public:
 	T getEntryPoint(const std::string &name)
 	{
 		T func;
-		std::cout << "Entry point" << std::endl;
 		func = reinterpret_cast<T>(dlsym(_handle, name.c_str()));
 		return (func);
 	}
