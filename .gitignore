@@ -43,7 +43,7 @@ cmake-build-debug/
 *.sav
 
 #Vs Code
-.vscode
+#.vscode
 
 # Project files
 etc/
