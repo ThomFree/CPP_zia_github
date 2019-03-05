@@ -32,6 +32,8 @@ class Client {
 		unsigned int _id;
 		std::shared_ptr<net::TCPClient> _tcpClient;
 		dems::config::Config &_conf;
+		// TODO add a stageManager by reference
+		// TODO add a context
 };
 
 }

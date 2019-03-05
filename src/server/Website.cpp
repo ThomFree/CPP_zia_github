@@ -15,7 +15,8 @@ Website::Website(const std::string &filename, net::NetworkService &net) : _filen
 	_conf = _jsonParser.makeConfigFromJson();
 	checkConfig();
 	// TODO instantiate all the modules from the file
-	// if everything is good start to accept connection
+	// TODO fill the stageManager
+	// TODO put the _clients in the config of the website
 	printMessage("Prepared.");
 }
 
@@ -61,7 +62,7 @@ void Website::checkConfig()
 
 void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
 {
-	_clients.emplace_back(new Client(_id++, sock, _conf));
+	_clients.emplace_back(new Client(_id++, sock, _conf)); // TODO envoyer le stageManager
 }
 
 void Website::stop()
