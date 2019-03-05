@@ -14,8 +14,7 @@ Website::Website(const std::string &filename, net::NetworkService &net) : _filen
 {
 	_conf = _jsonParser.makeConfigFromJson();
 	checkConfig();
-	// TODO instantiate all the modules from the file
-	// TODO fill the stageManager
+	instantiateModules();
 	// TODO put the _clients in the config of the website
 	printMessage("Prepared.");
 }
@@ -62,13 +61,20 @@ void Website::checkConfig()
 
 void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
 {
-	_clients.emplace_back(new Client(_id++, sock, _conf)); // TODO envoyer le stageManager
+	_clients.emplace_back(new Client(_id++, sock, _conf, _manager));
 }
 
 void Website::stop()
 {
 	for (auto &client : _clients)
 		client->stop();
+}
+
+void Website::instantiateModules()
+{
+	for (auto &modObj : std::get<dems::config::ConfigObject>(_conf["modules"].v)) {
+		_manager.loadOneModule(std::get<std::string>((std::get<dems::config::ConfigObject>(modObj.second.v))["path"].v));
+	}
 }
 
 }

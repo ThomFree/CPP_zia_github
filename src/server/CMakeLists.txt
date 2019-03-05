@@ -9,8 +9,8 @@ set(SOURCES
 	net/TCPAcceptor.cpp
 	net/TCPClient.cpp
 
-	api/HttpHeader.cpp
-	api/ModulesManager.cpp
+	HttpHeader.cpp
+	ModulesManager.cpp
 
 	Client.cpp
 	Website.cpp
@@ -18,6 +18,7 @@ set(SOURCES
 
 	utils/ParseArgs.cpp
 	utils/JsonParser.cpp
+	utils/DLLoader.cpp
 	)
 
 # Add executable
@@ -37,6 +38,7 @@ target_link_libraries(${PROJECT_NAME}
 	${CONAN_LIBS}
 	${ZIA_EXTERNAL_LIBS}
 	-lstdc++fs
+	-ldl
 	)
 
 # Compiler flags

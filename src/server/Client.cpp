@@ -9,17 +9,24 @@
 #include "Client.hpp"
 
 namespace Zia {
-
-Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &conf) : _id(id), _tcpClient(sock), _conf(conf) // TODO recevoir les modules
+Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
+		dems::config::Config &conf, ModulesManager &manager) : _id(id), _tcpClient(sock), _conf(conf), _manager(manager)
 {
-	// TODO creer un context vierge ici
-	// TODO start la pipeline des modules de connection
+	_ctx.config = conf;
+	discoverHookMap(_manager.getStageManager().connection().firstHooks(), _ctx);
 	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
 }
 
 Client::~Client()
 {
-	// TODO start la pipeline des modules de deco
+	discoverHookMap(_manager.getStageManager().connection().endHooks(), _ctx);
+}
+
+void Client::discoverHookMap(dems::Stage::hookMap &map, dems::Context &context)
+{
+	for (auto &elem : map) {
+		elem.second.callback(context);
+	}
 }
 
 void Client::readMsg(const char *data, size_t size)
@@ -28,8 +35,8 @@ void Client::readMsg(const char *data, size_t size)
 
 	// DEBUG
 	printMessage(msg);
-	// TODO remplir le context des donnees recues
-	// TODO start la pipeline des modules de request ici
+	// TODO parse received message in _ctx
+	discoverHookMap(_manager.getStageManager().connection().middleHooks(), _ctx);
 }
 
 void Client::stop()
@@ -43,5 +50,4 @@ void Client::printMessage(const std::string &str)
 
 	std::cout << "\t\t[Client " << _id << " (" << name << ")] -> " << str << std::endl;
 }
-
 }

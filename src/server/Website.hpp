@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+
 #include "dems-api/Config.hpp"
 #include "utils/JsonParser.hpp"
 #include "net/NetworkService.hpp"
@@ -40,6 +41,7 @@ class Website {
 	private:
 		void checkConfig();
 		void acceptClient(std::shared_ptr<net::TCPClient> client);
+		void instantiateModules();
 
 	private:
 		std::string _filename;
@@ -50,6 +52,7 @@ class Website {
 		// TODO add a stageManager
 		int _state = STOPPED;
 		unsigned int _id = 0;
+		ModulesManager _manager;
 };
 
 }
