@@ -46,7 +46,7 @@ class Website {
 		dems::config::Config _conf;
 		JsonParser _jsonParser;
 		net::TCPAcceptor _acceptor;
-		std::vector<Client> _clients;
+		std::vector<std::unique_ptr<Client>> _clients;
 		int _state = STOPPED;
 		unsigned int _id = 0;
 };

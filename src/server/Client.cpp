@@ -10,11 +10,9 @@
 
 namespace Zia {
 
-Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config *conf) : _id(id), _tcpClient(sock), _conf(conf) // TODO recevoir la config, les modules
+Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &conf) : _id(id), _tcpClient(sock), _conf(conf) // TODO recevoir les modules
 {
-	printMessage("AVANT");
-	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); printMessage("APRES"); });
-	_tcpClient->socket()->send("Hello World", 11);
+	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
 }
 
 Client::~Client()
@@ -24,7 +22,6 @@ Client::~Client()
 void Client::readMsg(const char *data, size_t size)
 {
 	std::string msg(data, size);
-	//std::cout << "ICI" << std::get<std::string> (_conf["name"].v) << std::endl;
 
 	// DEBUG
 	printMessage(msg);
@@ -38,9 +35,9 @@ void Client::stop()
 
 void Client::printMessage(const std::string &str)
 {
-	std::string name(std::get<std::string>((*_conf)["name"].v));
+	std::string name(std::get<std::string>(_conf["name"].v));
 
-	std::cout << "\t\t[Client (" << name << ")]" << str << std::endl;
+	std::cout << "\t\t[Client (" << name << ")] -> " << str << std::endl;
 }
 
 }

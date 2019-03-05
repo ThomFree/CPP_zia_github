@@ -53,7 +53,7 @@ void Website::checkConfig()
 		throw std::runtime_error("Name or port or modules variable does not appear in your configuration.");
 	if (std::get<long long>(_conf["port"].v) > 1 || std::get<long long>(_conf["port"].v) < 65535)
 		return;
-	if ((_conf["name"]).v.index() == JsonParser::TYPE::STRING && (_conf["port"]).v.index() == JsonParser::TYPE::LONG 
+	if ((_conf["name"]).v.index() == JsonParser::TYPE::STRING && (_conf["port"]).v.index() == JsonParser::TYPE::LONG
 		&& (_conf["modules"]).v.index() == JsonParser::TYPE::OBJECT)
 		return;
 	throw std::runtime_error("Please verify your configuration, something went wrong.");
@@ -61,13 +61,13 @@ void Website::checkConfig()
 
 void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
 {
-	_clients.push_back(Client(_id++, sock, &_conf));
+	_clients.emplace_back(new Client(_id++, sock, _conf));
 }
 
 void Website::stop()
 {
 	for (auto &client : _clients)
-		client.stop();
+		client->stop();
 }
 
 }
