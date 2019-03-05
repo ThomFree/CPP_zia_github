@@ -25,6 +25,6 @@ class ModulesManager : public dems::AModulesManager {
 		void unloadModule(const std::string &moduleName) override;
 
 	private:
-		std::unordered_map<std::string, DLLoader*> _mods;
+		std::unordered_map<std::string, std::unique_ptr<DLLoader>> _mods;
 };
 }

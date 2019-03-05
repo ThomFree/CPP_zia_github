@@ -16,8 +16,6 @@ ModulesManager::~ModulesManager()
 	getStageManager().connection().clearHooks();
 	getStageManager().chunks().clearHooks();
 	getStageManager().disconnect().clearHooks();
-	for (auto &it : _mods)
-		delete it.second;
 }
 
 void ModulesManager::loadModules(const std::string &)
@@ -26,7 +24,7 @@ void ModulesManager::loadModules(const std::string &)
 
 void ModulesManager::loadOneModule(const std::string &filePath)
 {
-	_mods.emplace(filePath, new DLLoader(filePath));
+	_mods.emplace(filePath, std::make_unique<DLLoader>(filePath));
 	_mods[filePath]->getEntryPoint<entryPoint>("registerHooks")(getStageManager());
 }
 
