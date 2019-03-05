@@ -13,7 +13,12 @@
 
 namespace Zia {
 
-WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser), _confPath("")
+static void displayStopService()
+{
+	std::cout << "[Zia] Service interrupted by user." << std::endl;
+}
+
+WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser), _confPath(""), _service(&displayStopService)
 {
 	if (_parser.argExist("-p")) {
 		std::cout << "[Zia] Site configuration path found in arguments: " << _parser.getArg("-p") << std::endl;
@@ -33,15 +38,32 @@ WebsiteManager::~WebsiteManager()
 void WebsiteManager::launch()
 {
 	exploreDirectory();
-	// TODO Start tous les sites avec leur config
-	// Mettre tous les websites sur le netservice (les accept)
-
+	for (auto &site : _sites) {
+		site->launch();
+	}
 	// Ici start le cmdline et le interpretReceivedCmd pour executer les commandes
-	// le file auto updater ?
+	// le file auto updater (relaod de la config d'un website à partir de la maj de sa config) ?
+
 	std::cout << "[Zia] Started." << std::endl << std::endl;
-	// Launch le io_service du websiteManager
-	// Catch du ctrl-c par le io_service ou suite a un "stop()" sur le io_service
+
+	int nb = 0;
+	for (const auto &site : _sites)
+		if (site->getState() == RUNNING)
+			nb += 1;
+	if (nb == 0) {
+		std::cout << "[Zia] Nothing is listenning." << std::endl;
+		return;
+	} else
+		_service.run();
+
 	std::cout << std::endl << "[Zia] Stopping..." << std::endl;
+}
+
+void WebsiteManager::stop()
+{
+	_service.stop();
+	for (auto &site : _sites)
+		site->stop();
 }
 
 void WebsiteManager::exploreDefaultDirectory()
@@ -51,7 +73,7 @@ void WebsiteManager::exploreDefaultDirectory()
 		for(auto& file: std::experimental::filesystem::directory_iterator(_confPath)) {
 			if (std::experimental::filesystem::is_regular_file(file))
 				try {
-					auto ptr = std::make_shared<Website> (file.path());
+					auto ptr = std::make_shared<Website> (file.path(), _service);
 					_sites.push_back(ptr);
 				} catch (const std::exception &err) {
 					std::cout << "[Zia] Failed to create " << file.path() << " website: " << err.what() << std::endl;
@@ -74,7 +96,7 @@ void WebsiteManager::exploreDirectory()
 		for(auto& file: std::experimental::filesystem::directory_iterator(_confPath)) {
 			if (std::experimental::filesystem::is_regular_file(file))
 				try {
-					auto ptr = std::make_shared<Website> (file.path());
+					auto ptr = std::make_shared<Website> (file.path(), _service);
 					_sites.push_back(ptr);
 				} catch (const std::exception &err) {
 					std::cout << "[Zia] Failed to create " << file.path() << " website: " << err.what() << std::endl;
@@ -98,7 +120,8 @@ void WebsiteManager::createDefaultWebsite()
 	std::experimental::filesystem::create_directories("./etc/zia/sites");
 	std::ofstream ofs(_confPath + "/defaultSite.json", std::ofstream::out);
 	ofs << "{\n\t\"name\": \"BasicHttpSite\",\n\t\"port\": 8080,\n\t\"modules\": {}\n}\n";
-	_sites.push_back(std::make_shared<Website> (_confPath + "/defaultSite.json"));
+	ofs.close();
+	_sites.push_back(std::make_shared<Website> (_confPath + "/defaultSite.json", _service));
 }
 
 }
