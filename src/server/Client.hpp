@@ -18,6 +18,10 @@ class Client {
 		Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &, ModulesManager &manager);
 		~Client();
 
+		Client() = delete;
+		Client &operator=(const Client &) = delete;
+		Client(const Client &) = delete;
+
 	public:
 		std::shared_ptr<net::TCPClient> getSocket() const { return _tcpClient; }
 		void readMsg(const char *data, size_t size);

@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+*vgcore*
 
 # Compiled Object files
 *.slo
