@@ -12,8 +12,12 @@
 namespace Zia {
 ModulesManager::~ModulesManager()
 {
-//	for (auto &it : _mods) // --> SEGFAULT --> should be done after Stage has been deleted
-//		delete it.second;
+	getStageManager().request().clearHooks();
+	getStageManager().connection().clearHooks();
+	getStageManager().chunks().clearHooks();
+	getStageManager().disconnect().clearHooks();
+	for (auto &it : _mods) // --> SEGFAULT --> should be done after Stage has been deleted
+		delete it.second;
 }
 
 void ModulesManager::loadModules(const std::string &)
