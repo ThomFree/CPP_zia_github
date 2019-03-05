@@ -61,7 +61,7 @@ void Website::checkConfig()
 
 void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
 {
-	_clients.push_back(Client(_id++, sock, _conf));
+	_clients.push_back(Client(_id++, sock, &_conf));
 }
 
 void Website::stop()

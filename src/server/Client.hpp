@@ -15,7 +15,7 @@ namespace Zia {
 
 class Client {
 	public:
-		Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config &);
+		Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock, dems::config::Config *);
 		~Client();
 
 	public:
@@ -27,7 +27,7 @@ class Client {
 	private:
 		unsigned int _id;
 		std::shared_ptr<net::TCPClient> _tcpClient;
-		dems::config::Config &_conf;
+		dems::config::Config *_conf;
 };
 
 }
