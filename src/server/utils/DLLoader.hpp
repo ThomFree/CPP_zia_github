@@ -7,6 +7,7 @@
 
 #include <dlfcn.h>
 #include <iostream>
+#include <memory>
 
 #pragma once
 

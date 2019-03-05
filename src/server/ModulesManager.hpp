@@ -5,6 +5,7 @@
 ** ModulesManager
 */
 
+#include <memory>
 #include <unordered_map>
 
 #include "dems-api/AModulesManager.hpp"
@@ -17,10 +18,13 @@ class ModulesManager : public dems::AModulesManager {
 	public:
 		using entryPoint = std::string (*)(dems::StageManager &);
 		ModulesManager() = default;
-		~ModulesManager() noexcept = default;
+		~ModulesManager() noexcept;
 
 		void loadModules(const std::string &directoryPath) override;
 		void loadOneModule(const std::string &filePath) override;
 		void unloadModule(const std::string &moduleName) override;
+
+	private:
+		std::unordered_map<std::string, DLLoader*> _mods;
 };
 }
