@@ -31,7 +31,9 @@ int main(int ac, const char * const av[])
 		std::string path("oui.json");
 		Zia::JsonParser test(temp);
 
-		test.makeConfigFromJson();
+		dems::config::Config oui = test.makeConfigFromJson();
+		test.makeJsonFromConfig(oui);
+
 	} catch (const std::exception &err) {
 		std::cerr << err.what() << std::endl;
 		return 84;

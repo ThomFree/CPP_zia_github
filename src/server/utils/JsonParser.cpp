@@ -9,12 +9,13 @@
 #include <iomanip>
 #include <cstdlib>
 #include <variant>
+#include <algorithm>
 
 namespace Zia {
 
 using json = nlohmann::json;
 
-JsonParser::JsonParser(std::string &path) : _path(path)
+JsonParser::JsonParser(const std::string &path) : _path(path)
 {
   _stream.open(_path, std::ifstream::in);
 }
@@ -97,6 +98,16 @@ dems::config::Config JsonParser::makeConfigFromJson()
   std::cout << "\n---  FIN  ---" << std::endl << std::endl;
   return (_conf);
 }
+
+  void JsonParser::makeJsonFromConfig(dems::config::Config &conf)
+  {
+    for(auto &it : conf)
+    {
+      printf("Type of %s %i\n", it.first.c_str(), conf[it.first].v.index());
+      if (conf[it.first].v.index() == JSONTYPES::BOOL)
+        printf("%s IS A GROS BOOL", it.first.c_str());
+    }
+  }
 
 } // Zia
 

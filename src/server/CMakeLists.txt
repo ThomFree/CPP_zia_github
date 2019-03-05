@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PUBLIC
 	${CMAKE_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/src
-	${CMAKE_SOURCE_DIR}/src/server/utils
+	${CMAKE_SOURCE_DIR}/src/server/
 	${ZIA_EXTERNAL_INCLUDE_DIRS}
 	)
 

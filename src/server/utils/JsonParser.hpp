@@ -16,11 +16,22 @@ namespace Zia {
 
 class JsonParser {
 	using json = nlohmann::json;
+	
+	enum JsonTypes {
+		DEFAULT,
+		OBJECT,
+		ARRAY,
+		STRING,
+		LONG,
+		DOUBLE,
+		BOOL
+	} JSONTYPES;
 
 public:
-	JsonParser(std::string &path);
+	JsonParser(const std::string &path);
 	~JsonParser();
 	dems::config::Config makeConfigFromJson();
+	void makeJsonFromConfig(dems::config::Config &conf);
 	dems::config::Config getConfig() const {
 		return _conf;
 	};
