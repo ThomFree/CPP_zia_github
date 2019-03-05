@@ -17,7 +17,7 @@ void ModulesManager::loadModules(const std::string &)
 
 void ModulesManager::loadOneModule(const std::string &filePath)
 {
-	DLLoader(filePath).getEntryPoint<entryPoint>("registerHooks");
+	DLLoader(filePath).getEntryPoint<entryPoint>("registerHooks")(getStageManager());
 }
 
 void ModulesManager::unloadModule(const std::string &moduleName)
