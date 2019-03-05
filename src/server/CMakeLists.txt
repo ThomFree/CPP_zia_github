@@ -4,10 +4,20 @@ project(zia)
 # Add all needed sources files
 set(SOURCES
 	main.cpp
+
+	net/TCPSocket.cpp
+	net/TCPAcceptor.cpp
+	net/TCPClient.cpp
+
+	api/HttpHeader.cpp
+	api/ModulesManager.cpp
+
+	Client.cpp
 	Website.cpp
 	WebsiteManager.cpp
 
 	utils/ParseArgs.cpp
+	utils/JsonParser.cpp
 	)
 
 # Add executable
@@ -17,8 +27,8 @@ add_executable(${PROJECT_NAME}
 
 # Add includes directories
 target_include_directories(${PROJECT_NAME} PUBLIC
-	${CMAKE_SOURCE_DIR}
-	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_SOURCE_DIR}/api
+	${CMAKE_SOURCE_DIR}/src/server
 	${ZIA_EXTERNAL_INCLUDE_DIRS}
 	)
 
@@ -32,7 +42,7 @@ target_link_libraries(${PROJECT_NAME}
 # Compiler flags
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	# G++
-	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
+	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -g3)
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 	# MSVC
 	target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /MTd /W2 /c)

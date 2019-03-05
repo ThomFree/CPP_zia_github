@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+*vgcore*
 
 # Compiled Object files
 *.slo
@@ -41,6 +42,9 @@ build/
 cmake-build-debug/
 *.idea
 *.sav
+
+#Vs Code
+.vscode
 
 # Project files
 etc/

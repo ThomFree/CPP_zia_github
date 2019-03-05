@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "utils/ParseArgs.hpp"
+#include "net/NetworkService.hpp"
 #include "Website.hpp"
 
 #pragma once
@@ -26,6 +27,7 @@ class WebsiteManager {
 
 	public:
 		void launch();
+		void stop();
 
 	private:
 		void exploreDirectory();
@@ -35,6 +37,7 @@ class WebsiteManager {
 	private:
 		ParseArgs &_parser;
 		std::string _confPath;
+		net::NetworkService _service;
 		std::list<std::shared_ptr<Website>> _sites;
 };
 
