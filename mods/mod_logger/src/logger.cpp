@@ -6,6 +6,7 @@
 */
 
 #include <string>
+#include <iostream>
 #include "dems-api/Stage.hpp"
 
 static constexpr char MODULE_NAME[] = "Logger";
@@ -43,17 +44,17 @@ std::string registerHooks(dems::StageManager &manager) {
 		return dems::CodeStatus::OK;
 	});
 
-	manager.disconnection().hookToFirst(0, MODULE_NAME, [](dems::Context &ctx) {
+	manager.disconnect().hookToFirst(0, MODULE_NAME, [](dems::Context &ctx) {
 		std::cout << "Stage: Disconnection FIRST" << std::endl;
 		return dems::CodeStatus::OK;
 	});
 
-	manager.disconnection().hookToMiddle(0, MODULE_NAME, [](dems::Context &ctx) {
+	manager.disconnect().hookToMiddle(0, MODULE_NAME, [](dems::Context &ctx) {
 		std::cout << "Stage: Disconnection MIDDLE" << std::endl;
 		return dems::CodeStatus::OK;
 	});
 
-	manager.disconnection().hookToEnd(0, MODULE_NAME, [](dems::Context &ctx) {
+	manager.disconnect().hookToEnd(0, MODULE_NAME, [](dems::Context &ctx) {
 		std::cout << "Stage: Disconnection END" << std::endl;
 		return dems::CodeStatus::OK;
 	});
