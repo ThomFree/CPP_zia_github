@@ -13,13 +13,19 @@ Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
 		dems::config::Config &conf, ModulesManager &manager) : _id(id), _tcpClient(sock), _conf(conf), _manager(manager)
 {
 	_ctx.config = conf;
-	discoverHookMap(_manager.getStageManager().connection().firstHooks(), _ctx);
+	discoverStage(_manager.getStageManager().connection(), _ctx);
 	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
+	_tcpClient->socket()->setDisconnect([&](net::TCPSocket *) { disconnect(); });
 }
 
 Client::~Client()
+{}
+
+void Client::discoverStage(dems::Stage &stage, dems::Context &ctx)
 {
-	discoverHookMap(_manager.getStageManager().connection().endHooks(), _ctx);
+	discoverHookMap(stage.firstHooks(), ctx);
+	discoverHookMap(stage.middleHooks(), ctx);
+	discoverHookMap(stage.endHooks(), ctx);
 }
 
 void Client::discoverHookMap(dems::Stage::hookMap &map, dems::Context &context)
@@ -36,7 +42,12 @@ void Client::readMsg(const char *data, size_t size)
 	// DEBUG
 	printMessage(msg);
 	// TODO parse received message in _ctx
-	discoverHookMap(_manager.getStageManager().connection().middleHooks(), _ctx);
+	discoverStage(_manager.getStageManager().request(), _ctx);
+}
+
+void Client::disconnect()
+{
+	discoverStage(_manager.getStageManager().disconnect(), _ctx);
 }
 
 void Client::stop()

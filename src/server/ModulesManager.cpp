@@ -16,7 +16,7 @@ ModulesManager::~ModulesManager()
 	getStageManager().connection().clearHooks();
 	getStageManager().chunks().clearHooks();
 	getStageManager().disconnect().clearHooks();
-	for (auto &it : _mods) // --> SEGFAULT --> should be done after Stage has been deleted
+	for (auto &it : _mods)
 		delete it.second;
 }
 

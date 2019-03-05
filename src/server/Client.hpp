@@ -27,10 +27,12 @@ class Client {
 		std::shared_ptr<net::TCPClient> getSocket() const { return _tcpClient; }
 		void readMsg(const char *data, size_t size);
 		void stop();
+		void disconnect();
 		void printMessage(const std::string &str);
 
 	private:
 		void discoverHookMap(dems::Stage::hookMap &map, dems::Context &context);
+		void discoverStage(dems::Stage &stage, dems::Context &ctx);
 
 	private:
 		unsigned int _id;
