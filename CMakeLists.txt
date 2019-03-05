@@ -10,6 +10,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 # Compile needed libraries
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-#add_subdirectory(lib)
+add_subdirectory(lib)
 add_subdirectory(src/server)
 add_subdirectory(src/tests)

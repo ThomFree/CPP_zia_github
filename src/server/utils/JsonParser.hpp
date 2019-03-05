@@ -10,7 +10,7 @@
 # include <fstream>
 # include <string>
 # include <nlohmann/json.hpp>
-# include "api/Config.hpp"
+# include "dems-api/Config.hpp"
 
 namespace Zia {
 
@@ -26,6 +26,18 @@ class JsonParser {
 		DOUBLE,
 		BOOL
 	} JSONTYPES;
+
+public:
+
+	enum TYPE {
+		NOTYPE,
+		OBJECT,
+		ARRAY,
+		STRING,
+		LONG,
+		DOUBLE,
+		BOOL
+	};
 
 public:
 	JsonParser(const std::string &path);

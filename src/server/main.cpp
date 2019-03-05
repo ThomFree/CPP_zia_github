@@ -14,13 +14,13 @@
 int main(int ac, const char * const av[])
 {
 	try {
-		// Zia::ParseArgs parser(ac, av);
-		// if (parser.hasError()) {
-		// 	std::cerr << parser.getError() << std::endl;
-		// 	return 84;
-		// }
-		// if (parser.actionHasBeenDone())
-		// 	return 0;
+		Zia::ParseArgs parser(ac, av);
+		if (parser.hasError()) {
+			std::cerr << parser.getError() << std::endl;
+			return 84;
+		}
+		if (parser.actionHasBeenDone())
+			return 0;
 
 		// std::cout << "[Zia] Starting..." << std::endl;
 		// Zia::WebsiteManager master(parser);
@@ -33,7 +33,7 @@ int main(int ac, const char * const av[])
 
 		dems::config::Config oui = test.makeConfigFromJson();
 		test.makeJsonFromConfig(oui);
-
+		//	master.launch();
 	} catch (const std::exception &err) {
 		std::cerr << err.what() << std::endl;
 		return 84;
