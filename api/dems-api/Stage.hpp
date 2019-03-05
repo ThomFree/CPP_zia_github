@@ -55,7 +55,7 @@ public:
 	 * @brief Defines a hooked module function
 	 */
 	struct Hook {
-    Hook(std::string name, hookModuleCallback &&function) : moduleName(std::move(name)), callback(std::move(function)) {}
+		Hook(std::string name, hookModuleCallback &&function) : moduleName(std::move(name)), callback(std::move(function)) {}
 		std::string moduleName;
 		hookModuleCallback callback;
 	};

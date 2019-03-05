@@ -9,6 +9,7 @@
 #include "Client.hpp"
 
 namespace Zia {
+
 Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
 		dems::config::Config &conf, ModulesManager &manager) : _id(id), _tcpClient(sock), _conf(conf), _manager(manager) // TODO recevoir la config, les modules
 {
