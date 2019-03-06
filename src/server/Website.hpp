@@ -42,8 +42,9 @@ class Website {
 		void checkConfig();
 		void acceptClient(std::shared_ptr<net::TCPClient> client);
 
+	public:
+		const std::string filename;
 	private:
-		std::string _filename;
 		dems::config::Config _conf;
 		JsonParser _jsonParser;
 		net::TCPAcceptor _acceptor;

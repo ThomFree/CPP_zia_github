@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "utils/ParseArgs.hpp"
+#include "utils/ConfigWatcher.hpp"
 #include "net/NetworkService.hpp"
 #include "Website.hpp"
 
@@ -38,6 +39,7 @@ class WebsiteManager {
 		ParseArgs &_parser;
 		std::string _confPath;
 		net::NetworkService _service;
+		ConfigWatcher _configWatcher;
 		std::list<std::shared_ptr<Website>> _sites;
 };
 

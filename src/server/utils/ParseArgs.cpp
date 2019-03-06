@@ -47,6 +47,10 @@ const std::string &ParseArgs::getArg(const std::string &key)
 
 void ParseArgs::checkArgs()
 {
+	if (_nb == 1) {
+		help();
+		return;
+	}
 	if (findArg("-h") > -1) {
 		help();
 		return;

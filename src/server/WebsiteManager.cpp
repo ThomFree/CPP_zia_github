@@ -18,7 +18,8 @@ static void displayStopService()
 	std::cout << "[Zia] Service interrupted by user." << std::endl;
 }
 
-WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser), _confPath(""), _service(&displayStopService)
+WebsiteManager::WebsiteManager(ParseArgs &parser)
+	: _parser(parser), _confPath(""), _service(&displayStopService), _configWatcher(_sites, _service)
 {
 	if (_parser.argExist("-p")) {
 		std::cout << "[Zia] Site configuration path found in arguments: " << _parser.getArg("-p") << std::endl;
@@ -38,6 +39,7 @@ WebsiteManager::~WebsiteManager()
 void WebsiteManager::launch()
 {
 	exploreDirectory();
+	_configWatcher.setDirectory(_confPath);
 	for (auto &site : _sites) {
 		site->launch();
 	}

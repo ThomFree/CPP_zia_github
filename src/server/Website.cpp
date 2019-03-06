@@ -10,7 +10,7 @@
 
 namespace Zia {
 
-Website::Website(const std::string &filename, net::NetworkService &net) : _filename(filename), _conf(), _jsonParser(_filename), _acceptor(net)
+Website::Website(const std::string &filenameArg, net::NetworkService &net) : filename(filenameArg), _conf(), _jsonParser(filenameArg), _acceptor(net)
 {
 	_conf = _jsonParser.makeConfigFromJson();
 	checkConfig();
@@ -30,7 +30,7 @@ Website::~Website()
 void Website::printMessage(const std::string &str)
 {
 	if (_conf.find("name") == _conf.end())
-		std::cout << "\t[Website - " + _filename + "] " << str << std::endl;
+		std::cout << "\t[Website - " + filename + "] " << str << std::endl;
 	else
 		std::cout << "\t[Website - " << std::get<std::string>(_conf["name"].v) << "] " << str << std::endl;
 }
