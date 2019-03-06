@@ -13,7 +13,8 @@ static constexpr char MODULE_NAME[] = "Logger";
 
 extern "C" {
 
-std::string registerHooks(dems::StageManager &manager) {
+std::string registerHooks(dems::StageManager &manager)
+{
 	std::cout << "ON REGIsTER PAS DES HOOKS NOUS ?" << std::endl;
 	manager.request().hookToFirst(0, MODULE_NAME, [](dems::Context &ctx) {
 		std::cout << "Stage: Request FIRST" << std::endl;
