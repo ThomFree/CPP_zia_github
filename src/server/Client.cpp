@@ -39,9 +39,7 @@ void Client::readMsg(const char *data, size_t size)
 {
 	std::string msg(data, size);
 
-	// DEBUG
 	printMessage(msg);
-	// TODO parse received message in _ctx
 	discoverStage(_manager.getStageManager().request(), _ctx);
 }
 
