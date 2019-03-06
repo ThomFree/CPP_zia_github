@@ -99,14 +99,95 @@ dems::config::Config JsonParser::makeConfigFromJson()
   return (_conf);
 }
 
-  void JsonParser::makeJsonFromConfig(dems::config::Config &conf)
+  void JsonParser::writeFromConfig(std::pair<const std::string, dems::config::ConfigValue> &obj, TYPE type, json &file, std::string &objName)
   {
-    for(auto &it : conf)
-    {
-      printf("Type of %s %i\n", it.first.c_str(), conf[it.first].v.index());
-      if (conf[it.first].v.index() == JSONTYPES::BOOL)
-        printf("%s IS A GROS BOOL", it.first.c_str());
+    if (objName.empty()) {
+      std::cout << "nom object nul" << std::endl;
+      switch (type)
+      {
+      case (TYPE::BOOL):
+        file[obj.first] = std::get<bool>(obj.second.v);
+        break;
+      case (TYPE::STRING):
+        file[obj.first] = std::get<std::string>(obj.second.v);
+        break;
+      case (TYPE::LONG):
+        file[obj.first] = std::get<long long>(obj.second.v);
+        break;
+      case (TYPE::ARRAY):
+        file[obj.first] = {{}};
+        objName = obj.first;
+        break;
+      case (TYPE::OBJECT):
+        file[obj.first] = {};
+        objName = obj.first;
+        break;
+      default:
+        break;
+      }
+    } else {
+      std::cout << "Je vais écrire dans " << objName << " : " << obj.first << std::endl;
+      switch (type) {
+      case (TYPE::BOOL):
+        file[objName][obj.first] = std::get<bool>(obj.second.v);
+        break;
+      case (TYPE::STRING):
+        file[objName][obj.first] = std::get<std::string>(obj.second.v);
+        break;
+      case (TYPE::LONG):
+        file[objName][obj.first] = std::get<long long>(obj.second.v);
+        break;
+      case (TYPE::ARRAY):
+        file[objName][obj.first] = {{}};
+        objName = obj.first;
+        break;
+      case (TYPE::OBJECT):
+        file[objName][obj.first] = {};
+        std::cout << "Oui = " << file << std::endl;
+        objName = obj.first;
+        break;
+      default:
+        break;
+      }
     }
+  }
+
+  void JsonParser::traverseObj(dems::config::ConfigObject &conf, json &jsonFile, std::string &objName)
+  {
+    TYPE type = NOTYPE;
+    std::cout << "Entrée dans " << objName << std::endl;
+
+    for (auto &it : conf) {
+      type = static_cast<TYPE>(conf[it.first].v.index());
+      writeFromConfig(it, type, jsonFile, objName);
+
+      //std::cout << "NOM DE LA VALUE = " << it.first << std::endl;
+      if (!(objName.empty()) && type == TYPE::OBJECT) {
+        //std::cout << "NOM DE L'OBJET = " << objName << std::endl;
+        json tempJson;
+        std::string tempObj = objName;
+
+        traverseObj(std::get<dems::config::ConfigObject>(it.second.v), jsonFile, objName);
+        // std::cout << "Obj principal : " << objName << " - objet secondaire : " << tempObj << std::endl << std::endl << std::setw(4) << tempJson << std::endl << std::endl;
+        // jsonFile[objName][tempObj] = tempJson[tempObj];
+        // objName = it.first;
+        //std::cout << "Dépile" << std::endl;
+      }
+      //std::cout << "Sortie : " << std::endl << jsonFile << std::endl;
+    }
+    std::cout << "J'ai fini l'object " << objName << std::endl;
+    objName = "";
+  }
+
+  void JsonParser::makeJsonFromConfig(dems::config::Config &conf, const std::string &nameFile)
+  {
+    std::ofstream file(nameFile);
+    json jsonFile;
+    std::string temp("");
+
+    traverseObj(conf, jsonFile, temp);
+    file << std::setw(4) << jsonFile << std::endl;
+    file.close();
   }
 
 } // Zia

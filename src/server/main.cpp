@@ -5,8 +5,6 @@
 ** main
 */
 
-#include <iostream>
-
 #include "utils/ParseArgs.hpp"
 #include "utils/JsonParser.hpp"
 #include "WebsiteManager.hpp"
@@ -32,7 +30,7 @@ int main(int ac, const char * const av[])
 		Zia::JsonParser test(temp);
 
 		dems::config::Config oui = test.makeConfigFromJson();
-		test.makeJsonFromConfig(oui);
+		test.makeJsonFromConfig(oui, path);
 		//	master.launch();
 	} catch (const std::exception &err) {
 		std::cerr << err.what() << std::endl;

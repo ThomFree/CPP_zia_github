@@ -15,19 +15,8 @@
 namespace Zia {
 
 class JsonParser {
-	using json = nlohmann::json;
-	
-	enum JsonTypes {
-		DEFAULT,
-		OBJECT,
-		ARRAY,
-		STRING,
-		LONG,
-		DOUBLE,
-		BOOL
-	} JSONTYPES;
-
 public:
+	using json = nlohmann::json;
 
 	enum TYPE {
 		NOTYPE,
@@ -43,7 +32,8 @@ public:
 	JsonParser(const std::string &path);
 	~JsonParser();
 	dems::config::Config makeConfigFromJson();
-	void makeJsonFromConfig(dems::config::Config &conf);
+	void makeJsonFromConfig(dems::config::Config &conf, const std::string &fileName);
+	
 	dems::config::Config getConfig() const {
 		return _conf;
 	};
@@ -52,6 +42,8 @@ private:
 	void recursiveObj(json &temp, dems::config::Config &conf);
 	void chooseTypeFromJson(json::value_t type, json::value_type &value, dems::config::ConfigValue &newValue);
 	void recursiveArray(json &temp, dems::config::ConfigArray &array);
+	void writeFromConfig(std::pair<const std::string, dems::config::ConfigValue> &obj, TYPE type, json &file, std::string &nameObj);
+	void traverseObj(dems::config::ConfigObject &conf, json &jsonFile, std::string &nameObj);
 
 private:
 	std::string _path;
