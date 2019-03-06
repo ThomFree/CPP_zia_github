@@ -40,7 +40,11 @@ void Client::readMsg(const char *data, size_t size)
 	std::string msg(data, size);
 
 	printMessage(msg);
+	_ctx.rawData.clear();
+	for (unsigned int i = 0; i < size; i++)
+		_ctx.rawData.push_back(data[i]);
 	discoverStage(_manager.getStageManager().request(), _ctx);
+	// TODO send le message (il faut convertir le ctx.response en rawData)
 }
 
 void Client::disconnect()
