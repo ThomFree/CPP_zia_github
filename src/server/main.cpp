@@ -20,10 +20,16 @@ int main(int ac, const char * const av[])
 		if (parser.actionHasBeenDone())
 			return 0;
 
-		// std::cout << "[Zia] Starting..." << std::endl;
-		// Zia::WebsiteManager master(parser);
+		std::cout << "[Zia] Starting..." << std::endl;
+		Zia::WebsiteManager master(parser);
 
-		// master.launch();
+		master.launch();
+
+		//Testing Making json from config
+		if (ac != 2) {
+			std::cerr << "Test json requires a config file to work." << std::endl;
+			return 84;
+		}
 
 		std::string temp(av[1]);
 		std::string path("oui.json");
@@ -31,7 +37,9 @@ int main(int ac, const char * const av[])
 
 		dems::config::Config oui = test.makeConfigFromJson();
 		test.makeJsonFromConfig(oui, path);
-		//	master.launch();
+
+		// End Testing Json [DEBUG]
+
 	} catch (const std::exception &err) {
 		std::cerr << err.what() << std::endl;
 		return 84;
