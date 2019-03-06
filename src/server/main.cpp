@@ -24,22 +24,6 @@ int main(int ac, const char * const av[])
 		Zia::WebsiteManager master(parser);
 
 		master.launch();
-
-		//Testing Making json from config
-		if (ac != 2) {
-			std::cerr << "Test json requires a config file to work." << std::endl;
-			return 84;
-		}
-
-		std::string temp(av[1]);
-		std::string path("oui.json");
-		Zia::JsonParser test(temp);
-
-		dems::config::Config oui = test.makeConfigFromJson();
-		test.makeJsonFromConfig(oui, path);
-
-		// End Testing Json [DEBUG]
-
 	} catch (const std::exception &err) {
 		std::cerr << err.what() << std::endl;
 		return 84;
