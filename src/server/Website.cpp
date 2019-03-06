@@ -68,6 +68,7 @@ void Website::stop()
 {
 	for (auto &client : _clients)
 		client->stop();
+	_acceptor.close();
 }
 
 void Website::instantiateModules()

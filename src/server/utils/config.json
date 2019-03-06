@@ -2,19 +2,9 @@
   "name": "BasicHttpSite",
   "port": 8080,
   "boules": true,
-  "particles" : [
-    1,
-    2,
-    3,
-    4,
-    [
-      5,
-      6
-    ],
-    7,
-    8
-  ],
+  "particles" : ["dems", "demsdems", 3, 4, 5],
   "modules": {
+    "test": 84,
     "PHP": {
         "path": "/etc/zia/modules/mod_php.so",
         "timeout": 1000

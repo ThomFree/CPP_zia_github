@@ -28,6 +28,7 @@ add_executable(${PROJECT_NAME}
 
 # Add includes directories
 target_include_directories(${PROJECT_NAME} PUBLIC
+
 	${CMAKE_SOURCE_DIR}/api
 	${CMAKE_SOURCE_DIR}/src/server
 	${ZIA_EXTERNAL_INCLUDE_DIRS}

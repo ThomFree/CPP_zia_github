@@ -9,10 +9,11 @@
 #include "Client.hpp"
 
 namespace Zia {
+
 Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
 		dems::config::Config &conf, ModulesManager &manager) : _id(id), _tcpClient(sock), _conf(conf), _manager(manager)
 {
-	_ctx.config = conf;
+	_ctx.config = _conf;
 	discoverStage(_manager.getStageManager().connection(), _ctx);
 	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
 	_tcpClient->socket()->setDisconnect([&](net::TCPSocket *) { disconnect(); });
@@ -39,10 +40,12 @@ void Client::readMsg(const char *data, size_t size)
 {
 	std::string msg(data, size);
 
-	// DEBUG
 	printMessage(msg);
-	// TODO parse received message in _ctx
+	_ctx.rawData.clear();
+	for (unsigned int i = 0; i < size; i++)
+		_ctx.rawData.push_back(data[i]);
 	discoverStage(_manager.getStageManager().request(), _ctx);
+	// TODO send le message (il faut convertir le ctx.response en rawData)
 }
 
 void Client::disconnect()
