@@ -14,8 +14,7 @@ Website::Website(const std::string &filename, net::NetworkService &net) : _filen
 {
 	_conf = _jsonParser.makeConfigFromJson();
 	checkConfig();
-	// TODO instantiate all the modules from the file
-	// TODO fill the stageManager
+	instantiateModules();
 	// TODO put the _clients in the config of the website
 	printMessage("Prepared.");
 }
@@ -69,6 +68,14 @@ void Website::stop()
 {
 	for (auto &client : _clients)
 		client->stop();
+	_acceptor.close();
+}
+
+void Website::instantiateModules()
+{
+	for (auto &modObj : std::get<dems::config::ConfigObject>(_conf["modules"].v)) {
+		_manager.loadOneModule(std::get<std::string>((std::get<dems::config::ConfigObject>(modObj.second.v))["path"].v));
+	}
 }
 
 }

@@ -8,6 +8,7 @@
 #include <memory>
 #include "net/TCPClient.hpp"
 #include "dems-api/Config.hpp"
+#include "dems-api/Stage.hpp"
 #include "ModulesManager.hpp"
 
 #pragma once
@@ -26,12 +27,18 @@ class Client {
 		std::shared_ptr<net::TCPClient> getSocket() const { return _tcpClient; }
 		void readMsg(const char *data, size_t size);
 		void stop();
+		void disconnect();
 		void printMessage(const std::string &str);
+
+	private:
+		void discoverHookMap(dems::Stage::hookMap &map, dems::Context &context);
+		void discoverStage(dems::Stage &stage, dems::Context &ctx);
 
 	private:
 		unsigned int _id;
 		std::shared_ptr<net::TCPClient> _tcpClient;
 		dems::config::Config &_conf;
 		ModulesManager &_manager;
+		dems::Context _ctx;
 };
 }

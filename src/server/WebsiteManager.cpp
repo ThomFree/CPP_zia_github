@@ -30,6 +30,7 @@ WebsiteManager::WebsiteManager(ParseArgs &parser) : _parser(parser), _confPath("
 
 WebsiteManager::~WebsiteManager()
 {
+	stop();
 	while (_sites.size() > 0)
 		_sites.pop_back();
 	std::cout << "[Zia] Stopped." << std::endl;
@@ -61,9 +62,9 @@ void WebsiteManager::launch()
 
 void WebsiteManager::stop()
 {
-	_service.stop();
 	for (auto &site : _sites)
 		site->stop();
+	_service.stop();
 }
 
 void WebsiteManager::exploreDefaultDirectory()
