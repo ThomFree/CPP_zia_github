@@ -2,6 +2,7 @@
   "name": "BasicHttpSite",
   "port": 8080,
   "boules": true,
+  "particles" : ["dems", "demsdems", 3, 4, 5],
   "modules": {
     "test": 84,
     "PHP": {

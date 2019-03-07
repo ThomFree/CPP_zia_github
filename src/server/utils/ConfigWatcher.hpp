@@ -15,10 +15,13 @@
 
 namespace Zia {
 
+	extern std::atomic<bool> RESTART_ZIA;
+
 	class UpdateListener : public efsw::FileWatchListener
 	{
 	public:
 		UpdateListener(std::list<std::shared_ptr<Website>> &sites, net::NetworkService &service);
+		~UpdateListener() = default;
 
 		void handleFileAction(efsw::WatchID watchid, const std::string &dir, const std::string &filename,
 		                      efsw::Action action, std::string oldFilename = "");
@@ -32,16 +35,14 @@ namespace Zia {
 	{
 	public:
 		ConfigWatcher(std::list<std::shared_ptr<Website>> &_sites, net::NetworkService &service);
-
 		ConfigWatcher(std::list<std::shared_ptr<Website>> &_sites, net::NetworkService &service, const std::string &dirPath);
-
-		~ConfigWatcher() = default;
+		~ConfigWatcher();
 
 		efsw::WatchID setDirectory(const std::string &dirPath);
 
 	private:
-		std::unique_ptr<efsw::FileWatcher> _fileWatcher;
-		std::unique_ptr<UpdateListener> _updateListener;
+		efsw::FileWatcher *_fileWatcher;
+		UpdateListener *_updateListener;
 		std::string _dirPath;
 		efsw::WatchID _watchID;
 	};

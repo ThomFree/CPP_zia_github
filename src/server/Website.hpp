@@ -41,6 +41,7 @@ class Website {
 	private:
 		void checkConfig();
 		void acceptClient(std::shared_ptr<net::TCPClient> client);
+		void instantiateModules();
 
 	public:
 		const std::string filename;
@@ -49,7 +50,6 @@ class Website {
 		JsonParser _jsonParser;
 		net::TCPAcceptor _acceptor;
 		std::vector<std::unique_ptr<Client>> _clients;
-		// TODO add a stageManager
 		int _state = STOPPED;
 		unsigned int _id = 0;
 		ModulesManager _manager;

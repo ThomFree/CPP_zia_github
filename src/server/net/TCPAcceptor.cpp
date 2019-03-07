@@ -33,11 +33,20 @@ bool TCPAcceptor::accept(const acceptCallback_t &callback) {
 	auto client = std::make_shared<TCPClient>(TCPSocket(_netService));
 	_acceptor.async_accept(client->socket()->get(),
 		[this, client, callback](const boost::system::error_code& error) {
+			std::cout << "HERE: " << client.get() << std::endl;
+
+			std::cout << "BEFORE\n";
+			sleep(1);
 			if (error) {
-				std::cerr << "TCPSocket: " << error.message() << std::endl;
+				std::cout << "ERROR BEFORE\n";
+				//std::cerr << "TCPSocket: " << error.message() << std::endl;
+				std::cout << "ERROR AFTER\n";
 				return;
 			}
+
+			std::cout << "BEFORE AFTER\n";
 			callback(client);
+			std::cout << "AFTER\n";
 			accept(callback);
 		});
 	return true;

@@ -8,7 +8,6 @@
 #include <iostream>
 #include <experimental/filesystem>
 #include <fstream>
-
 #include "WebsiteManager.hpp"
 
 namespace Zia {
@@ -31,6 +30,7 @@ WebsiteManager::WebsiteManager(ParseArgs &parser)
 
 WebsiteManager::~WebsiteManager()
 {
+	stop();
 	while (_sites.size() > 0)
 		_sites.pop_back();
 	std::cout << "[Zia] Stopped." << std::endl;
@@ -63,9 +63,9 @@ void WebsiteManager::launch()
 
 void WebsiteManager::stop()
 {
-	_service.stop();
 	for (auto &site : _sites)
 		site->stop();
+	_service.stop();
 }
 
 void WebsiteManager::exploreDefaultDirectory()
