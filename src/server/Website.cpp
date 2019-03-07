@@ -37,7 +37,7 @@ void Website::printMessage(const std::string &str)
 void Website::launch()
 {
 	if (_acceptor.bind(std::get<long long>(_conf["port"].v))) {
-		_acceptor.accept([this](std::shared_ptr<net::TCPClient> client) -> void { acceptClient(client); });
+		_acceptor.accept<net::TCPSocket>([this](std::shared_ptr<net::TCPClient> client) -> void { acceptClient(client); });
 	}
 	else {
 		printMessage("Error while binding socket on port.");

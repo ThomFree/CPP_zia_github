@@ -9,13 +9,4 @@
 
 namespace Zia::net {
 
-TCPClient::TCPClient(net::TCPSocket &&socket) : _socket(new net::TCPSocket(std::forward<net::TCPSocket>(socket)))
-{
-}
-
-net::TCPSocket *TCPClient::socket() const
-{
-	return _socket.get();
-}
-
 }

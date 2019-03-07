@@ -1,27 +1,14 @@
 cmake_minimum_required(VERSION 3.9)
-project(zia)
+project(net)
 
 # Add all needed sources files
 set(SOURCES
-	main.cpp
-
-	net/TCPSocket.cpp
-	net/TCPAcceptor.cpp
-	net/TCPClient.cpp
-	net/SSLSocket.cpp
-
-	HttpHeader.cpp
-	ModulesManager.cpp
-
-	Client.cpp
-	Website.cpp
-	WebsiteManager.cpp
-
-	utils/ParseArgs.cpp
-	utils/JsonParser.cpp
-	utils/DLLoader.cpp
-	utils/ConfigWatcher.cpp)
-
+	SSLSocket.cpp
+	TCPAcceptor.cpp
+	TCPClient.cpp
+	TCPSocket.cpp
+	testnet.cpp
+  )
 # Add executable
 add_executable(${PROJECT_NAME}
 	${SOURCES}
@@ -29,7 +16,7 @@ add_executable(${PROJECT_NAME}
 
 # Add includes directories
 target_include_directories(${PROJECT_NAME} PUBLIC
-
+  ./src/server/net
 	${CMAKE_SOURCE_DIR}/api
 	${CMAKE_SOURCE_DIR}/src/server
 	${ZIA_EXTERNAL_INCLUDE_DIRS}

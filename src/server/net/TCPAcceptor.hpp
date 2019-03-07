@@ -27,18 +27,53 @@ class TCPAcceptor {
 		TCPAcceptor &operator=(TCPAcceptor &&) = default;
 
 	/*
-		* Methods
-		*/
+	 * Methods
+	 */
 	public:
-		bool accept(const acceptCallback_t &callback);
+		template<typename T>
+		T *accept(const acceptCallback_t &callback);
 		bool bind(int port);
 		void close() { _acceptor.close(); }
 
 	/*
-		* Fields
-		*/
+	 * Fields
+	 */
 	private:
 		NetworkService &_netService;
 		boost::asio::ip::tcp::acceptor _acceptor;
 };
+
+template<>
+inline TCPSocket *TCPAcceptor::accept(const acceptCallback_t &callback) {
+	auto client = std::make_shared<TCPClient>(_netService);
+	client->createSocket<TCPSocket>();
+
+	_acceptor.async_accept(static_cast<TCPSocket*>(client->socket())->get(),
+		[this, client, callback](const boost::system::error_code& error) {
+			if (error) {
+				std::cerr << "TCPSocket: " << error.message() << std::endl;
+				return;
+			}
+			callback(client);
+			accept<TCPSocket>(callback);
+		});
+	return static_cast<TCPSocket*>(client->socket());
+}
+
+template<>
+inline SSLSocket *TCPAcceptor::accept(const acceptCallback_t &callback) {
+	auto client = std::make_shared<TCPClient>(_netService);
+	client->createSocket<SSLSocket>();
+
+	_acceptor.async_accept(static_cast<SSLSocket*>(client->socket())->get(),
+		[this, client, callback](const boost::system::error_code& error) {
+			if (error) {
+				std::cerr << "TCPSocket: " << error.message() << std::endl;
+				return;
+			}
+			callback(client);
+			accept<TCPSocket>(callback);
+		});
+	return static_cast<SSLSocket*>(client->socket());
+}
 }

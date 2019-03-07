@@ -5,23 +5,23 @@
 ** TCPSocket
 */
 
-#pragma once
-
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
 #include "NetworkService.hpp"
+#include "ISocket.hpp"
+
+#pragma once
 
 namespace Zia::net {
-constexpr size_t READ_SIZE = 1024;
-class TCPSocket {
+class TCPSocket : public ISocket {
 	public:
 		explicit TCPSocket(NetworkService &);
 		~TCPSocket() noexcept = default;
 		TCPSocket() = delete;
-		TCPSocket(const TCPSocket &) = delete;
+		TCPSocket(const TCPSocket &) = default;
 		TCPSocket(TCPSocket &&) = default;
-		TCPSocket &operator=(const TCPSocket &) = delete;
+		TCPSocket &operator=(const TCPSocket &) = default;
 		TCPSocket &operator=(TCPSocket &&) = default;
 
 	/*
@@ -30,11 +30,11 @@ class TCPSocket {
 	public:
 		bool connect(int, const std::string & = "127.0.0.1");
 		void setReceive(std::function<void(const char *, size_t)> &&);
-		void setDisconnect(std::function<void(TCPSocket*)> &&);
+		void setDisconnect(std::function<void(ISocket*)> &&);
 		void disconnect();
 		size_t send(const char *, size_t);
 		size_t send(const std::string &);
-		boost::asio::ip::tcp::socket &get();
+		boost::asio::ip::tcp::socket &get() { return _socket; };
 
 	private:
 		void handleReceive(const boost::system::error_code&, size_t);

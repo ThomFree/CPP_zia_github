@@ -28,18 +28,4 @@ bool TCPAcceptor::bind(int port) {
 	}
 	return true;
 }
-
-bool TCPAcceptor::accept(const acceptCallback_t &callback) {
-	auto client = std::make_shared<TCPClient>(TCPSocket(_netService));
-	_acceptor.async_accept(client->socket()->get(),
-		[this, client, callback](const boost::system::error_code& error) {
-			if (error) {
-				//std::cerr << "TCPSocket: " << error.message() << std::endl;
-				return;
-			}
-			callback(client);
-			accept(callback);
-		});
-	return true;
-}
 }
