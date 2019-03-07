@@ -32,8 +32,7 @@ class TCPAcceptor {
 	public:
 		bool accept(const acceptCallback_t &callback);
 		bool bind(int port);
-		inline void cancel() { _acceptor.cancel(); }
-		inline void close() { _acceptor.close(); }
+		void close() { _acceptor.close(); }
 
 	/*
 		* Fields
