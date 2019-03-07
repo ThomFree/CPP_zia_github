@@ -33,7 +33,6 @@ std::string HandlerFilePath::getLastUser()
       id++;
       finalUser = _path + defaultUser + std::to_string(id) + ".log";
     }
-    std::cout << "rentré dans le for" << std::endl;
   }
   if (isEmpty)
     finalUser = _path + defaultUser + std::to_string(id) + ".log";
