@@ -37,7 +37,7 @@ class Client {
 	private:
 		unsigned int _id;
 		std::shared_ptr<net::TCPClient> _tcpClient;
-		dems::config::Config &_conf;
+		dems::config::Config _conf;
 		ModulesManager &_manager;
 		dems::Context _ctx;
 };
