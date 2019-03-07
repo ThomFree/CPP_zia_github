@@ -43,9 +43,8 @@ class Website {
 		void acceptClient(std::shared_ptr<net::TCPClient> client);
 		void instantiateModules();
 
-	public:
-		const std::string filename;
 	private:
+		const std::string _filename;
 		dems::config::Config _conf;
 		JsonParser _jsonParser;
 		net::TCPAcceptor _acceptor;
