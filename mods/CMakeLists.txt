@@ -1,1 +1,2 @@
 add_subdirectory(mod_logger)
+add_subdirectory(mod_guiLogger)
