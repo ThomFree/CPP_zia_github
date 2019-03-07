@@ -21,10 +21,10 @@ namespace Zia {
 	{
 	public:
 		UpdateListener(std::list<std::shared_ptr<Website>> &sites, net::NetworkService &service);
-		~UpdateListener() = default;
+		~UpdateListener() {}
 
 		void handleFileAction(efsw::WatchID watchid, const std::string &dir, const std::string &filename,
-		                      efsw::Action action, std::string oldFilename = "");
+		                      efsw::Action action, std::string oldFilename = "") final;
 
 	private:
 		std::list<std::shared_ptr<Website>> &_sites;
@@ -42,7 +42,7 @@ namespace Zia {
 
 	private:
 		efsw::FileWatcher *_fileWatcher;
-		UpdateListener *_updateListener;
+		UpdateListener _updateListener;
 		std::string _dirPath;
 		efsw::WatchID _watchID;
 	};
