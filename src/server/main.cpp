@@ -9,6 +9,10 @@
 #include "utils/JsonParser.hpp"
 #include "WebsiteManager.hpp"
 
+namespace Zia {
+std::atomic<bool> RESTART_ZIA(true);
+}
+
 int main(int ac, const char * const av[])
 {
 	try {
@@ -20,10 +24,15 @@ int main(int ac, const char * const av[])
 		if (parser.actionHasBeenDone())
 			return 0;
 
-		std::cout << "[Zia] Starting..." << std::endl;
-		Zia::WebsiteManager master(parser);
+		while (Zia::RESTART_ZIA) {
+			Zia::RESTART_ZIA = false;
 
-		master.launch();
+			std::cout << "[Zia] Starting..." << std::endl;
+			Zia::WebsiteManager master(parser);
+
+			master.launch();
+		}
+
 	} catch (const std::exception &err) {
 		std::cerr << err.what() << std::endl;
 		return 84;
