@@ -25,23 +25,23 @@ std::string registerHooks(dems::StageManager &manager) {
 	*/
 
 	manager.request().hookToFirst(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
 	manager.request().hookToMiddle(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
 	manager.request().hookToEnd(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
@@ -50,26 +50,34 @@ std::string registerHooks(dems::StageManager &manager) {
 	*/
 
 	manager.connection().hookToFirst(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto timer = std::get<dems::config::ConfigObject>(modules["TimeProcessing"].v);
+		long long int timeMS = 50;
 
-		(std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v)) = 50;
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  	if (!(timer.find("timeMS") == timer.end())) {
+			timeMS = std::get<long long>(timer["timeMS"].v);
+		} else {
+			dems::config::ConfigValue temp;
 
+			temp.v = timeMS;
+			std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"] = temp;
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
 	manager.connection().hookToMiddle(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
 	manager.connection().hookToEnd(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 	
@@ -78,23 +86,23 @@ std::string registerHooks(dems::StageManager &manager) {
 	*/
 
 	manager.disconnect().hookToFirst(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
 	manager.disconnect().hookToMiddle(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
 	manager.disconnect().hookToEnd(99, MODULE_NAME, [](dems::Context &ctx) {
-		long long int time = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
+		long long int timeMS = std::get<long long>(std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["TimeProcessing"].v)["timeMS"].v);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(time));
+		std::this_thread::sleep_for(std::chrono::milliseconds(timeMS));
 		return dems::CodeStatus::OK;
 	});
 
