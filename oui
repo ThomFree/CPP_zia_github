@@ -1,0 +1,20 @@
+--- Establishing connection ---
+	Stage: Connection FIRST
+	Stage: Connection MIDDLE
+	Stage: Connection END
+--- Connection Done ---
+
+	Stage: Request MIDDLE
+	Stage: Request END
+--- Request done ---
+
+--- Establishing disconnection ---
+	Stage: Disonnection FIRST
+	Stage: Disconnection MIDDLE
+	Stage: Disconnection END
+--- Disconnection Done ---
+--- Establishing disconnection ---
+	Stage: Disonnection FIRST
+	Stage: Disconnection MIDDLE
+	Stage: Disconnection END
+--- Disconnection Done ---

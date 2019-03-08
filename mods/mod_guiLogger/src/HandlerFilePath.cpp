@@ -15,43 +15,44 @@ namespace fs = std::experimental::filesystem;
 
 bool HandlerFilePath::fileExists(const fs::path &path, const fs::path &sec_path)
 {
+  std::cout << "Je compare : " << path << " -/- " << sec_path << std::endl;
   return path == sec_path;
 }
 
-std::string HandlerFilePath::getLastUser()
+std::string HandlerFilePath::getLastUser(const std::string &defaultName)
 {
-  std::string defaultUser = "user";
-  std::string finalUser = "";
-  bool isEmpty = true;
-  fs::path p;
+  std::string defaultUser = defaultName;
   uint8_t id = 1;
+  std::string nameFile = _path + defaultName + std::to_string(id) + ".log";
+  std::ifstream file(nameFile);
 
-  for (auto it = fs::directory_iterator(_path); it != fs::directory_iterator(); it++) {
-    isEmpty = false;
-    p = fs::path(_path + defaultUser + std::to_string(id) + ".log");
-    if (fileExists(p, *it)) {
-      id++;
-      finalUser = _path + defaultUser + std::to_string(id) + ".log";
-    }
+  if (!(_path.back() == '/')) {
+    std::cout << "file renseigné : " << _path << std::endl;
+    return _path;
   }
-  if (isEmpty)
-    finalUser = _path + defaultUser + std::to_string(id) + ".log";
-  return finalUser;
+  
+  while (!file.fail()) {
+    file.close();
+    id++;
+    nameFile = _path + defaultName + std::to_string(id) + ".log";
+    file.open(nameFile);
+  }
+  file.close();
+  return nameFile;
 }
 
-std::string HandlerFilePath::handleFilePath(dems::Context &ctx)
+std::string HandlerFilePath::handleFilePath(dems::config::Config &config)
 {
-  if (ctx.config.find("logPath") == ctx.config.end()) {
-			std::experimental::filesystem::create_directories(_path);
+  std::string fileName;
+  auto modules = std::get<dems::config::ConfigObject>(config["modules"].v);
+  auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+  std::size_t found = _path.find_last_of("/");
+  std::string lastDir = _path.substr(0,found);
 
-			_path = getLastUser();
-			ctx.config["logPath"].v = _path;
-			std::cout << "Path required. Creating logs in " << _path << std::endl;
-
-		}	else
-			_path = std::get<std::string>(ctx.config["logPath"].v);
-
-  return _path;
+  std::experimental::filesystem::create_directories(lastDir);
+  fileName = getLastUser(std::get<std::string>(config["name"].v));
+  _path = fileName;
+  return fileName;
 }
 
 } // GUILogger
