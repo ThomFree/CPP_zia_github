@@ -10,7 +10,7 @@
 
 namespace Zia {
 
-Website::Website(const std::string &filename, net::NetworkService &net) : _filename(filename), _conf(), _jsonParser(_filename), _acceptor(net)
+Website::Website(const std::string &filename, net::NetworkService &net) : _filename(filename), _conf(), _jsonParser(filename), _acceptor(net)
 {
 	_conf = _jsonParser.makeConfigFromJson();
 	checkConfig();

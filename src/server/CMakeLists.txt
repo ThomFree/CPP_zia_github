@@ -19,7 +19,7 @@ set(SOURCES
 	utils/ParseArgs.cpp
 	utils/JsonParser.cpp
 	utils/DLLoader.cpp
-	)
+	utils/ConfigWatcher.cpp)
 
 # Add executable
 add_executable(${PROJECT_NAME}

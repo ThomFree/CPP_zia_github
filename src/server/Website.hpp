@@ -44,7 +44,7 @@ class Website {
 		void instantiateModules();
 
 	private:
-		std::string _filename;
+		const std::string _filename;
 		dems::config::Config _conf;
 		JsonParser _jsonParser;
 		net::TCPAcceptor _acceptor;
