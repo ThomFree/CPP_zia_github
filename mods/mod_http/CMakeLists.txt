@@ -17,6 +17,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 # Link the project with needed libraries
 target_link_libraries(${PROJECT_NAME}
+	-lstdc++fs
 	)
 
 # Compiler flags

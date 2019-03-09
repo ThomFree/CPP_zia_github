@@ -1,6 +1,6 @@
 {
 	"name": "LoggerHttpSite",
-	"port": 8081,
+	"port": 8080,
 	"modules": {
 		"Http": {
 			"path": "./build/lib/libmod_http.so"
