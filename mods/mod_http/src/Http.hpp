@@ -25,6 +25,9 @@ class Http {
 		void interpret();
 
 	private:
+		void addToHeaders(const std::string &line);
+
+	private:
 		dems::Context &_ctx;
 };
 
