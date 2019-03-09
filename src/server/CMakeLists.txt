@@ -7,7 +7,7 @@ set(SOURCES
 
 	net/TCPSocket.cpp
 	net/TCPAcceptor.cpp
-	net/TCPClient.cpp
+	#net/TCPClient.cpp
 	net/SSLSocket.cpp
 
 	HttpHeader.cpp

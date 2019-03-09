@@ -56,6 +56,7 @@
 		"variant": "cpp",
 		"algorithm": "cpp",
 		"filesystem": "cpp",
-		"valarray": "cpp"
+		"valarray": "cpp",
+		"*.ipp": "cpp"
 	}
 }

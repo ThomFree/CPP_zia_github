@@ -28,17 +28,17 @@ class TCPSocket : public ISocket {
 	 * Methods
 	 */
 	public:
-		bool connect(int, const std::string & = "127.0.0.1");
-		void setReceive(const std::function<void(const char *, size_t)> &);
-		void setDisconnect(const std::function<void(ISocket*)> &);
-		void disconnect();
-		size_t send(const char *, size_t);
-		size_t send(const std::string &);
+		bool connect(int, const std::string & = "127.0.0.1") override;
+		void setReceive(const std::function<void(const char *, size_t)> &) override;
+		void setDisconnect(const std::function<void(ISocket*)> &) override;
+		void disconnect() override;
+		size_t send(const char *, size_t) override;
+		size_t send(const std::string &) override;
 		boost::asio::ip::tcp::socket &get() { return _socket; };
 
 	private:
-		void handleReceive(const boost::system::error_code&, size_t);
-		void handleSend(const boost::system::error_code&);
+		void handleReceive(const boost::system::error_code&, size_t) override;
+		void handleSend(const boost::system::error_code&) override;
 
 	/*
 	 * Fields

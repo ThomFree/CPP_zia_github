@@ -13,11 +13,12 @@
 #include <memory>
 
 #include "NetworkService.hpp"
-#include "TCPClient.hpp"
+#include "TCPSocket.hpp"
+#include "SSLSocket.hpp"
 
 namespace Zia::net {
 class TCPAcceptor {
-	using acceptCallback_t = std::function<void(std::shared_ptr<TCPClient>)>;
+	using acceptCallback_t = std::function<void(std::shared_ptr<ISocket>)>;
 	public:
 		explicit TCPAcceptor(NetworkService &netService);
 		~TCPAcceptor() noexcept = default;
@@ -33,6 +34,8 @@ class TCPAcceptor {
 	public:
 		template<typename T>
 		T *accept(const acceptCallback_t &callback);
+		template<typename T>
+		T *accept(const acceptCallback_t &callback, const net::SSLConf&);
 		bool bind(int port);
 		void close() { _acceptor.close(); }
 
@@ -45,11 +48,11 @@ class TCPAcceptor {
 };
 
 template<>
-inline TCPSocket *TCPAcceptor::accept(const acceptCallback_t &callback) {
-	auto client = std::make_shared<TCPClient>(_netService);
-	client->createSocket<TCPSocket>();
+inline TCPSocket *TCPAcceptor::accept(const acceptCallback_t &callback)
+{
+	auto client = std::make_shared<TCPSocket>(_netService);
 
-	_acceptor.async_accept(static_cast<TCPSocket*>(client->socket())->get(),
+	_acceptor.async_accept(client->get(),
 		[this, client, callback](const boost::system::error_code& error) {
 			if (error) {
 				std::cerr << "TCPSocket: " << error.message() << std::endl;
@@ -58,23 +61,40 @@ inline TCPSocket *TCPAcceptor::accept(const acceptCallback_t &callback) {
 			callback(client);
 			accept<TCPSocket>(callback);
 		});
-	return static_cast<TCPSocket*>(client->socket());
+	return client.get();
 }
 
 template<>
-inline SSLSocket *TCPAcceptor::accept(const acceptCallback_t &callback) {
-	auto client = std::make_shared<TCPClient>(_netService);
-	client->createSocket<SSLSocket>();
+inline SSLSocket *TCPAcceptor::accept(const acceptCallback_t &callback, const net::SSLConf &conf)
+{
+	boost::asio::ssl::context context(boost::asio::ssl::context::sslv23);
+	context.set_options(
+		boost::asio::ssl::context::default_workarounds
+		| boost::asio::ssl::context::no_sslv2
+		| boost::asio::ssl::context::single_dh_use
+	);
 
-	_acceptor.async_accept(static_cast<SSLSocket*>(client->socket())->get(),
-		[this, client, callback](const boost::system::error_code& error) {
+//	context.set_password_callback(boost::bind(&TCPClient::handle_password, this));
+
+	std::cout << "CERT FILE:" << conf.certFile << std::endl;
+
+	context.use_certificate_chain_file(conf.certFile);
+	context.use_private_key_file(conf.keyFile, boost::asio::ssl::context::pem);
+	context.use_tmp_dh_file(conf.dhFile);
+
+	context.set_verify_mode(/*boost::asio::ssl::context::verify_fail_if_no_peer_cert | */boost::asio::ssl::context::verify_peer);
+	context.load_verify_file(conf.verifFile);
+
+	auto client = std::make_shared<SSLSocket>(_netService, context);
+	_acceptor.async_accept(client->get(),
+		[this, client, callback, conf](const boost::system::error_code& error) {
 			if (error) {
 				std::cerr << "TCPSocket: " << error.message() << std::endl;
 				return;
 			}
 			callback(client);
-			accept<SSLSocket>(callback);
+			accept<SSLSocket>(callback, conf);
 		});
-	return static_cast<SSLSocket*>(client->socket());
+	return client.get();
 }
 }

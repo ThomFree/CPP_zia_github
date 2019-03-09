@@ -17,6 +17,13 @@
 #pragma once
 
 namespace Zia::net {
+struct SSLConf {
+	std::string certFile;
+	std::string keyFile;
+	std::string dhFile;
+	std::string verifFile;
+};
+
 class SSLSocket : public ISocket {
 	public:
 		SSLSocket(NetworkService &, boost::asio::ssl::context &context);

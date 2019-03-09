@@ -10,13 +10,13 @@
 
 namespace Zia {
 
-Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
-		dems::config::Config &conf, ModulesManager &manager) : _id(id), _tcpClient(sock), _conf(conf), _manager(manager)
+Client::Client(unsigned int id, std::shared_ptr<net::ISocket> &sock,
+		dems::config::Config &conf, ModulesManager &manager) : _id(id), _netClient(sock), _conf(conf), _manager(manager)
 {
 	_ctx.config = _conf;
 	discoverStage(_manager.getStageManager().connection(), _ctx);
-	_tcpClient->socket()->setDisconnect([&](net::ISocket *) { disconnect(); });
-	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
+	_netClient->setDisconnect([&](net::ISocket *) { disconnect(); });
+	_netClient->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
 }
 
 Client::~Client()
@@ -55,7 +55,7 @@ void Client::disconnect()
 
 void Client::stop()
 {
-	_tcpClient->socket()->disconnect();
+	_netClient->disconnect();
 }
 
 void Client::printMessage(const std::string &str)
