@@ -5,7 +5,6 @@ project(net)
 set(SOURCES
 	SSLSocket.cpp
 	TCPAcceptor.cpp
-	#TCPClient.cpp
 	TCPSocket.cpp
 	testnet.cpp
   )
