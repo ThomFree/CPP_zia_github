@@ -15,7 +15,6 @@ namespace fs = std::experimental::filesystem;
 
 bool HandlerFilePath::fileExists(const fs::path &path, const fs::path &sec_path)
 {
-  std::cout << "Je compare : " << path << " -/- " << sec_path << std::endl;
   return path == sec_path;
 }
 
@@ -27,7 +26,6 @@ std::string HandlerFilePath::getLastUser(const std::string &defaultName)
   std::ifstream file(nameFile);
 
   if (!(_path.back() == '/')) {
-    std::cout << "file renseigné : " << _path << std::endl;
     return _path;
   }
   
