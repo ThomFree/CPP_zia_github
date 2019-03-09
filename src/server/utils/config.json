@@ -8,9 +8,12 @@
     "PHP": {
         "path": "/etc/zia/modules/mod_php.so",
         "timeout": 1000
-    },
-    "SSL": {
-        "path": "/etc/zia/modules/mod_ssl.so"
     }
+  },
+  "ssl": {
+    "certificate": "./etc/zia/certs/myEncryptedSite/server.pem",
+    "private_key": "./etc/zia/certs/myEncryptedSite/server.key",
+    "dh": "./etc/zia/certs/myEncryptedSite/dhparam.pem",
+    "verify_mode": "./etc/zia/certs/myEncryptedSite/server.pem"
   }
 }
