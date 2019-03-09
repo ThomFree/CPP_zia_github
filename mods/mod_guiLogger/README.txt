@@ -14,8 +14,7 @@ Here is an example on how you add the module in your config:
 }
 
 The name "GuiLogger" is important. "path" is required in order to load the module.
-In the configuration of your module, you can also add a "logPath" variable where you have to put
-a string to indicate the path you want log Files will be.
+In the configuration of your module, you can also add a "logPath" variable.
 The "logPath" can be either a path to a directory or a file.
 The module will create directories automatically.
 The "logPath" by default is "./etc/zia/log/".
