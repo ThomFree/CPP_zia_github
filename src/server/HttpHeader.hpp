@@ -24,5 +24,6 @@ class HttpHeader : public dems::header::IHeaders {
 
 	private:
 		std::unordered_map<std::string, std::string> _headers;
+		std::string badApi = "";
 };
 }

@@ -17,6 +17,8 @@ std::string &HttpHeader::operator[](const std::string &headerName)
 
 const std::string &HttpHeader::getHeader(const std::string &headerName) const
 {
+	if (_headers.find(headerName) == _headers.end())
+		return badApi;
 	return _headers.at(headerName);
 }
 
