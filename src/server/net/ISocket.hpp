@@ -21,8 +21,8 @@ class ISocket {
 
 	public:
 		virtual bool connect(int, const std::string &) = 0;
-		virtual void setReceive(std::function<void(const char *, size_t)> &&) = 0;
-		virtual void setDisconnect(std::function<void(ISocket*)> &&) = 0;
+		virtual void setReceive(const std::function<void(const char *, size_t)> &) = 0;
+		virtual void setDisconnect(const std::function<void(ISocket*)> &) = 0;
 		virtual void disconnect() = 0;
 		virtual size_t send(const char *, size_t) = 0;
 		virtual size_t send(const std::string &) = 0;

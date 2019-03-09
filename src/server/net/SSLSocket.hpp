@@ -9,6 +9,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio/ssl.hpp>
+#include <boost/optional.hpp>
 
 #include "NetworkService.hpp"
 #include "ISocket.hpp"
@@ -18,7 +19,6 @@
 namespace Zia::net {
 class SSLSocket : public ISocket {
 	public:
-		using ssl_socket = boost::asio::ssl::stream<boost::asio::ip::tcp::socket>;
 		SSLSocket(NetworkService &, boost::asio::ssl::context &context);
 		~SSLSocket() noexcept = default;
 		SSLSocket() = delete;
@@ -32,14 +32,15 @@ class SSLSocket : public ISocket {
 	 */
 	public:
 		bool connect(int, const std::string & = "127.0.0.1") override;
-		void setReceive(std::function<void(const char *, size_t)> &&) override;
-		void setDisconnect(std::function<void(ISocket*)> &&) override;
+		void setReceive(const std::function<void(const char *, size_t)> &) override;
+		void setDisconnect(const std::function<void(ISocket*)> &) override;
 		void disconnect() override;
 		size_t send(const char *, size_t) override;
 		size_t send(const std::string &) override;
-		SSLSocket::ssl_socket::lowest_layer_type &get() { return _socket.lowest_layer(); };
+		auto &get() { return _socket.lowest_layer(); };
 
 	private:
+		void handleHandshake(const boost::system::error_code&);
 		void handleReceive(const boost::system::error_code&, size_t) override;
 		void handleSend(const boost::system::error_code&) override;
 
@@ -47,8 +48,8 @@ class SSLSocket : public ISocket {
 	 * Fields
 	 */
 	private:
-		ssl_socket _socket;
-		boost::asio::ssl::context &_context;
+		NetworkService &_service;
+		boost::asio::ssl::stream<boost::asio::ip::tcp::socket> _socket;
 		boost::asio::ip::tcp::resolver _resolver;
 		char _buffer[READ_SIZE + 1];
 		std::function<void(const char *, size_t)> _recvCallback;

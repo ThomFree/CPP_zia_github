@@ -11,8 +11,9 @@
 
 namespace Zia::net {
 	SSLSocket::SSLSocket(NetworkService &netService, boost::asio::ssl::context &context)
-		: _socket(netService, context), _context(context), _resolver(netService)
+		: _service(netService), _socket(_service, context), _resolver(netService)
 	{
+
 	}
 
 	bool SSLSocket::connect(int port, const std::string &ipAddr) {
@@ -29,26 +30,39 @@ namespace Zia::net {
 		return true;
 	}
 
-	void SSLSocket::setReceive(std::function<void(const char*, size_t)> &&recvCallback) {
+	void SSLSocket::setReceive(const std::function<void(const char*, size_t)> &recvCallback) {
 		_recvCallback = recvCallback;
-		_socket.async_read_some(boost::asio::buffer(_buffer, READ_SIZE),
-								boost::bind(&SSLSocket::handleReceive, this,
-											boost::asio::placeholders::error,
-											boost::asio::placeholders::bytes_transferred));
+		_socket.async_handshake(boost::asio::ssl::stream_base::server,
+			boost::bind(&SSLSocket::handleHandshake, this,
+			boost::asio::placeholders::error));
 	}
 
-	void SSLSocket::setDisconnect(std::function<void(ISocket*)> &&discCallback) {
+	void SSLSocket::setDisconnect(const std::function<void(ISocket*)> &discCallback) {
 		_discCallback = discCallback;
 	}
 
 	void SSLSocket::disconnect() {
-		if (_discCallback)
+		if (_discCallback) {
 			_discCallback(this);
+		}
+		if (_socket.lowest_layer().is_open()) {
+			_socket.lowest_layer().shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+			_socket.lowest_layer().close();
+		}
 	}
 
-	/*boost::asio::ip::tcp::socket &SSLSocket::get() {
-		return _socket;
-	}*/
+	void SSLSocket::handleHandshake(const boost::system::error_code &error)
+	{
+		if (!error) {
+			_socket.async_read_some(boost::asio::buffer(_buffer, READ_SIZE),
+			boost::bind(&SSLSocket::handleReceive, this,
+			boost::asio::placeholders::error,
+			boost::asio::placeholders::bytes_transferred));
+		} else {
+			std::cerr << "SSLSocket: " << error.message() <<  std::endl;
+			disconnect();
+		}
+	}
 
 	void SSLSocket::handleReceive(const boost::system::error_code& error, size_t bytes_transferred) {
 		if (!error) {
@@ -57,18 +71,16 @@ namespace Zia::net {
 												boost::asio::placeholders::error,
 												boost::asio::placeholders::bytes_transferred));
 			_buffer[bytes_transferred] = '\0';
-				_recvCallback(_buffer, bytes_transferred);
+			_recvCallback(_buffer, bytes_transferred);
 		} else {
-			if (((boost::asio::error::eof == error) || (boost::asio::error::connection_reset == error)))
-				disconnect();
-			else
-				std::cerr << "SSLSocket: " << error.message() <<  std::endl;
+			std::cerr << "SSLSocket: " << error.message() <<  std::endl;
+			disconnect();
 		}
 	}
 
 	size_t SSLSocket::send(const char *data, size_t len) {
 		if (!_socket.lowest_layer().is_open()) {
-			std::cerr << "SSLSocket: Socket must connect before send" << std::endl;
+			std::cerr << "SSLSocket: Send failed" << std::endl;
 			return 0;
 		}
 		boost::asio::async_write(_socket, boost::asio::buffer(data, len),

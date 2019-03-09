@@ -29,8 +29,8 @@ class TCPSocket : public ISocket {
 	 */
 	public:
 		bool connect(int, const std::string & = "127.0.0.1");
-		void setReceive(std::function<void(const char *, size_t)> &&);
-		void setDisconnect(std::function<void(ISocket*)> &&);
+		void setReceive(const std::function<void(const char *, size_t)> &);
+		void setDisconnect(const std::function<void(ISocket*)> &);
 		void disconnect();
 		size_t send(const char *, size_t);
 		size_t send(const std::string &);

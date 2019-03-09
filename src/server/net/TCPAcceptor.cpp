@@ -6,13 +6,16 @@
 */
 
 #include <iostream>
+#include <string>
 #include <utility>
 
 #include "TCPAcceptor.hpp"
 
 namespace Zia::net {
 TCPAcceptor::TCPAcceptor(NetworkService &netService) : _netService(netService), _acceptor(_netService)
-{}
+{
+
+}
 
 bool TCPAcceptor::bind(int port) {
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
@@ -23,7 +26,7 @@ bool TCPAcceptor::bind(int port) {
 		_acceptor.listen();
 	} catch (const std::runtime_error& error) {
 		// BUG DON'T UNCOMMENT
-		// std::cerr << "TCPAcceptor: " << error.what() << std::endl; ----> /!\ the error is not defined if bind failed (don't know why)
+		std::cerr << "TCPAcceptor: " << error.what() << std::endl; // ----> /!\ the error is not defined if bind failed (don't know why)
 		return false;
 	}
 	return true;

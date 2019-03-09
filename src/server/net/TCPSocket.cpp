@@ -28,7 +28,7 @@ namespace Zia::net {
 		return true;
 	}
 
-	void TCPSocket::setReceive(std::function<void(const char*, size_t)> &&recvCallback) {
+	void TCPSocket::setReceive(const std::function<void(const char*, size_t)> &recvCallback) {
 		_recvCallback = recvCallback;
 		_socket.async_read_some(boost::asio::buffer(_buffer, READ_SIZE),
 								boost::bind(&TCPSocket::handleReceive, this,
@@ -36,7 +36,7 @@ namespace Zia::net {
 											boost::asio::placeholders::bytes_transferred));
 	}
 
-	void TCPSocket::setDisconnect(std::function<void(ISocket*)> &&discCallback) {
+	void TCPSocket::setDisconnect(const std::function<void(ISocket*)> &discCallback) {
 		_discCallback = discCallback;
 	}
 
@@ -44,10 +44,6 @@ namespace Zia::net {
 		if (_discCallback)
 			_discCallback(this);
 	}
-
-	/*boost::asio::ip::tcp::socket &TCPSocket::get() {
-		return _socket;
-	}*/
 
 	void TCPSocket::handleReceive(const boost::system::error_code& error, size_t bytes_transferred) {
 		if (!error) {

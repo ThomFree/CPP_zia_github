@@ -15,8 +15,8 @@ Client::Client(unsigned int id, std::shared_ptr<net::TCPClient> &sock,
 {
 	_ctx.config = _conf;
 	discoverStage(_manager.getStageManager().connection(), _ctx);
-	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
 	_tcpClient->socket()->setDisconnect([&](net::ISocket *) { disconnect(); });
+	_tcpClient->socket()->setReceive([&](const char *data, size_t size) { readMsg(data, size); });
 }
 
 Client::~Client()

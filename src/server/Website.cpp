@@ -21,8 +21,9 @@ Website::Website(const std::string &filename, net::NetworkService &net) : _filen
 
 Website::~Website()
 {
-	while (_clients.size() > 0)
+	while (_clients.size() > 0) {
 		_clients.pop_back();
+	}
 	printMessage("Stopped.");
 }
 
@@ -37,7 +38,10 @@ void Website::printMessage(const std::string &str)
 void Website::launch()
 {
 	if (_acceptor.bind(std::get<long long>(_conf["port"].v))) {
-		_acceptor.accept<net::TCPSocket>([this](std::shared_ptr<net::TCPClient> client) -> void { acceptClient(client); });
+		if (std::get<bool>(_conf["ssl"].v) == true)
+			_acceptor.accept<net::SSLSocket>([this](std::shared_ptr<net::TCPClient> client) -> void { acceptClient(client); });
+		else
+			_acceptor.accept<net::TCPSocket>([this](std::shared_ptr<net::TCPClient> client) -> void { acceptClient(client); });
 	}
 	else {
 		printMessage("Error while binding socket on port.");

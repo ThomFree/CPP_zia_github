@@ -8,6 +8,7 @@
 #pragma once
 
 #include <boost/asio.hpp>
+#include <boost/bind.hpp>
 #include <functional>
 #include <memory>
 
@@ -72,7 +73,7 @@ inline SSLSocket *TCPAcceptor::accept(const acceptCallback_t &callback) {
 				return;
 			}
 			callback(client);
-			accept<TCPSocket>(callback);
+			accept<SSLSocket>(callback);
 		});
 	return static_cast<SSLSocket*>(client->socket());
 }

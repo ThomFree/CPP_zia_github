@@ -55,6 +55,7 @@
 		"utility": "cpp",
 		"variant": "cpp",
 		"algorithm": "cpp",
-		"filesystem": "cpp"
+		"filesystem": "cpp",
+		"valarray": "cpp"
 	}
 }

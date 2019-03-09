@@ -29,6 +29,18 @@ static void connectCallBack(std::shared_ptr<Zia::net::TCPClient> TCPClient)
 	});
 }
 
+static void connectCallBackSSL(std::shared_ptr<Zia::net::TCPClient> TCPClient)
+{
+	std::cout << "[ Accepted new TCPClient ]" << std::endl;
+	Zia::net::SSLSocket *socket = static_cast<Zia::net::SSLSocket*>(TCPClient->socket());
+
+	socket->setDisconnect([socket](Zia::net::ISocket *socket) { disconnectCallback(socket); });
+	socket->setReceive([](const char *data, size_t size) {
+		((char*)data)[size - 1] = '\0';
+		std::cout << "{Received data: { " << data << " } ]" << std::endl;
+	});
+}
+
 /*
  * When SIGINT is catched
  */
@@ -41,6 +53,7 @@ int main(int, char *[])
 {
 	Zia::net::NetworkService netService(&stopCbFn);
 	Zia::net::TCPAcceptor acceptor(netService); // Acceptor (Website manager)
+	Zia::net::TCPAcceptor acceptorSSL(netService);
 	std::vector<std::shared_ptr<Zia::net::TCPClient>> list; // TCPClient List (Website manager)
 
 	if (acceptor.bind(8080))
@@ -48,8 +61,8 @@ int main(int, char *[])
 	else
 		std::cerr << "[ Error while binding socket on port. ]" << std::endl;
 
-	if (acceptor.bind(4343))
-		acceptor.accept<Zia::net::SSLSocket>([&list](std::shared_ptr<Zia::net::TCPClient> TCPClient) -> void { list.push_back(TCPClient); connectCallBack(TCPClient); });
+	if (acceptorSSL.bind(4343))
+		acceptorSSL.accept<Zia::net::SSLSocket>([&list](std::shared_ptr<Zia::net::TCPClient> TCPClient) -> void { list.push_back(TCPClient); connectCallBackSSL(TCPClient); });
 	else
 		std::cerr << "[ Error while binding socket on port. ]" << std::endl;
 

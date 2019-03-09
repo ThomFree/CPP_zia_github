@@ -8,5 +8,8 @@
 #include "TCPClient.hpp"
 
 namespace Zia::net {
-
+	std::string TCPClient::handle_password() const
+	{
+		return "password";
+	}
 }
