@@ -24,8 +24,8 @@ std::string HttpHeader::getWholeHeaders() const
 {
 	std::string buffer;
 
-	for (auto it : _headers)
-		buffer.append(it.second + "\r\n");
+	for (const auto &it : _headers)
+		buffer.append(it.first + ": " + it.second + "\r\n");
 	return buffer;
 }
 

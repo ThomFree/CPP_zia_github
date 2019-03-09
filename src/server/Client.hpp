@@ -9,6 +9,7 @@
 #include "net/TCPClient.hpp"
 #include "dems-api/Config.hpp"
 #include "dems-api/Stage.hpp"
+#include "dems-api/Heading.hpp"
 #include "ModulesManager.hpp"
 
 #pragma once

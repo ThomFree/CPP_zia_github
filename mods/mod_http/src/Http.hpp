@@ -9,14 +9,23 @@
 
 #pragma once
 
+namespace mod {
+
 class Http {
 	public:
-		using key = std::string;
-		using value = std::string;
 		Http(dems::Context &ctx);
 		~Http() = default;
 
+		Http() = delete;
+		Http &operator=(const Http &) = delete;
+		Http(const Http &) = delete;
+
+	public:
+		void parse();
+		void interpret();
+
 	private:
 		dems::Context &_ctx;
-		std::unordered_map<s
 };
+
+}

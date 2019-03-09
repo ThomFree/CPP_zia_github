@@ -14,8 +14,8 @@
 namespace Zia {
 class HttpHeader : public dems::header::IHeaders {
 	public:
-		HttpHeader();
-		~HttpHeader();
+		HttpHeader() = default;
+		~HttpHeader() = default;
 
 		std::string &operator[](const std::string &headerName) override;
 		const std::string &getHeader(const std::string &headerName) const override;
