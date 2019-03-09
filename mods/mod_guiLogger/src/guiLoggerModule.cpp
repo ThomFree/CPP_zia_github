@@ -21,13 +21,11 @@ extern "C" {
 std::string registerHooks(dems::StageManager &manager) {
 	std::cout << "Module GUILogger is working..." << std::endl;
 	manager.request().hookToFirst(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);		
 
-		logPath = handler.handleFilePath(ctx);
-		
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "--- Establishing Request ---" << std::endl 
 				<< "\t" << "Stage: Request FIRST" << std::endl;
 		std::cout << "Stage: Request FIRST" << std::endl;
@@ -36,13 +34,11 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.request().hookToMiddle(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);
 
-		logPath = handler.handleFilePath(ctx);
-		
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "\t" << "Stage: Request MIDDLE" << std::endl;
 		std::cout << "Stage: Request MIDDLE" << std::endl;
 		ofs.close();
@@ -50,13 +46,11 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.request().hookToEnd(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);
 
-		logPath = handler.handleFilePath(ctx);
-		
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "\t" << "Stage: Request END" << std::endl
 				<< "--- Request done ---" << std::endl << std::endl;
 		std::cout << "Stage: Request END" << std::endl;
@@ -65,13 +59,25 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.connection().hookToFirst(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = "./etc/zia/log/";
 
-		logPath = handler.handleFilePath(ctx);
-		
-		ofs.open(logPath, std::ofstream::out);
+  	if (!(gui.find("logPath") == gui.end())) {
+			logPath = std::get<std::string>(gui["logPath"].v);
+		} else {
+			dems::config::ConfigValue temp;
+
+			temp.v = logPath;
+			std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["GuiLogger"].v)["logPath"] = temp;
+		}
+
+		GUILogger::HandlerFilePath handler(logPath);
+		logPath = handler.handleFilePath(ctx.config);
+		std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(ctx.config["modules"].v)["GuiLogger"].v)["logPath"].v = logPath;
+
+		std::ofstream ofs(logPath, std::ofstream::out);
+
 		ofs << "--- Establishing connection ---" << std::endl 
 				<< "\t" << "Stage: Connection FIRST" << std::endl;
 		std::cout << "[GUILoggerModule] Writing in file " << logPath << std::endl;
@@ -81,13 +87,11 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.connection().hookToMiddle(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
-
-		logPath = handler.handleFilePath(ctx);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);
 		
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "\t" << "Stage: Connection MIDDLE" << std::endl;
 		std::cout << "Stage: Connection MIDDLE" << std::endl;
 		ofs.close();
@@ -95,13 +99,11 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.connection().hookToEnd(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);
 
-		logPath = handler.handleFilePath(ctx);
-
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "\t" << "Stage: Connection END" << std::endl;
 		ofs << "--- Connection Done ---" << std::endl << std::endl;
 		std::cout << "Stage: Connection END" << std::endl;
@@ -110,13 +112,11 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.disconnect().hookToFirst(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);
 
-		logPath = handler.handleFilePath(ctx);
-
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "--- Establishing disconnection ---" << std::endl 
 				<< "\t" << "Stage: Disonnection FIRST" << std::endl;
 		std::cout << "Stage: Disconnection FIRST" << std::endl;
@@ -125,13 +125,11 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.disconnect().hookToMiddle(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);
 
-		logPath = handler.handleFilePath(ctx);
-
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "\t" << "Stage: Disconnection MIDDLE" << std::endl;
 		std::cout << "Stage: Disconnection MIDDLE" << std::endl;
 		ofs.close();
@@ -139,13 +137,11 @@ std::string registerHooks(dems::StageManager &manager) {
 	});
 
 	manager.disconnect().hookToEnd(0, MODULE_NAME, [](dems::Context &ctx) {
-		std::string logPath = "./etc/zia/sites/log/";
-		std::ofstream ofs;
-		GUILogger::HandlerFilePath handler(logPath);
+		auto modules = std::get<dems::config::ConfigObject>(ctx.config["modules"].v);
+  	auto gui = std::get<dems::config::ConfigObject>(modules["GuiLogger"].v);
+		std::string logPath = std::get<std::string>(gui["logPath"].v);
+		std::ofstream ofs(logPath, std::ofstream::app);
 
-		logPath = handler.handleFilePath(ctx);
-
-		ofs.open(logPath, std::ofstream::app);
 		ofs << "\t" << "Stage: Disconnection END" << std::endl;
 		ofs << "--- Disconnection Done ---" << std::endl;
 		std::cout << "Stage: Disconnection END" << std::endl;
