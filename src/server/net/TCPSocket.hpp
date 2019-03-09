@@ -16,24 +16,24 @@
 namespace Zia::net {
 class TCPSocket : public ISocket {
 	public:
-		explicit TCPSocket(NetworkService &);
+		explicit TCPSocket(NetworkService&);
 		~TCPSocket() noexcept = default;
 		TCPSocket() = delete;
-		TCPSocket(const TCPSocket &) = default;
-		TCPSocket(TCPSocket &&) = default;
-		TCPSocket &operator=(const TCPSocket &) = default;
-		TCPSocket &operator=(TCPSocket &&) = default;
+		TCPSocket(const TCPSocket&) = default;
+		TCPSocket(TCPSocket&&) = default;
+		TCPSocket &operator=(const TCPSocket&) = default;
+		TCPSocket &operator=(TCPSocket&&) = default;
 
 	/*
 	 * Methods
 	 */
 	public:
-		bool connect(int, const std::string & = "127.0.0.1") override;
-		void setReceive(const std::function<void(const char *, size_t)> &) override;
-		void setDisconnect(const std::function<void(ISocket*)> &) override;
+		bool connect(int, const std::string& = "127.0.0.1") override;
+		void setReceive(const std::function<void(const char*, size_t)>&) override;
+		void setDisconnect(const std::function<void(ISocket*)>&) override;
 		void disconnect() override;
-		size_t send(const char *, size_t) override;
-		size_t send(const std::string &) override;
+		size_t send(const char*, size_t) override;
+		size_t send(const std::string&) override;
 		boost::asio::ip::tcp::socket &get() { return _socket; };
 
 	private:

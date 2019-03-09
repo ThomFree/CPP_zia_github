@@ -26,24 +26,24 @@ struct SSLConf {
 
 class SSLSocket : public ISocket {
 	public:
-		SSLSocket(NetworkService &, boost::asio::ssl::context &context);
+		SSLSocket(NetworkService&, boost::asio::ssl::context&);
 		~SSLSocket() noexcept = default;
 		SSLSocket() = delete;
-		SSLSocket(const SSLSocket &) = delete;
-		SSLSocket(SSLSocket &&) = default;
-		SSLSocket &operator=(const SSLSocket &) = delete;
-		SSLSocket &operator=(SSLSocket &&) = default;
+		SSLSocket(const SSLSocket&) = delete;
+		SSLSocket(SSLSocket&&) = default;
+		SSLSocket &operator=(const SSLSocket&) = delete;
+		SSLSocket &operator=(SSLSocket&&) = default;
 
 	/*
 	 * Methods
 	 */
 	public:
-		bool connect(int, const std::string & = "127.0.0.1") override;
-		void setReceive(const std::function<void(const char *, size_t)> &) override;
-		void setDisconnect(const std::function<void(ISocket*)> &) override;
+		bool connect(int, const std::string& = "127.0.0.1") override;
+		void setReceive(const std::function<void(const char *, size_t)>&) override;
+		void setDisconnect(const std::function<void(ISocket*)>&) override;
 		void disconnect() override;
 		size_t send(const char *, size_t) override;
-		size_t send(const std::string &) override;
+		size_t send(const std::string&) override;
 		auto &get() { return _socket.lowest_layer(); };
 
 	private:

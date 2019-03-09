@@ -5,8 +5,6 @@
 ** TCPAcceptor
 */
 
-#pragma once
-
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <functional>
@@ -15,6 +13,8 @@
 #include "NetworkService.hpp"
 #include "TCPSocket.hpp"
 #include "SSLSocket.hpp"
+
+#pragma once
 
 namespace Zia::net {
 class TCPAcceptor {
@@ -36,7 +36,7 @@ class TCPAcceptor {
 		T *accept(const acceptCallback_t &callback);
 		template<typename T>
 		T *accept(const acceptCallback_t &callback, const net::SSLConf&);
-		bool bind(int port);
+		bool bind(int);
 		void close() { _acceptor.close(); }
 
 	/*
@@ -73,18 +73,11 @@ inline SSLSocket *TCPAcceptor::accept(const acceptCallback_t &callback, const ne
 		| boost::asio::ssl::context::no_sslv2
 		| boost::asio::ssl::context::single_dh_use
 	);
-
-//	context.set_password_callback(boost::bind(&TCPClient::handle_password, this));
-
-	std::cout << "CERT FILE:" << conf.certFile << std::endl;
-
 	context.use_certificate_chain_file(conf.certFile);
 	context.use_private_key_file(conf.keyFile, boost::asio::ssl::context::pem);
 	context.use_tmp_dh_file(conf.dhFile);
-
-	context.set_verify_mode(/*boost::asio::ssl::context::verify_fail_if_no_peer_cert | */boost::asio::ssl::context::verify_peer);
+	context.set_verify_mode(boost::asio::ssl::context::verify_peer);
 	context.load_verify_file(conf.verifFile);
-
 	auto client = std::make_shared<SSLSocket>(_netService, context);
 	_acceptor.async_accept(client->get(),
 		[this, client, callback, conf](const boost::system::error_code& error) {
