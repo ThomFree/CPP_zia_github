@@ -1,0 +1,10 @@
+*.vscode
+*.cmake-build-debug
+*.idea
+*.git
+
+*build/
+*docs/
+
+.gitignore
+README.md
