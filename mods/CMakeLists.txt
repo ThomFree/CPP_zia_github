@@ -1,2 +1,4 @@
 add_subdirectory(mod_logger)
+add_subdirectory(mod_http)
 add_subdirectory(mod_guiLogger)
+add_subdirectory(mod_timeProcessing)

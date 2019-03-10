@@ -6,7 +6,7 @@
 #include <boost/test/unit_test.hpp>
 #include "./testdemo.cpp"
 
-BOOST_AUTO_TEST_CASE( test1 )
+BOOST_AUTO_TEST_CASE(test1)
 {
-	BOOST_TEST( add(20, 0) == 25 );
+	BOOST_TEST(add(20, 5) == 25);
 }

@@ -23,6 +23,25 @@ enum {
 	RUNNING
 };
 
+static inline const net::SSLConf getSSLConf(dems::config::Config &conf)
+{
+	net::SSLConf ssl;
+	for (auto &sslObj : std::get<dems::config::ConfigObject>(conf["ssl"].v)) {
+		if (sslObj.first == "certificate") {
+			ssl.certFile = std::get<std::string>((sslObj.second.v));
+		} else if (sslObj.first == "private_key") {
+			ssl.keyFile = std::get<std::string>((sslObj.second.v));
+		} else if (sslObj.first == "dh") {
+			ssl.dhFile = std::get<std::string>((sslObj.second.v));
+		} else if (sslObj.first == "verify_mode") {
+			ssl.verifFile = std::get<std::string>((sslObj.second.v));
+		} else {
+			throw std::runtime_error("Unknown parameter");
+		}
+	}
+	return ssl;
+}
+
 class Website {
 	public:
 		Website(const std::string &filename, net::NetworkService &net);
@@ -40,7 +59,7 @@ class Website {
 
 	private:
 		void checkConfig();
-		void acceptClient(std::shared_ptr<net::TCPClient> client);
+		void acceptClient(std::shared_ptr<net::ISocket> client);
 		void instantiateModules();
 
 	private:
@@ -52,6 +71,7 @@ class Website {
 		int _state = STOPPED;
 		unsigned int _id = 0;
 		ModulesManager _manager;
+		net::SSLConf _sslConf;
 };
 
 }

@@ -17,6 +17,8 @@ std::string &HttpHeader::operator[](const std::string &headerName)
 
 const std::string &HttpHeader::getHeader(const std::string &headerName) const
 {
+	if (_headers.find(headerName) == _headers.end())
+		return badApi;
 	return _headers.at(headerName);
 }
 
@@ -24,8 +26,8 @@ std::string HttpHeader::getWholeHeaders() const
 {
 	std::string buffer;
 
-	for (auto it : _headers)
-		buffer.append(it.second + "\r\n");
+	for (const auto &it : _headers)
+		buffer.append(it.first + ": " + it.second + "\r\n");
 	return buffer;
 }
 

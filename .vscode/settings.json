@@ -27,6 +27,7 @@
 		"unordered_map": "cpp",
 		"vector": "cpp",
 		"exception": "cpp",
+		"string_view": "cpp",
 		"fstream": "cpp",
 		"functional": "cpp",
 		"future": "cpp",
@@ -40,6 +41,7 @@
 		"mutex": "cpp",
 		"new": "cpp",
 		"optional": "cpp",
+		"ostream": "cpp",
 		"ratio": "cpp",
 		"sstream": "cpp",
 		"stdexcept": "cpp",
@@ -55,6 +57,8 @@
 		"utility": "cpp",
 		"variant": "cpp",
 		"algorithm": "cpp",
-		"filesystem": "cpp"
+		"filesystem": "cpp",
+		"valarray": "cpp",
+		"*.ipp": "cpp"
 	}
 }
