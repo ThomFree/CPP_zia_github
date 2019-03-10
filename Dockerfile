@@ -21,7 +21,5 @@ RUN pip3 install --no-cache-dir conan
 # Run the command launched by the "moulinette" as stated in the subject
 RUN cd build && conan install .. --build=missing && cmake .. -G "Unix Makefiles" && cmake --build .
 
-EXPOSE 1024-65535
-
 # Finally, launch the Zia ;)
 CMD ["./build/bin/zia"]
