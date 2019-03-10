@@ -26,8 +26,9 @@ std::string registerHooks(dems::StageManager &manager)
 	manager.request().hookToMiddle(0, MODULE_NAME, [](dems::Context &ctx) {
 		mod::PHP module(ctx);
 
-		if (!module.checkForPhp())
+		if (!module.checkForPhp()) {
 			module.interpret();
+		}
 		return dems::CodeStatus::OK;
 	});
 

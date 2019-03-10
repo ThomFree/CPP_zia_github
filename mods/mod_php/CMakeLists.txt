@@ -4,6 +4,7 @@ project(mod_php)
 # Add sources
 add_library(${PROJECT_NAME} SHARED
 	src/PHP.cpp
+	src/HttpHeader.cpp
 	src/mod_php.cpp
 	)
 
@@ -11,13 +12,14 @@ add_library(${PROJECT_NAME} SHARED
 target_include_directories(${PROJECT_NAME} PUBLIC
 	./src
 	${CMAKE_SOURCE_DIR}
+	${CMAKE_SOURCE_DIR}/src
 	${CMAKE_SOURCE_DIR}/api
-	${CMAKE_SOURCE_DIR}/../../../src
 	${ZIA_EXTERNAL_INCLUDE_DIRS}
 	)
 
 # Link the project with needed libraries
 target_link_libraries(${PROJECT_NAME}
+	-lstdc++fs
 	)
 
 # Compiler flags
