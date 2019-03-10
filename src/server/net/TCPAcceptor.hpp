@@ -55,7 +55,6 @@ inline TCPSocket *TCPAcceptor::accept(const acceptCallback_t &callback)
 	_acceptor.async_accept(client->get(),
 		[this, client, callback](const boost::system::error_code& error) {
 			if (error) {
-				std::cerr << "TCPSocket: " << error.message() << std::endl;
 				return;
 			}
 			callback(client);
@@ -68,21 +67,24 @@ template<>
 inline SSLSocket *TCPAcceptor::accept(const acceptCallback_t &callback, const net::SSLConf &conf)
 {
 	boost::asio::ssl::context context(boost::asio::ssl::context::sslv23);
-	context.set_options(
-		boost::asio::ssl::context::default_workarounds
-		| boost::asio::ssl::context::no_sslv2
-		| boost::asio::ssl::context::single_dh_use
-	);
-	context.use_certificate_chain_file(conf.certFile);
-	context.use_private_key_file(conf.keyFile, boost::asio::ssl::context::pem);
-	context.use_tmp_dh_file(conf.dhFile);
-	context.set_verify_mode(boost::asio::ssl::context::verify_peer);
-	context.load_verify_file(conf.verifFile);
+	try {
+		context.set_options(
+			boost::asio::ssl::context::default_workarounds
+			| boost::asio::ssl::context::no_sslv2
+			| boost::asio::ssl::context::single_dh_use
+		);
+		context.use_certificate_chain_file(conf.certFile);
+		context.use_private_key_file(conf.keyFile, boost::asio::ssl::context::pem);
+		context.use_tmp_dh_file(conf.dhFile);
+		context.set_verify_mode(boost::asio::ssl::context::verify_peer);
+		context.load_verify_file(conf.verifFile);
+	} catch (const std::exception &e) {
+		return nullptr;
+	}
 	auto client = std::make_shared<SSLSocket>(_netService, context);
 	_acceptor.async_accept(client->get(),
 		[this, client, callback, conf](const boost::system::error_code& error) {
 			if (error) {
-				std::cerr << "TCPSocket: " << error.message() << std::endl;
 				return;
 			}
 			callback(client);
