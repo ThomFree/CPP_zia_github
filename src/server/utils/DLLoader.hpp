@@ -5,29 +5,52 @@
 ** load dynamic lib
 */
 
-#include <dlfcn.h>
 #include <iostream>
 #include <memory>
 
 #pragma once
 
 namespace Zia {
-class DLLoader {
-public:
-	DLLoader(const std::string &mod);
-	~DLLoader();
-	void *getHandle() const { return _handle; }
 
-	template <typename T>
-	T getEntryPoint(const std::string &name)
-	{
-		T func;
-		func = reinterpret_cast<T>(dlsym(_handle, name.c_str()));
-		return (func);
-	}
+#ifdef _WIN32
+	#include <windows.h>
+	class DLLoader {
+		public:
+			DLLoader(const std::string &mod);
+			~DLLoader();
+			void *getHandle() const { return _handle; }
 
-private:
-	const std::string _nameMod;
-	void *_handle;
-};
+			template <typename T>
+			T getEntryPoint(const std::string &name)
+			{
+				T func;
+				func = reinterpret_cast<T>(GetProcAddress((HMODULE)_handle, name.c_str()));
+				return (func);
+			}
+
+		private:
+			const std::string _nameMod;
+			void *_handle;
+	};
+#elif __linux__
+	#include <dlfcn.h>
+	class DLLoader {
+		public:
+			DLLoader(const std::string &mod);
+			~DLLoader();
+			void *getHandle() const { return _handle; }
+
+			template <typename T>
+			T getEntryPoint(const std::string &name)
+			{
+				T func;
+				func = reinterpret_cast<T>(dlsym(_handle, name.c_str()));
+				return (func);
+			}
+
+		private:
+			const std::string _nameMod;
+			void *_handle;
+	};
+#endif
 }
