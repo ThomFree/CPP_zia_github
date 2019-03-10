@@ -1,0 +1,16 @@
+{
+	"name": "BasicHttpsSite",
+	"port": 4343,
+	"ssl": {
+		"certificate": "./etc/zia/certs/myEncryptedSite/server.pem",
+		"private_key": "./etc/zia/certs/myEncryptedSite/server.key",
+		"dh": "./etc/zia/certs/myEncryptedSite/dhparam.pem",
+		"verify_mode": "./etc/zia/certs/myEncryptedSite/server.pem"
+	},
+	"modules": {
+		"LOGGER": {
+			"path": "./build/lib/libmod_logger.so",
+			"timeout": 1000
+		}
+	}
+}
