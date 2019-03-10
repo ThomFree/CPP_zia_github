@@ -1,0 +1,10 @@
+{
+	"name": "PHPWebsite",
+	"port": 4000,
+	"modules": {
+		"PHP": {
+			"path": "./build/lib/libmod_php.so",
+			"websitePath": "./etc/zia/phpmyadmin/"
+		}
+	}
+}

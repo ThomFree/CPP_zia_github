@@ -1,0 +1,18 @@
+{
+	"name": "LoggerHttpSite",
+	"port": 8082,
+	"modules": {
+		"GuiLogger": {
+			"path": "./build/lib/libmod_guiLogger.so",
+			"logPath": "./etc/zia/log/"
+		},
+		"Http": {
+			"path": "./build/lib/libmod_http.so",
+			"websitePath": "./etc/zia/www/"
+		},
+		"TimeProcessing": {
+			"path": "./build/lib/libmod_timeProcessing.so",
+			"timeMS": 250
+		}
+	}
+}

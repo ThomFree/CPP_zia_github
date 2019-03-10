@@ -34,7 +34,7 @@ int main(int ac, const char * const av[])
 		}
 
 	} catch (const std::exception &err) {
-		std::cerr << err.what() << std::endl;
+		std::cout << err.what() << std::endl;
 		return 84;
 	}
 	return 0;
