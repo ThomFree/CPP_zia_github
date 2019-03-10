@@ -1,6 +1,6 @@
 # Unit test
 
-There is an unit test demonstration using boost_unit_test_framework in demo.cpp, that test the ```add()``` function in testdemo.cpp
+There is an unit test demonstration using boost_unit_test_framework in demo.cpp, which test the ```add()``` function in testdemo.cpp
 
 You can add your test with
 
