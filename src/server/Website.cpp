@@ -13,7 +13,11 @@ namespace Zia {
 Website::Website(const std::string &filename, net::NetworkService &net) : _filename(filename), _conf(), _jsonParser(filename), _acceptor(net)
 {
 	_conf = _jsonParser.makeConfigFromJson();
-	checkConfig();
+	try {
+		checkConfig();
+	} catch (const std::exception &e) {
+		std::cout << "[Zia] Invalid website configuration: " << e.what() << std::endl;
+	}
 	instantiateModules();
 	// TODO put the _clients in the config of the website
 	printMessage("Prepared.");
@@ -39,8 +43,9 @@ void Website::launch()
 {
 	if (_acceptor.bind(std::get<long long>(_conf["port"].v))) {
 		if (_conf.find("ssl") != _conf.end()) {
-			_sslConf = Zia::getSSLConf(_conf);
-			_acceptor.accept<net::SSLSocket>([this](std::shared_ptr<net::ISocket> client) -> void { acceptClient(client); }, _sslConf);
+			if (_acceptor.accept<net::SSLSocket>([this](std::shared_ptr<net::ISocket> client) -> void { acceptClient(client); }, _sslConf) == nullptr) {
+				throw std::runtime_error("\t[Website - " + std::get<std::string>(_conf["name"].v) + " Failed]");
+			}
 		} else
 			_acceptor.accept<net::TCPSocket>([this](std::shared_ptr<net::ISocket> client) -> void { acceptClient(client); });
 	}
@@ -56,6 +61,9 @@ void Website::checkConfig()
 {
 	if (_conf.find("name") == _conf.end() || _conf.find("port") == _conf.end() || _conf.find("modules") == _conf.end())
 		throw std::runtime_error("Name or port or modules variable does not appear in your configuration.");
+	if (_conf.find("ssl") != _conf.end()) {
+		_sslConf = Zia::getSSLConf(_conf);
+	}
 	if (std::get<long long>(_conf["port"].v) > 1 || std::get<long long>(_conf["port"].v) < 65535)
 		return;
 	if ((_conf["name"]).v.index() == JsonParser::TYPE::STRING && (_conf["port"]).v.index() == JsonParser::TYPE::LONG

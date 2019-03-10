@@ -59,7 +59,7 @@ namespace Zia::net {
 			boost::asio::placeholders::error,
 			boost::asio::placeholders::bytes_transferred));
 		} else {
-			std::cerr << "SSLSocket: " << error.message() <<  std::endl;
+			std::cerr << error.message() <<  std::endl;
 			disconnect();
 		}
 	}
@@ -73,16 +73,12 @@ namespace Zia::net {
 			_buffer[bytes_transferred] = '\0';
 			_recvCallback(_buffer, bytes_transferred);
 		} else {
-			std::cerr << "SSLSocket: " << error.message() <<  std::endl;
+			std::cerr << error.message() <<  std::endl;
 			disconnect();
 		}
 	}
 
 	size_t SSLSocket::send(const char *data, size_t len) {
-		if (!_socket.lowest_layer().is_open()) {
-			std::cerr << "SSLSocket: Send failed" << std::endl;
-			return 0;
-		}
 		boost::asio::async_write(_socket, boost::asio::buffer(data, len),
 								boost::bind(&SSLSocket::handleSend, this,
 											boost::asio::placeholders::error));
@@ -95,6 +91,6 @@ namespace Zia::net {
 
 	void SSLSocket::handleSend(const boost::system::error_code& error) {
 		if (error)
-			std::cerr << "SSLSocket: " << error.message() << std::endl;
+			std::cerr << error.message() << std::endl;
 	}
 }

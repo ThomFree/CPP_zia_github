@@ -58,7 +58,6 @@ void Client::readMsg(const char *data, size_t size)
 
 	try {
 		discoverStage(_manager.getStageManager().request(), _ctx);
-		throw std::runtime_error("hello");
 	} catch (const std::exception &e) {
 		std::cout << "Module crashed: " << e.what() << std::endl;
 	}
