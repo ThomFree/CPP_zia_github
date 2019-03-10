@@ -1,0 +1,10 @@
+{
+	"name": "HttpSite",
+	"port": 8080,
+	"modules": {
+		"Http": {
+			"path": "./build/lib/libmod_http.so",
+			"websitePath": "./etc/zia/www/"
+		}
+	}
+}

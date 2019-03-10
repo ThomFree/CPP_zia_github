@@ -44,13 +44,6 @@ void Http::parse()
 	while (std::getline(stream, line) && line.length() > 1) {
 		addToHeaders(line);
 	}
-
-	// DEBUG
-	std::cout << "DEBUG DU MSG RECU, firstLine : " << std::get<dems::header::Request>(_ctx.request.firstLine).method 
-		<< ":" << std::get<dems::header::Request>(_ctx.request.firstLine).path << ":" 
-		<< std::get<dems::header::Request>(_ctx.request.firstLine).httpVersion << std::endl;
-	std::cout << "HEADERS :" << _ctx.request.headers->getWholeHeaders();
-	std::cout << "BODY : /" << _ctx.request.body << "/" << std::endl;
 }
 
 void Http::interpretGet(std::string &code, std::string &msg, std::fstream &file)
@@ -82,10 +75,9 @@ void Http::interpretHead(std::string &code, std::string &msg, std::fstream &file
 
 	while (std::getline(file, line)) {
 		buf.append(line);
-  }
+	}
 
 	_ctx.response.headers->setHeader("Content-Type", "text/html");
-	//_ctx.response.headers->setHeader("Content-Length", std::to_string(buf.size()));  // /!\ POSTMAN doesn't get any response with this
 }
 
 void Http::interpretDelete(std::string &, std::string &)
