@@ -41,7 +41,12 @@ void WebsiteManager::launch()
 	exploreDirectory();
 	_configWatcher.setDirectory(_confPath);
 	for (auto &site : _sites) {
-		site->launch();
+		try {
+			site->launch();
+		} catch (const std::exception &e) {
+			std::cout << e.what() << std::endl;
+			continue;
+		}
 	}
 	// Ici start le cmdline et le interpretReceivedCmd pour executer les commandes
 	// le file auto updater (relaod de la config d'un website à partir de la maj de sa config) ?

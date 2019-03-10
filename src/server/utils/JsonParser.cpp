@@ -96,7 +96,7 @@ dems::config::Config JsonParser::makeConfigFromJson()
 	return (_conf);
 }
 
-void JsonParser::writeFromConfig(std::pair<const std::string, dems::config::ConfigValue> &obj, TYPE type, json &file, bool isArray)
+void JsonParser::writeFromConfig(const std::pair<const std::string, dems::config::ConfigValue> &obj, TYPE type, json &file, bool isArray)
 {
   switch (type) {
   case (TYPE::BOOL):
@@ -123,7 +123,7 @@ void JsonParser::writeFromConfig(std::pair<const std::string, dems::config::Conf
   }
 }
 
-void JsonParser::traverseArray(dems::config::ConfigArray &array, json &jsonFile)
+void JsonParser::traverseArray(const dems::config::ConfigArray &array, json &jsonFile)
 {
   for (unsigned int i = 0; i < array.size(); i++) {
     if (array[i].v.index() == TYPE::ARRAY) {
@@ -146,11 +146,11 @@ void JsonParser::traverseArray(dems::config::ConfigArray &array, json &jsonFile)
   }
 }
 
-void JsonParser::traverseObj(dems::config::ConfigObject &conf, json &jsonFile, bool isArray)
+void JsonParser::traverseObj(const dems::config::ConfigObject &conf, json &jsonFile, bool isArray)
 {
   TYPE type = NOTYPE;
   for (auto &it : conf) {
-    type = static_cast<TYPE>(conf[it.first].v.index());
+    type = static_cast<TYPE>(conf.at(it.first).v.index());
     writeFromConfig(it, type, jsonFile, isArray);
     if (type == TYPE::OBJECT)
       traverseObj(std::get<dems::config::ConfigObject>(it.second.v), jsonFile[it.first], false);
@@ -160,7 +160,7 @@ void JsonParser::traverseObj(dems::config::ConfigObject &conf, json &jsonFile, b
   }
 }
 
-void JsonParser::makeJsonFromConfig(dems::config::Config &conf, const std::string &nameFile)
+void JsonParser::makeJsonFromConfig(const dems::config::Config &conf, const std::string &nameFile)
 {
   std::ofstream file(nameFile);
   json jsonFile;
