@@ -8,6 +8,7 @@
 #include <memory>
 #include "dems-api/Config.hpp"
 #include "dems-api/Stage.hpp"
+#include "dems-api/Heading.hpp"
 #include "ModulesManager.hpp"
 #include "net/ISocket.hpp"
 
