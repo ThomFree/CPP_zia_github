@@ -7,7 +7,8 @@ set(SOURCES
 
 	net/TCPSocket.cpp
 	net/TCPAcceptor.cpp
-	net/TCPClient.cpp
+	#net/TCPClient.cpp
+	net/SSLSocket.cpp
 
 	HttpHeader.cpp
 	ModulesManager.cpp
@@ -39,6 +40,8 @@ target_link_libraries(${PROJECT_NAME}
 	${CONAN_LIBS}
 	${ZIA_EXTERNAL_LIBS}
 	-lstdc++fs
+	-lssl
+	-lcrypto
 	-ldl
 	)
 

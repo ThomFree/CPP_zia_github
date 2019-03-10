@@ -21,8 +21,9 @@ Website::Website(const std::string &filename, net::NetworkService &net) : _filen
 
 Website::~Website()
 {
-	while (_clients.size() > 0)
+	while (_clients.size() > 0) {
 		_clients.pop_back();
+	}
 	printMessage("Stopped.");
 }
 
@@ -37,7 +38,11 @@ void Website::printMessage(const std::string &str)
 void Website::launch()
 {
 	if (_acceptor.bind(std::get<long long>(_conf["port"].v))) {
-		_acceptor.accept([this](std::shared_ptr<net::TCPClient> client) -> void { acceptClient(client); });
+		if (_conf.find("ssl") != _conf.end()) {
+			_sslConf = Zia::getSSLConf(_conf);
+			_acceptor.accept<net::SSLSocket>([this](std::shared_ptr<net::ISocket> client) -> void { acceptClient(client); }, _sslConf);
+		} else
+			_acceptor.accept<net::TCPSocket>([this](std::shared_ptr<net::ISocket> client) -> void { acceptClient(client); });
 	}
 	else {
 		printMessage("Error while binding socket on port.");
@@ -59,7 +64,7 @@ void Website::checkConfig()
 	throw std::runtime_error("Please verify your configuration, something went wrong.");
 }
 
-void Website::acceptClient(std::shared_ptr<net::TCPClient> sock)
+void Website::acceptClient(std::shared_ptr<net::ISocket> sock)
 {
 	_clients.emplace_back(new Client(_id++, sock, _conf, _manager));
 }
