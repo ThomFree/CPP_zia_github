@@ -6,6 +6,11 @@
 */
 
 #include "dems-api/Stage.hpp"
+#include <map>
+#include <functional>
+#include <algorithm>
+#include <fstream>
+
 
 #pragma once
 
@@ -26,9 +31,18 @@ class Http {
 
 	private:
 		void addToHeaders(const std::string &line);
+		void interpretGet(std::string &code, std::string &msg, std::fstream &file);
+		void interpretHead(std::string &code, std::string &msg, std::fstream &file);
+		void interpretPut(std::string &code, std::string &msg);
+		void interpretDelete(std::string &code, std::string &msg);
+		void interpretPost(std::string &code, std::string &msg);
+		bool isPathAvailable(std::string &code, std::string &msg, std::string &websitePath);
 
 	private:
 		dems::Context &_ctx;
+		const std::vector<std::string> _methodList = {"GET", "HEAD", "POST", "//OPTIONS", "PUT", "DELETE", "//TRACE" };
+		std::fstream _file;
+		
 };
 
 }

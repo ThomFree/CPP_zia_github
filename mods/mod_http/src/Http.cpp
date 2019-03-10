@@ -6,7 +6,14 @@
 */
 
 #include <sstream>
+#include <fstream>
+#include <streambuf>
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <functional>
+#include <experimental/filesystem>
+#include <map>
 #include "Http.hpp"
 #include "dems-api/Heading.hpp"
 
@@ -46,17 +53,134 @@ void Http::parse()
 	std::cout << "BODY : /" << _ctx.request.body << "/" << std::endl;
 }
 
+void Http::interpretGet(std::string &code, std::string &msg, std::fstream &file)
+{
+	std::string line;
+	std::string buffer;
+	
+	while (std::getline(file, line)) {
+    buffer.append(line);
+  }
+	file.clear();
+	file.seekg(0, std::ios::beg);
+	code = "200";
+	msg = "OK";
+	_ctx.response.body = buffer;
+	_ctx.response.headers->setHeader("Content-Type", "text/html");
+}
+
+void Http::interpretPost(std::string &, std::string &)
+{
+}
+
+void Http::interpretHead(std::string &code, std::string &msg, std::fstream &file)
+{
+	std::string line;
+	std::string buf;
+	code = "200";
+	msg = "OK";
+
+	while (std::getline(file, line)) {
+		buf.append(line);
+  }
+
+	_ctx.response.headers->setHeader("Content-Type", "text/html");
+	//_ctx.response.headers->setHeader("Content-Length", std::to_string(buf.size()));  // /!\ POSTMAN doesn't get any response with this
+}
+
+void Http::interpretDelete(std::string &, std::string &)
+{
+}
+
+void Http::interpretPut(std::string &, std::string &)
+{
+
+}
+
+bool Http::isPathAvailable(std::string &code, std::string &msg, std::string &websitePath)
+{
+	auto modules = std::get<dems::config::ConfigObject>(_ctx.config["modules"].v);
+	auto http = std::get<dems::config::ConfigObject>(modules["Http"].v);
+
+	if (!(http.find("websitePath") == http.end())) {
+			websitePath = std::get<std::string>(http["websitePath"].v);
+	} else {
+		dems::config::ConfigValue temp;
+
+		temp.v = websitePath;
+		std::get<dems::config::ConfigObject>(std::get<dems::config::ConfigObject>(_ctx.config["modules"].v)["Http"].v)["websitePath"] = temp;
+	}
+	
+	std::size_t found = websitePath.find_last_of("/");
+  std::string lastDir = websitePath.substr(0,found);
+	std::experimental::filesystem::create_directories(lastDir);
+
+	bool isAccessible = true;
+
+	if (websitePath.back() == '/')
+		websitePath += "index.html";
+	std::experimental::filesystem::perms perms(std::experimental::filesystem::status(websitePath).permissions());
+	_file.open(websitePath, std::ios::in | std::ios::out | std::ios::binary);
+
+	if (!_file.good()) {
+		code = "404";
+		msg = "Not Found";
+		isAccessible = false;
+	} if ((perms & std::experimental::filesystem::perms::owner_read) == std::experimental::filesystem::perms::none &&
+	     (perms & std::experimental::filesystem::perms::owner_write) == std::experimental::filesystem::perms::none)	{
+		code = "403";
+		msg = "Forbidden";
+		isAccessible = false;
+	}
+	return isAccessible;
+}
+
 void Http::interpret()
 {
-	// VALENTIN, le parse est fait et il te met les headers http, la methode, la version, l'uri et le body dans les variables de _ctx.request
+	_ctx.response.body = "";
+	std::string msg = "";
+	std::string code = "200";
+	std::string websitePath = "./etc/zia/www/";
 
-	// Gestion d'erreur a faire sur method, uri, version
-	//(en cas d'erreur il faut juste changer le message d'erreur dans le header de la response)
-	//std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = 404 ou je sais pas quoi
 
-	// Interpret context headers and do the request
-	// Make the response
-	_ctx.response.body = "HELLO WORLD.";
+	if (std::get<dems::header::Request>(_ctx.request.firstLine).httpVersion != "HTTP/1.1") {
+		std::get<dems::header::Response>(_ctx.response.firstLine).message = "Bad Request. HTTP 1.1 Required";
+		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = "400";
+		return ;
+	}
+	std::get<dems::header::Response>(_ctx.response.firstLine).httpVersion = std::get<dems::header::Request>(_ctx.request.firstLine).httpVersion;
+
+
+	if (!isPathAvailable(code, msg, websitePath)) {
+		std::get<dems::header::Response>(_ctx.response.firstLine).message = msg;
+		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = code;
+		return ;
+	}
+
+	std::vector<std::string>::const_iterator meth = std::find(_methodList.begin(), _methodList.end(), std::get<dems::header::Request>(_ctx.request.firstLine).method);
+
+	if (meth != _methodList.end()) {
+		if (*meth == "GET")
+			interpretGet(code, msg, _file);
+		else if (*meth == "POST")
+			interpretPost(code, msg);
+		else if (*meth == "PUT")
+			interpretPut(code, msg);
+		else if (*meth == "HEAD")
+			interpretHead(code, msg, _file);
+		else if (*meth == "DELETE")
+			interpretDelete(code, msg);
+	} else {
+		msg = "Method Not Allowed. Allowed header : ";
+		code = "405";
+		for (auto it = _methodList.begin(); it != _methodList.end(); it++) {
+			msg += *it;
+		}
+		msg += "\n";
+	}
+	_file.close();
+	std::get<dems::header::Response>(_ctx.response.firstLine).message = msg;
+	std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = code;
 }
 
 void Http::addToHeaders(const std::string &line)

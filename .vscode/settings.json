@@ -1,5 +1,6 @@
 {
 	"files.associations": {
+		"ostream": "cpp",
 		"cctype": "cpp",
 		"clocale": "cpp",
 		"cmath": "cpp",
@@ -45,6 +46,7 @@
 		"sstream": "cpp",
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
+		"string_view": "cpp",
 		"system_error": "cpp",
 		"thread": "cpp",
 		"cinttypes": "cpp",
@@ -54,6 +56,9 @@
 		"typeinfo": "cpp",
 		"utility": "cpp",
 		"variant": "cpp",
-		"algorithm": "cpp"
+		"algorithm": "cpp",
+		"filesystem": "cpp",
+		"valarray": "cpp",
+		"*.ipp": "cpp"
 	}
 }

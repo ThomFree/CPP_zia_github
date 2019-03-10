@@ -1,9 +1,10 @@
 {
 	"name": "LoggerHttpSite",
-	"port": 8082,
+	"port": 8080,
 	"modules": {
 		"Http": {
-			"path": "./build/lib/libmod_http.so"
+			"path": "./build/lib/libmod_http.so",
+			"websitePath": "./etc/zia/www/"
 		}
 	}
 }
