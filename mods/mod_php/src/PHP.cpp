@@ -30,7 +30,7 @@ void PHP::parse()
 
 	// body
 	if (tmp.find("\r\n\r\n") != std::string::npos)
-		_ctx.request.body = tmp.substr(tmp.find("\r\n\r\n"));
+		_ctx.request.body = tmp.substr(tmp.find("\r\n\r\n") + 4);
 
 	// headers
 	std::string line;
@@ -92,8 +92,7 @@ bool PHP::checkForPhp()
 		for (const auto &pair : _env.getMap()) {
 			tmp += "export \"" + pair.first + "=" + pair.second + "\";";
 		}
-		_ctx.request.body += "test=oui\n";
-		res += exec(tmp + "echo \"" + _ctx.request.body + "\" | php-cgi \"" + _documentRoot + std::get<dems::header::Request>(_ctx.request.firstLine).path + "\"");
+		res += exec(tmp + "echo -e \"" + _ctx.request.body + "\" | php-cgi \"" + _documentRoot + std::get<dems::header::Request>(_ctx.request.firstLine).path + "\"");
 		if (res.find("\r\n\r\n") != std::string::npos)
 			_ctx.response.body = res.substr(res.find("\r\n\r\n"));
 		else

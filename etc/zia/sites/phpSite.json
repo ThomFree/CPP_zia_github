@@ -4,7 +4,7 @@
 	"modules": {
 		"PHP": {
 			"path": "./build/lib/libmod_php.so",
-			"websitePath": "./etc/zia/wwwPhp/"
+			"websitePath": "./etc/zia/phpmyadmin/"
 		}
 	}
 }
