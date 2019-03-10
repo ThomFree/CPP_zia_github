@@ -71,7 +71,7 @@ void Client::readMsg(const char *data, size_t size)
 		std::get<dems::header::Response>(_ctx.response.firstLine).message + "\r\n" +
 		_ctx.response.headers->getWholeHeaders() + "\r\n" + 
 		_ctx.response.body;
-	_tcpClient->socket()->send(response.c_str(), response.size());
+	_netClient->send(response.c_str(), response.size());
 }
 
 void Client::disconnect()
