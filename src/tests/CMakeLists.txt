@@ -5,7 +5,9 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0")
 
 # Add all needed sources files
 set(SOURCES
-		demo.cpp)
+		${CMAKE_SOURCE_DIR}/src/server/utils/DLLoader.cpp
+		${CMAKE_SOURCE_DIR}/src/server/HttpHeader.cpp
+		utilsTest.cpp)
 
 # Add executable
 add_executable(${PROJECT_NAME}
