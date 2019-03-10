@@ -46,7 +46,8 @@ void Client::readMsg(const char *data, size_t size)
 		_ctx.rawData.push_back(data[i]);
 	try {
 		discoverStage(_manager.getStageManager().request(), _ctx);
-	} catch (std::exception &e) {
+		throw std::runtime_error("hello");
+	} catch (const std::exception &e) {
 		std::cout << "Module crashed: " << e.what() << std::endl;
 	}
 	// TODO send le message (il faut convertir le ctx.response en rawData)
