@@ -7,10 +7,5 @@
 		"dh": "./etc/zia/certs/myEncryptedSite/dhparam.pem",
 		"verify_mode": "./etc/zia/certs/myEncryptedSite/server.pem"
 	},
-	"modules": {
-		"LOGGER": {
-			"path": "./build/lib/libmod_logger.so",
-			"timeout": 1000
-		}
-	}
+	"modules": {}
 }
