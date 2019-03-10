@@ -38,6 +38,9 @@ class PHP {
 
 		// TO KEEP
 		HttpHeader _env;
+		std::string _query;
+		std::string _documentRoot;
+		std::string _relativeFilePath;
 };
 
 }

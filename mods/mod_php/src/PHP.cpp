@@ -74,12 +74,18 @@ void PHP::addToHeaders(const std::string &line)
 // TO KEEP
 bool PHP::checkForPhp()
 {
-	// check if path is a directory
+	// check if path is a directory and take index.php
 	if (std::get<dems::header::Request>(_ctx.request.firstLine).path.find(".php") == std::string::npos)
 		return false;
-	// check errors on method and version
 	// check url params and remove them
-	// get path and store it in a class variable
+		// set _query it is a string
+		// set _relativeFilePath
+		// set _documentRoot
+
+	// check errors on method and version
+
+	_ctx.request.headers->setHeader("Cookie", "");
+
 	setEnvironment();
 	// call php cgi in a sub process (execve or something like that)
 	// set reponse from the call to php cgi
@@ -87,12 +93,12 @@ bool PHP::checkForPhp()
 
 void PHP::setEnvironment()
 {
-	_env.setHeader("DOCUMENT_ROOT", "pwd + uri");
-	_env.setHeader("QUERY_STRING", "");
+	_env.setHeader("DOCUMENT_ROOT", _documentRoot);
+	_env.setHeader("QUERY_STRING", _query);
 
-	_env.setHeader("HTTP_COOKIE", "");
+	_env.setHeader("HTTP_COOKIE", _ctx.request.headers.getHeader("Cookie"));
 	_env.setHeader("HTTP_HOST", "127.0.0.1");
-	_env.setHeader("HTTP_USER_AGENT", "Chrome");
+	_env.setHeader("HTTP_USER_AGENT", ctx.request.headers.getHeader(""));
 
 	_env.setHeader("REQUEST_METHOD", "GET|HEAD|POST|PUT|DELETE|CREATE");
 	_env.setHeader("REQUEST_URI", "uri");
