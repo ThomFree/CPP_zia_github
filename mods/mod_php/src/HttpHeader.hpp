@@ -21,6 +21,7 @@ class HttpHeader : public dems::header::IHeaders {
 		const std::string &getHeader(const std::string &headerName) const override;
 		std::string getWholeHeaders() const override;
 		void setHeader(const std::string &headerName, const std::string &value) override;
+		const std::unordered_map<std::string, std::string> &getMap() const { return _headers; }
 
 	private:
 		std::unordered_map<std::string, std::string> _headers;

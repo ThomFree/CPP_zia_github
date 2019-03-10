@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 #include "PHP.hpp"
 #include "dems-api/Heading.hpp"
 
@@ -35,9 +36,24 @@ void PHP::parse()
 	std::string line;
 	std::getline(stream, line);
 	while (std::getline(stream, line) && line.length() > 1) {
-		addToHeaders(line);
+		addToHeaders(line, *_ctx.request.headers);
 	}
+}
 
+void PHP::addToHeaders(std::string line, dems::header::IHeaders &hdr)
+{
+	line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+	std::size_t i = line.find(": ");
+	if (i == std::string::npos || i >= line.length() || i < 2)
+		return;
+	std::string key = line.substr(0, i);
+	std::string value = line.substr(i + 2, line.length());
+	if (key.length() > 0 && value.length() > 0)
+		hdr.setHeader(key, value);
+}
+
+bool PHP::checkForPhp()
+{
 	// querystring
 	if (std::get<dems::header::Request>(_ctx.request.firstLine).path.find("?") != std::string::npos) {
 		_query = std::get<dems::header::Request>(_ctx.request.firstLine).path.substr(std::get<dems::header::Request>(_ctx.request.firstLine).path.find("?") + 1);
@@ -53,32 +69,7 @@ void PHP::parse()
 		_documentRoot = std::get<std::string>(php["websitePath"].v);
 	else
 		_documentRoot = "etc/zia/wwwPhp/";
-	
-	// DEBUG
-	std::cout << _documentRoot << "+" << std::get<dems::header::Request>(_ctx.request.firstLine).path << ":" << _query << std::endl;
 
-	// DEBUG
-	// std::cout << "DEBUG DU MSG RECU, firstLine : " << std::get<dems::header::Request>(_ctx.request.firstLine).method 
-	// 	<< ":" << std::get<dems::header::Request>(_ctx.request.firstLine).path << ":" 
-	// 	<< std::get<dems::header::Request>(_ctx.request.firstLine).httpVersion << std::endl;
-	// std::cout << "HEADERS :" << _ctx.request.headers->getWholeHeaders();
-	// std::cout << "BODY : /" << _ctx.request.body << "/" << std::endl;
-}
-
-void PHP::addToHeaders(const std::string &line)
-{
-	std::size_t i = line.find(": ");
-	if (i == std::string::npos || i >= line.length() || i < 2)
-		return;
-	std::string key = line.substr(0, i);
-	std::string value = line.substr(i + 2, line.length());
-
-	if (key.length() > 0 && value.length() > 0)
-		_ctx.request.headers->setHeader(key, value);
-}
-
-bool PHP::checkForPhp()
-{
 	if (std::get<dems::header::Request>(_ctx.request.firstLine).path.find(".php") == std::string::npos)
 		return false;
 	const std::string &method = std::get<dems::header::Request>(_ctx.request.firstLine).method;
@@ -93,8 +84,34 @@ bool PHP::checkForPhp()
 		return true;
 	}
 	setEnvironment();
-	// call php cgi in a sub process (execve or something like that)
-	// set reponse from the call to php cgi
+
+	try {
+		std::string tmp;
+		std::string res;
+
+		for (const auto &pair : _env.getMap()) {
+			tmp += "export \"" + pair.first + "=" + pair.second + "\";";
+		}
+		_ctx.request.body += "test=oui\n";
+		res += exec(tmp + "echo \"" + _ctx.request.body + "\" | php-cgi \"" + _documentRoot + std::get<dems::header::Request>(_ctx.request.firstLine).path + "\"");
+		if (res.find("\r\n\r\n") != std::string::npos)
+			_ctx.response.body = res.substr(res.find("\r\n\r\n"));
+		else
+			_ctx.response.body = res;
+		std::stringstream stream(res);
+		std::string line;
+		std::getline(stream, line);
+		while (std::getline(stream, line) && line.length() > 1) {
+			addToHeaders(line, *_ctx.response.headers);
+		}
+		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = "200";
+		std::get<dems::header::Response>(_ctx.response.firstLine).message = "OK";
+		return true;
+	} catch (...) {
+		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = "502";
+		std::get<dems::header::Response>(_ctx.response.firstLine).message = "Internal Server error.";
+		return true;
+	}
 	return true;
 }
 
@@ -102,6 +119,7 @@ void PHP::setEnvironment()
 {
 	_env.setHeader("DOCUMENT_ROOT", _documentRoot);
 	_env.setHeader("QUERY_STRING", _query);
+	_env.setHeader("REDIRECT_STATUS", "false");
 
 	_env.setHeader("HTTP_COOKIE", _ctx.request.headers->getHeader("Cookie"));
 	_env.setHeader("HTTP_HOST", "127.0.0.1");
@@ -116,8 +134,6 @@ void PHP::setEnvironment()
 	_env.setHeader("SERVER_PROTOCOL", "HTTP/1.1");
 
 	_env.setHeader("CONTENT_TYPE", _ctx.request.headers->getHeader("Content-Type"));
-	if (_ctx.request.headers->getHeader("Content-Length") == "")
-		_ctx.request.headers->getHeader("Content-Length") = _ctx.request.body.size();
 	_env.setHeader("CONTENT_LENGTH", _ctx.request.headers->getHeader("Content-Length"));
 }
 
@@ -134,8 +150,6 @@ void PHP::interpretGet(std::string &code, std::string &msg, std::fstream &file)
 	code = "200";
 	msg = "OK";
 	_ctx.response.body = buffer;
-	// DEBUG
-	std::cout << determineContentType(std::get<dems::header::Request>(_ctx.request.firstLine).path) << std::endl;
 	_ctx.response.headers->setHeader("Content-Type", determineContentType(std::get<dems::header::Request>(_ctx.request.firstLine).path));
 	_ctx.response.headers->setHeader("Content-Length", std::to_string(buffer.size()));
 }
@@ -217,6 +231,19 @@ std::string PHP::determineContentType(const std::string &str)
 			return pair.second;
 	}
 	return "text/html";
+}
+
+std::string PHP::exec(const std::string &cmd) {
+	std::array<char, 128> buffer;
+	std::string result;
+	std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
+	if (!pipe) {
+		throw std::runtime_error("execution failed");
+	}
+	while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+		result += buffer.data();
+	}
+	return result;
 }
 
 }

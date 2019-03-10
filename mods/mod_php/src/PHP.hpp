@@ -67,9 +67,10 @@ class PHP {
 	private:
 		std::string determineContentType(const std::string &str);
 		void setEnvironment();
-		void addToHeaders(const std::string &line);
+		void addToHeaders(std::string line, dems::header::IHeaders &hdr);
 		void interpretGet(std::string &code, std::string &msg, std::fstream &file);
 		bool isPathAvailable(std::string &code, std::string &msg, std::string &websitePath);
+		std::string exec(const std::string &cmd);
 
 	private:
 		dems::Context &_ctx;
