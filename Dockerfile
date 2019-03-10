@@ -1,5 +1,5 @@
 # Install fedora 28 image, as the "moulinette"
-FROM docker.io/fedora
+FROM fedora:28
 
 RUN dnf install -y \
     gcc \
