@@ -12,6 +12,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 	./src
 	${CMAKE_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/api
+	${CMAKE_SOURCE_DIR}/../../../src
 	${ZIA_EXTERNAL_INCLUDE_DIRS}
 	)
 
