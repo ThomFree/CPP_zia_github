@@ -8,5 +8,9 @@
 		"verify_mode": "./etc/zia/certs/myEncryptedSite/server.pem"
 	},
 	"modules": {
+		"PHP": {
+			"path": "./build/lib/libmod_php.so",
+			"websitePath": "./etc/zia/wwwPhp/"
+		}
 	}
 }
