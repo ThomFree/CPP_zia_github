@@ -1,6 +1,6 @@
 {
 	"name": "BasicHttpsSite",
-	"port": 4343,
+	"port": 8081,
 	"ssl": {
 		"certificate": "./etc/zia/certs/myEncryptedSite/server.pem",
 		"private_key": "./etc/zia/certs/myEncryptedSite/server.key",
@@ -8,9 +8,5 @@
 		"verify_mode": "./etc/zia/certs/myEncryptedSite/server.pem"
 	},
 	"modules": {
-		"PHP": {
-			"path": "./build/lib/libmod_php.so",
-			"websitePath": "./etc/zia/wwwPhp/"
-		}
 	}
 }
