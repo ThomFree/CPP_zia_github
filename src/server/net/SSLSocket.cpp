@@ -45,10 +45,6 @@ namespace Zia::net {
 		if (_discCallback) {
 			_discCallback(this);
 		}
-		if (_socket.lowest_layer().is_open()) {
-			_socket.lowest_layer().shutdown(boost::asio::ip::tcp::socket::shutdown_both);
-			_socket.lowest_layer().close();
-		}
 	}
 
 	void SSLSocket::handleHandshake(const boost::system::error_code &error)
@@ -59,7 +55,7 @@ namespace Zia::net {
 			boost::asio::placeholders::error,
 			boost::asio::placeholders::bytes_transferred));
 		} else {
-			std::cerr << error.message() <<  std::endl;
+			std::cout << error.message() <<  std::endl;
 			disconnect();
 		}
 	}
@@ -73,7 +69,7 @@ namespace Zia::net {
 			_buffer[bytes_transferred] = '\0';
 			_recvCallback(_buffer, bytes_transferred);
 		} else {
-			std::cerr << error.message() <<  std::endl;
+			std::cout << error.message() <<  std::endl;
 			disconnect();
 		}
 	}
@@ -91,6 +87,6 @@ namespace Zia::net {
 
 	void SSLSocket::handleSend(const boost::system::error_code& error) {
 		if (error)
-			std::cerr << error.message() << std::endl;
+			std::cout << error.message() << std::endl;
 	}
 }

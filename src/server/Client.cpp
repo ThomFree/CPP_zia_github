@@ -63,12 +63,12 @@ void Client::readMsg(const char *data, size_t size)
 	if (_ctx.response.headers->getHeader("Content-Length") == "")
 		_ctx.response.headers->setHeader("Content-Length", std::to_string(_ctx.response.body.size()));
 
-	std::string response = std::get<dems::header::Response>(_ctx.response.firstLine).httpVersion + " " +
+	auto response = new std::string(std::get<dems::header::Response>(_ctx.response.firstLine).httpVersion + " " +
 		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode + " " +
 		std::get<dems::header::Response>(_ctx.response.firstLine).message + "\r\n" +
-		_ctx.response.headers->getWholeHeaders() + "\r\n" + 
-		_ctx.response.body;
-	_netClient->send(response.c_str(), response.size());
+		_ctx.response.headers->getWholeHeaders() + "\r\n" +
+		_ctx.response.body);
+	_netClient->send(response->c_str(), response->size());
 }
 
 void Client::disconnect()

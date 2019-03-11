@@ -54,6 +54,18 @@ void PHP::addToHeaders(std::string line, dems::header::IHeaders &hdr)
 
 bool PHP::checkForPhp()
 {
+	if (std::get<dems::header::Request>(_ctx.request.firstLine).httpVersion != "HTTP/1.1" 
+	|| std::get<dems::header::Request>(_ctx.request.firstLine).path.size() < 1) {
+		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = "400";
+		std::get<dems::header::Response>(_ctx.response.firstLine).message = "Bad request.";
+		return true;
+	}
+	const std::string &method = std::get<dems::header::Request>(_ctx.request.firstLine).method;
+	if (method != "POST" && method != "GET" && method != "PUT" && method != "DELETE" && method != "HEAD") {
+		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = "405";
+		std::get<dems::header::Response>(_ctx.response.firstLine).message = "Method not allowed.";
+		return true;
+	}
 	// querystring
 	if (std::get<dems::header::Request>(_ctx.request.firstLine).path.find("?") != std::string::npos) {
 		_query = std::get<dems::header::Request>(_ctx.request.firstLine).path.substr(std::get<dems::header::Request>(_ctx.request.firstLine).path.find("?") + 1);
@@ -72,17 +84,6 @@ bool PHP::checkForPhp()
 
 	if (std::get<dems::header::Request>(_ctx.request.firstLine).path.find(".php") == std::string::npos)
 		return false;
-	const std::string &method = std::get<dems::header::Request>(_ctx.request.firstLine).method;
-	if (method != "POST" && method != "GET" && method != "PUT" && method != "DELETE" && method != "HEAD") {
-		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = "405";
-		std::get<dems::header::Response>(_ctx.response.firstLine).message = "Method not allowed.";
-		return true;
-	}
-	if (std::get<dems::header::Request>(_ctx.request.firstLine).httpVersion != "HTTP/1.1") {
-		std::get<dems::header::Response>(_ctx.response.firstLine).statusCode = "400";
-		std::get<dems::header::Response>(_ctx.response.firstLine).message = "Bad request.";
-		return true;
-	}
 	setEnvironment();
 
 	try {
