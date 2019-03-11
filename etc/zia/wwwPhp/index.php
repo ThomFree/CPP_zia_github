@@ -8,5 +8,5 @@
 </ul>
 <br/>
 <br/>
-	<?php //phpinfo(); ?>
+	<?php phpinfo(); ?>
 </html>

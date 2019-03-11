@@ -1,9 +1,0 @@
---- Establishing connection ---
-	Stage: Connection FIRST
-	Stage: Connection MIDDLE
-	Stage: Connection END
---- Connection Done ---
-
---- Establishing Request ---
-	Stage: Request FIRST
-	Stage: Request MIDDLE
